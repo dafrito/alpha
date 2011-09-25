@@ -1,5 +1,11 @@
 This project is a OpenGL game. It is powered by Qt and written in C++ and Lua.
 
+Information regarding this project is found in three places:
+
+* Top-level files, such as README, LICENSE, and INSTALL
+* Unfuddle tickets, milestones, and notebook pages
+* Comments in source code
+
 ## Getting Started
 
 ### Unfuddle
