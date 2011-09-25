@@ -1,0 +1,80 @@
+## Brett's comments
+
+### Media
+
+No fucking clue on sound, like seriously, no idea.
+
+Graphics, OpenGL is def the winner vs D3D, just for its portability, I'll have
+a lot of work to do to code any of it though, never messed with anything
+graphical.
+
+### Java vs. C++
+
+I'm very comfortable with your choices of C++ and Lua, I was worried you'd
+prefer Java because of your familiarity, portability and its general ease of
+use. I've coded about the same amount of C++ and Java (very very tiny, CS
+classes at UTD) and was much more comfortable with C++. I also didn't like the
+idea of building a game that will end up being slowish.
+
+### Time
+
+My schedule varies depending on work needs, lately I've been fairly busy, next
+week will be busy too, but I'll be on days for training so my offtime will be
+more compatible with you, hopefully I'll get back to 36/48 hour weeks soon.
+
+### Economics
+
+As far as the money aspect, I would say work under a BSD license or something
+similar. I don't kid myself thinking we are going to make a one-hit wonder on
+our first game, and my first real programming attempt.
+
+If we do manage to create something pretty good, we can stop working on that
+particular branch, take everything we have already coded and go full
+proprietary. And if someone else thinks the code, and not just the game concept
+is good enough, you may just get a job offer.
+
+Until we have to make a choice we can always go the donation route, you won't
+get rich but it may provide an trickle, especially if you attached it to a "how
+much would you like X feature implemented next" type deal.
+
+As far as a more upfront payment method, I'm very very impressed with
+LoL's and Facebook's type of payment method. Free2Play with some sort of pay
+for "favors" is def the way to go. I've spent $30-50 on Lol, and $10 on HoN
+that they never would have gotten if they had an upfront cost.
+
+I think wow would probably do even better if instead of having its extremely
+limited trial, it let you level all the way up, but severely restricted Auction
+House/Trading/LFG tool. Prevented raiding, and honor points(but let you bg,
+very important). And did something with instances and lfg tool, dunno what.
+That would allow people to try it and get teased up til they say fuck it, I'll
+pay the monthly fee. They also need to drop the upfront cost of the expansions.
+
+Minecraft just got super lucky that I was extremely bored one night and it had
+a ton of hype. A less popular game wouldn't have been given a chance.
+
+You are the lead on this so I'll follow without too much complaint on whichever
+way you decide to go, you know more about all this than I do.
+
+### Design
+
+As for game type I would go with something we can agree on that we would enjoy
+to play, preferably for an extended time period. Which may be difficult. My
+interest in RTS's is bursty, I'll want to play one for a week or two, then lose
+interest for about a year.
+
+I've probably never played a puzzle game for more than a day. I don't think
+we'd stand a chance in the straight up FPS or MMORPG market. Do any of us play
+simulations that much?  A version of DOTA would be could be implemented into a
+WoW BG, I honestly don't know why they don't instead of releasing (and
+rereleasing) trash like AV.
+
+I would say try to do some sort of really mixed game. Some sort of combination
+of Minecraft, WoW/DOTA, RTS. Empire building from a first person perspective(
+or maybe third person) in a MMO persistentish sandboxy world, with character
+abilities, that don't have too much of a sunk cost(85 levels before you realize
+you really should have stuck with frost mage for the 4th time).
+
+That is a lot of overlap, and may be far more than we can chew. how that messes
+with various business models is too much for me to discuss here anymore. Once
+again, following your lead on this as well, I'm down for coding a
+house-cleaning simulator, if you want. Dibs on the vacuum.
