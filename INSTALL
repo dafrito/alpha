@@ -1,0 +1,17 @@
+This file contains information on how to compile and run this project.
+
+## Tools
+
+### Git
+### QMake
+### Make
+
+## Dependencies
+
+You'll need to install a few dependencies for this project in order for it to
+compile and run properly:
+
+### OpenGL
+### Qt
+
+vim: set ft=markdown tw=80 :
