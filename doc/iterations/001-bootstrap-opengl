@@ -1,0 +1,7 @@
+The first iteration should:
+
+* build using a Makefile
+* setup OpenGL to work under X (GLUT may be used)
+* display a triangle on-screen using OpenGL
+
+No Lua yet, just a hunk of C++. Also no Cairo.
