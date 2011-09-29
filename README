@@ -30,7 +30,7 @@ your own copy via `git clone`.
 Once you have the source, you'll probably want to compile it. We use Qt's
 `qmake` build tool. To build and run this project, type the following:
 
-	qmake && make && ./game
+	qmake && make && ./main
 
 Don't be worried if this command doesn't work the first time you try it. It's
 very likely you need to install some missing dependencies. The INSTALL file
