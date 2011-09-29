@@ -60,7 +60,7 @@ GLWidget::GLWidget(QWidget *parent)
     zRot = 0;
 
     qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
-    qtPurple = QColor::fromCmykF(0.39, 0.39, 0.0, 0.0);
+    qtPurple = QColor::fromCmykF(0.0, 0.45, 1.0, 0.0);
 }
 //! [0]
 
