@@ -87,7 +87,7 @@ private:
     int zRot;
     QPoint lastPos;
     QColor qtGreen;
-    QColor qtPurple;
+    QColor qtOrange;
 };
 //! [3]
 

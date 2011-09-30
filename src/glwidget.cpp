@@ -60,7 +60,9 @@ GLWidget::GLWidget(QWidget *parent)
     zRot = 0;
 
     qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
-    qtPurple = QColor::fromCmykF(0.0, 0.45, 1.0, 0.0);
+    qtOrange = QColor::fromCmykF(0.0, 0.45, 1.0, 0.0);
+
+
 }
 //! [0]
 
@@ -128,7 +130,7 @@ void GLWidget::setZRotation(int angle)
 //! [6]
 void GLWidget::initializeGL()
 {
-    qglClearColor(qtPurple.dark());
+    qglClearColor(qtOrange.dark());
 
     logo = new QtLogo(this, 64);
     logo->setColor(qtGreen.dark());
