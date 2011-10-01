@@ -6,13 +6,12 @@
 
 #include "qtlogo.h"
 
-static const qreal tee_height = 0.311126;
-static const qreal cross_width = 0.25;
-static const qreal bar_thickness = 0.113137;
-static const qreal inside_diam = 0.20;
-static const qreal outside_diam = 0.30;
+static const qreal bar_thickness = 0.10;
 static const qreal logo_depth = 0.10;
-static const int num_divisions = 32;
+static const qreal nleg1_height = 0.55; //the left | in N
+static const qreal nleg2_height = 0.58; //the right | in N
+static const qreal nbar_height = 0.6;  //the \ in N
+static const qreal tbar_width = 0.7; //the top of the T
 
 struct Geometry
 {
@@ -307,7 +306,7 @@ QtLogo::QtLogo(QObject *parent, int divisions, qreal scale)
     : QObject(parent)
     , geom(new Geometry())
 {
-    buildGeometry(divisions, scale);
+    buildGeometry(scale);
 }
 
 QtLogo::~QtLogo()
@@ -322,26 +321,35 @@ void QtLogo::setColor(QColor c)
         qSetColor(parts[i]->faceColor, c);
 }
 
-void QtLogo::buildGeometry(int divisions, qreal scale)
+void QtLogo::buildGeometry(qreal scale)
 {
-    qreal cw = cross_width * scale;
-    qreal bt = bar_thickness * scale;
     qreal ld = logo_depth * scale;
-    qreal th = tee_height *scale;
-
-    RectPrism cross(geom, cw, bt, ld);
-    RectPrism stem(geom, bt, th, ld);
+    qreal bt = bar_thickness * scale;
+    qreal n1h = nleg1_height * scale;
+    qreal n2h = nleg2_height * scale;
+    qreal nb = nbar_height * scale;
+    qreal tb = tbar_width * scale;
 
     QVector3D z(0.0, 0.0, 1.0);
-    cross.rotate(45.0, z);
-    stem.rotate(45.0, z);
+    //qreal stem_downshift = (th + bt) / 2.0;
+    //stem.translate(QVector3D(0.0, -stem_downshift, 0.0));
+    RectPrism leg1(geom, bt, n1h, ld);
+    RectPrism leg2(geom, bt, n2h, ld);
+    RectPrism nbar(geom, bt, nb, ld);
+    RectPrism tbar(geom, tb, bt, ld);
+    double rnbar = 35;
+    double partsciencepartguess = sin(rnbar*3.14/180)*nb*0.5-0.05;
 
-    qreal stem_downshift = (th + bt) / 2.0;
-    stem.translate(QVector3D(0.0, -stem_downshift, 0.0));
+    leg1.translate(QVector3D(-0.24,0.0,0.0));
+    leg2.translate(QVector3D(partsciencepartguess,(n2h-n1h)/2,0.0));
+    nbar.rotate(rnbar,z);
+    nbar.translate(QVector3D(-.05,0.035,0.0));
 
-    RectTorus body(geom, 0.20, 0.30, 0.1, divisions);
+    tbar.translate(QVector3D(partsciencepartguess,(n2h+bt)/2 , 0.0));
 
-    parts << stem.parts << cross.parts << body.parts;
+
+
+    parts << leg1.parts << leg2.parts << nbar.parts << tbar.parts;
 
     geom->finalize();
 }

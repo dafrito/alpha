@@ -15,7 +15,7 @@ public:
     void setColor(QColor c);
     void draw() const;
 private:
-    void buildGeometry(int d, qreal s);
+    void buildGeometry(qreal s);
 
     QList<Patch *> parts;
     Geometry *geom;
