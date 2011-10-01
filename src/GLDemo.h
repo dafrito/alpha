@@ -1,15 +1,15 @@
-#ifndef GLWIDGET_H
-#define GLWIDGET_H
+#ifndef GLDEMO_H
+#define GLDEMO_H
 
 #include <QGLWidget>
 
-class GLWidget : public QGLWidget
+class GLDemo : public QGLWidget
 {
     Q_OBJECT
 
 public:
-    GLWidget(QWidget *parent = 0);
-    ~GLWidget() {}
+    GLDemo(QWidget *parent = 0);
+    ~GLDemo() {}
 
     QSize minimumSizeHint() const
     {
@@ -41,4 +41,4 @@ private:
     void setZRotation(int angle);
 };
 
-#endif
+#endif // GLDEMO_H

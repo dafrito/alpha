@@ -10,7 +10,7 @@ QT += opengl
 OBJECTS_DIR = build
 MOC_DIR = build
 
-HEADERS *= src/glwidget.h
+HEADERS *= src/GLDemo.h
 
-SOURCES *= src/glwidget.cpp
+SOURCES *= src/GLDemo.cpp
 SOURCES *= src/main.cpp

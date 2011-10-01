@@ -1,12 +1,12 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
-#include "glwidget.h"
+#include "GLDemo.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    GLWidget window;
+    GLDemo window;
     window.resize(window.sizeHint());
     int desktopArea = QApplication::desktop()->width() *
                      QApplication::desktop()->height();
