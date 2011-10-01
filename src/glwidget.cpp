@@ -72,6 +72,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     lastPos = event->pos();
 }
 
+/**
+ * Interpret the mouse event to rotate the camera around the scene.
+ */
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int dx = event->x() - lastPos.x();
