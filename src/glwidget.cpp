@@ -4,7 +4,6 @@
 #include <math.h>
 
 #include "glwidget.h"
-#include "qtlogo.h"
 
 #ifndef GL_MULTISAMPLE
 #define GL_MULTISAMPLE  0x809D
@@ -13,12 +12,9 @@
 GLWidget::GLWidget(QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
-    logo = 0;
     xRot = 0;
     yRot = 0;
     zRot = 0;
-
-    qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
 }
 
 GLWidget::~GLWidget()
@@ -77,9 +73,6 @@ void GLWidget::initializeGL()
 {
     qglClearColor(Qt::black);
 
-    logo = new QtLogo(this, 64);
-    logo->setColor(qtGreen.dark());
-
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glShadeModel(GL_SMOOTH);
@@ -98,7 +91,6 @@ void GLWidget::paintGL()
     glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
-    logo->draw();
 }
 
 void GLWidget::resizeGL(int width, int height)

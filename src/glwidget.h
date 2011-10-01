@@ -3,8 +3,6 @@
 
 #include <QGLWidget>
 
-class QtLogo;
-
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
@@ -34,12 +32,10 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
 private:
-    QtLogo *logo;
     int xRot;
     int yRot;
     int zRot;
     QPoint lastPos;
-    QColor qtGreen;
 };
 
 #endif
