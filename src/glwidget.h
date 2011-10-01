@@ -11,8 +11,15 @@ public:
     GLWidget(QWidget *parent = 0);
     ~GLWidget();
 
-    QSize minimumSizeHint() const;
-    QSize sizeHint() const;
+    QSize minimumSizeHint() const
+    {
+        return QSize(50, 50);
+    }
+
+    QSize sizeHint() const
+    {
+        return QSize(400, 400);
+    }
 
 public slots:
     void setXRotation(int angle);
