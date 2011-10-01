@@ -72,7 +72,7 @@ void Geometry::finalize()
 
 void Geometry::appendSmooth(const QVector3D &a, const QVector3D &n, int from)
 {
-    // Smooth normals are acheived by averaging the normals for faces meeting
+    // Smooth normals are achieved by averaging the normals for faces meeting
     // at a point.  First find the point in geometry already generated
     // (working backwards, since most often the points shared are between faces
     // recently added).
