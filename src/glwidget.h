@@ -40,7 +40,6 @@ private:
     int zRot;
     QPoint lastPos;
     QColor qtGreen;
-    QColor qtOrange;
 };
 
 #endif
