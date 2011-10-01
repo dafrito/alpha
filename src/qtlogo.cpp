@@ -302,7 +302,7 @@ RectTorus::RectTorus(Geometry *g, qreal iRad, qreal oRad, qreal depth, int k)
     parts << front << back << is << os;
 }
 
-QtLogo::QtLogo(QObject *parent, int divisions, qreal scale)
+QtLogo::QtLogo(QObject *parent, qreal scale)
     : QObject(parent)
     , geom(new Geometry())
 {

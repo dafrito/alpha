@@ -10,7 +10,7 @@ struct Geometry;
 class QtLogo : public QObject
 {
 public:
-    QtLogo(QObject *parent, int d = 64, qreal s = 1.0);
+    QtLogo(QObject *parent, qreal s = 1.0);
     ~QtLogo();
     void setColor(QColor c);
     void draw() const;

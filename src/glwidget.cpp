@@ -80,7 +80,7 @@ void GLWidget::initializeGL()
 {
     qglClearColor(qtOrange.dark());
 
-    logo = new QtLogo(this, 64);
+    logo = new QtLogo(this);
     logo->setColor(qtGreen.dark());
 
     glEnable(GL_DEPTH_TEST);
