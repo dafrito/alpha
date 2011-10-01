@@ -17,10 +17,6 @@ GLWidget::GLWidget(QWidget *parent)
     zRot = 0;
 }
 
-GLWidget::~GLWidget()
-{
-}
-
 static void qNormalizeAngle(int &angle)
 {
     while (angle < 0)
