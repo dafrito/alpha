@@ -21,11 +21,6 @@ public:
         return QSize(400, 400);
     }
 
-public slots:
-    void setXRotation(int angle);
-    void setYRotation(int angle);
-    void setZRotation(int angle);
-
 protected:
     void initializeGL();
     void paintGL();
@@ -40,6 +35,10 @@ private:
     int yRot;
     int zRot;
     QPoint lastPos;
+
+    void setXRotation(int angle);
+    void setYRotation(int angle);
+    void setZRotation(int angle);
 };
 
 #endif
