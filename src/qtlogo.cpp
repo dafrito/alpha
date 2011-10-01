@@ -14,7 +14,6 @@ static const qreal outside_diam = 0.30;
 static const qreal logo_depth = 0.10;
 static const int num_divisions = 32;
 
-//! [0]
 struct Geometry
 {
     QVector<GLushort> faces;
@@ -25,9 +24,7 @@ struct Geometry
     void finalize();
     void loadArrays() const;
 };
-//! [0]
 
-//! [1]
 class Patch
 {
 public:
@@ -49,7 +46,6 @@ public:
     Smoothing sm;
     Geometry *geom;
 };
-//! [1]
 
 static inline void qSetColor(float colorVec[], QColor c)
 {
@@ -151,7 +147,6 @@ static inline void qMultMatrix(const QMatrix4x4 &mat)
     }
 }
 
-//! [2]
 void Patch::draw() const
 {
     glPushMatrix();
@@ -162,7 +157,6 @@ void Patch::draw() const
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, indices + start);
     glPopMatrix();
 }
-//! [2]
 
 void Patch::addTri(const QVector3D &a, const QVector3D &b, const QVector3D &c, const QVector3D &n)
 {
@@ -328,7 +322,6 @@ void QtLogo::setColor(QColor c)
         qSetColor(parts[i]->faceColor, c);
 }
 
-//! [3]
 void QtLogo::buildGeometry(int divisions, qreal scale)
 {
     qreal cw = cross_width * scale;
@@ -352,9 +345,7 @@ void QtLogo::buildGeometry(int divisions, qreal scale)
 
     geom->finalize();
 }
-//! [3]
 
-//! [4]
 void QtLogo::draw() const
 {
     geom->loadArrays();
@@ -368,4 +359,3 @@ void QtLogo::draw() const
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
 }
-//! [4]

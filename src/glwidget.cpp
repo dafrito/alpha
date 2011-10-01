@@ -10,7 +10,6 @@
 #define GL_MULTISAMPLE  0x809D
 #endif
 
-//! [0]
 GLWidget::GLWidget(QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
@@ -24,28 +23,20 @@ GLWidget::GLWidget(QWidget *parent)
 
 
 }
-//! [0]
 
-//! [1]
 GLWidget::~GLWidget()
 {
 }
-//! [1]
 
-//! [2]
 QSize GLWidget::minimumSizeHint() const
 {
     return QSize(50, 50);
 }
-//! [2]
 
-//! [3]
 QSize GLWidget::sizeHint() const
-//! [3] //! [4]
 {
     return QSize(400, 400);
 }
-//! [4]
 
 static void qNormalizeAngle(int &angle)
 {
@@ -55,7 +46,6 @@ static void qNormalizeAngle(int &angle)
         angle -= 360 * 16;
 }
 
-//! [5]
 void GLWidget::setXRotation(int angle)
 {
     qNormalizeAngle(angle);
@@ -65,7 +55,6 @@ void GLWidget::setXRotation(int angle)
         updateGL();
     }
 }
-//! [5]
 
 void GLWidget::setYRotation(int angle)
 {
@@ -87,7 +76,6 @@ void GLWidget::setZRotation(int angle)
     }
 }
 
-//! [6]
 void GLWidget::initializeGL()
 {
     qglClearColor(qtOrange.dark());
@@ -104,9 +92,7 @@ void GLWidget::initializeGL()
     static GLfloat lightPosition[4] = { 0.5, 5.0, 7.0, 1.0 };
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
-//! [6]
 
-//! [7]
 void GLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -117,9 +103,7 @@ void GLWidget::paintGL()
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
     logo->draw();
 }
-//! [7]
 
-//! [8]
 void GLWidget::resizeGL(int width, int height)
 {
     int side = qMin(width, height);
@@ -134,16 +118,12 @@ void GLWidget::resizeGL(int width, int height)
 #endif
     glMatrixMode(GL_MODELVIEW);
 }
-//! [8]
 
-//! [9]
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
 }
-//! [9]
 
-//! [10]
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int dx = event->x() - lastPos.x();
@@ -158,4 +138,3 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     }
     lastPos = event->pos();
 }
-//! [10]

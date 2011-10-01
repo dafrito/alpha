@@ -7,7 +7,6 @@
 class Patch;
 struct Geometry;
 
-//! [0]
 class QtLogo : public QObject
 {
 public:
@@ -21,6 +20,5 @@ private:
     QList<Patch *> parts;
     Geometry *geom;
 };
-//! [0]
 
 #endif // QTLOGO_H
