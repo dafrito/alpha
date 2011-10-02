@@ -34,12 +34,14 @@ void GLDemo::initializeGL()
 
 void GLDemo::paintGL()
 {
+	static const float ROTATION_DENOM = 1 / (float)ROTATION_SCALE;
+
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 	glTranslatef(0.0, 0.0, -10.0);
-	glRotatef(xRot / ROTATION_SCALE, 1.0, 0.0, 0.0);
-	glRotatef(yRot / ROTATION_SCALE, 0.0, 1.0, 0.0);
-	glRotatef(zRot / ROTATION_SCALE, 0.0, 0.0, 1.0);
+	glRotatef((float)(xRot) * ROTATION_DENOM, 1.0, 0.0, 0.0);
+	glRotatef((float)(yRot) * ROTATION_DENOM, 0.0, 1.0, 0.0);
+	glRotatef((float)(zRot) * ROTATION_DENOM, 0.0, 0.0, 1.0);
 
 	this->render();
 }
@@ -78,6 +80,14 @@ void GLDemo::mousePressEvent(QMouseEvent *event)
 	lastPos = event->pos();
 }
 
+static void qNormalizeAngle(int &angle)
+{
+	while (angle < 0)
+		angle += 360 * ROTATION_SCALE;
+	while (angle > 360 * ROTATION_SCALE)
+		angle -= 360 * ROTATION_SCALE;
+}
+
 /**
  * Interpret the mouse event to rotate the camera around the scene.
  */
@@ -87,21 +97,19 @@ void GLDemo::mouseMoveEvent(QMouseEvent *event)
 	int dy = event->y() - lastPos.y();
 
 	if (event->buttons() & Qt::LeftButton) {
-		setXRotation(xRot/ROTATION_SCALE + dx);
-		setYRotation(yRot/ROTATION_SCALE + dy);
+		xRot += dy * ROTATION_SCALE / 2;
+		yRot += dx * ROTATION_SCALE / 2;
 	} else if (event->buttons() & Qt::RightButton) {
-		setXRotation(xRot/ROTATION_SCALE + dx);
-		setZRotation(zRot/ROTATION_SCALE + dy);
+		xRot += dy * ROTATION_SCALE / 2;
+		zRot += dx * ROTATION_SCALE / 2;
+	}
+	if (dx != 0 || dy != 0) {
+		qNormalizeAngle(xRot);
+		qNormalizeAngle(yRot);
+		qNormalizeAngle(zRot);
+		updateGL();
 	}
 	lastPos = event->pos();
-}
-
-static void qNormalizeAngle(int &angle)
-{
-	while (angle < 0)
-		angle += 360 * ROTATION_SCALE;
-	while (angle > 360 * ROTATION_SCALE)
-		angle -= 360 * ROTATION_SCALE;
 }
 
 void GLDemo::setXRotation(int angle)
