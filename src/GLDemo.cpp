@@ -112,6 +112,7 @@ void GLDemo::setXRotation(int angle)
 	qNormalizeAngle(angle);
 	if (angle != xRot) {
 		xRot = angle;
+		emit xRotationChanged(angle);
 		updateGL();
 	}
 }
@@ -122,6 +123,7 @@ void GLDemo::setYRotation(int angle)
 	qNormalizeAngle(angle);
 	if (angle != yRot) {
 		yRot = angle;
+		emit yRotationChanged(angle);
 		updateGL();
 	}
 }
@@ -132,6 +134,7 @@ void GLDemo::setZRotation(int angle)
 	qNormalizeAngle(angle);
 	if (angle != zRot) {
 		zRot = angle;
+		emit zRotationChanged(angle);
 		updateGL();
 	}
 }

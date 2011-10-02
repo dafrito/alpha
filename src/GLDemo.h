@@ -16,6 +16,16 @@ public:
 		return QSize(50, 50);
 	}
 
+public slots:
+	void setXRotation(int angle);
+	void setYRotation(int angle);
+	void setZRotation(int angle);
+
+signals:
+	void xRotationChanged(int angle);
+	void yRotationChanged(int angle);
+	void zRotationChanged(int angle);
+
 protected:
 	virtual void render()=0;
 	virtual void initializeGL();
@@ -26,9 +36,6 @@ protected:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 
-	void setXRotation(int angle);
-	void setYRotation(int angle);
-	void setZRotation(int angle);
 private:
 	int xRot;
 	int yRot;
