@@ -11,6 +11,6 @@ OBJECTS_DIR = build
 MOC_DIR = build
 
 HEADERS *= src/GLDemo.h
+HEADERS *= src/SpiralGLDemo.h
 
 SOURCES *= src/GLDemo.cpp
-SOURCES *= src/spiral.cpp

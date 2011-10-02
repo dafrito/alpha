@@ -1,3 +1,6 @@
+#ifndef SPIRALGLDEMO_H
+#define SPIRALGLDEMO_H
+
 #include <QApplication>
 #include <QDesktopWidget>
 
@@ -42,3 +45,5 @@ int main(int argc, char *argv[])
 	setup_demo(demo);
 	return app.exec();
 }
+
+#endif // SPIRALGLDEMO_H
