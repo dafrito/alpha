@@ -16,11 +16,6 @@ public:
 		return QSize(50, 50);
 	}
 
-	QSize sizeHint() const
-	{
-		return QSize(400, 400);
-	}
-
 protected:
 	virtual void render()=0;
 	virtual void initializeGL();
