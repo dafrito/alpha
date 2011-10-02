@@ -41,19 +41,4 @@ private:
 	QPoint lastPos;
 };
 
-#include <QApplication>
-#include <QDesktopWidget>
-
-static void setup_demo(GLDemo& demo)
-{
-	demo.resize(demo.sizeHint());
-	int desktopArea = QApplication::desktop()->width() *
-			QApplication::desktop()->height();
-	int widgetArea = demo.width() * demo.height();
-	if (((float)widgetArea / (float)desktopArea) < 0.75f)
-		demo.show();
-	else
-		demo.showMaximized();
-}
-
 #endif // GLDEMO_H
