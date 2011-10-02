@@ -6,6 +6,7 @@
 #include "SpiralGLWidget.h"
 #include "BlankGLWidget.h"
 #include "LogoGLDemo.h"
+#include "AtomGLWidget.h"
 
 class DemoTabWidget : public QTabWidget
 {
@@ -23,6 +24,7 @@ protected:
 
 int main(int argc, char *argv[])
 {
+	glutInit(&argc, argv);
 	QApplication app(argc, argv);
 	QSize appSize(800, 600);
 
@@ -34,6 +36,9 @@ int main(int argc, char *argv[])
 
 	SpiralGLWidget spiralDemo;
 	demoStack.addTab(&spiralDemo, "Spiral");
+
+	AtomGLWidget atomDemo;
+	demoStack.addTab(&atomDemo, "Atoms");
 
 	LogoGLDemo logoDemo;
 	demoStack.addTab(&logoDemo, "Logo");
