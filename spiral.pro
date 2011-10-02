@@ -14,3 +14,4 @@ HEADERS *= src/GLDemo.h
 HEADERS *= src/SpiralGLDemo.h
 
 SOURCES *= src/GLDemo.cpp
+SOURCES *= src/spiral.cpp

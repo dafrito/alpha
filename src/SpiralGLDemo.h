@@ -1,9 +1,6 @@
 #ifndef SPIRALGLDEMO_H
 #define SPIRALGLDEMO_H
 
-#include <QApplication>
-#include <QDesktopWidget>
-
 #include "GLDemo.h"
 #include <cmath>
 
@@ -36,14 +33,6 @@ void SpiralGLDemo::render()
 		z += 0.5f;
 	}
 	glEnd();
-}
-
-int main(int argc, char *argv[])
-{
-	QApplication app(argc, argv);
-	SpiralGLDemo demo;
-	setup_demo(demo);
-	return app.exec();
 }
 
 #endif // SPIRALGLDEMO_H
