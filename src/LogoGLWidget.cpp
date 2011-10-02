@@ -13,14 +13,6 @@ LogoGLWidget::LogoGLWidget() : GLWidget()
     qtOrange = QColor::fromCmykF(0.0, 0.45, 1.0, 0.0);
 }
 
-LogoGLWidget::~LogoGLWidget()
-{
-	if (logo) {
-		delete logo;
-		logo = 0;
-	}
-}
-
 void LogoGLWidget::initializeGL()
 {
     qglClearColor(qtOrange.dark());
@@ -60,4 +52,12 @@ void LogoGLWidget::resizeGL(int width, int height)
     glOrtho(-0.5, +0.5, -0.5, +0.5, 4.0, 15.0);
 #endif
     glMatrixMode(GL_MODELVIEW);
+}
+
+LogoGLWidget::~LogoGLWidget()
+{
+	if (logo) {
+		delete logo;
+		logo = 0;
+	}
 }
