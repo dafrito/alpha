@@ -9,6 +9,7 @@
 LogoGLWidget::LogoGLWidget() : GLWidget()
 {
     logo = 0;
+
     qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
     qtOrange = QColor::fromCmykF(0.0, 0.45, 1.0, 0.0);
 }
@@ -16,6 +17,10 @@ LogoGLWidget::LogoGLWidget() : GLWidget()
 void LogoGLWidget::initializeGL()
 {
     qglClearColor(qtOrange.dark());
+
+    setXRotation(15);
+    setYRotation(345);
+    setZRotation(0);
 
     if (logo) {
         delete logo;
