@@ -3,12 +3,12 @@
 
 #include "GLDemo.h"
 
-class BlankDemo : public GLDemo
+class BlankGLDemo : public GLDemo
 {
 	void render();
 };
 
-void BlankDemo::render()
+void BlankGLDemo::render()
 {
 	// If there was rendering to be done, it would
 	// be done here.
@@ -17,7 +17,7 @@ void BlankDemo::render()
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-	BlankDemo window;
+	BlankGLDemo window;
 	setup_demo(window);
 	return app.exec();
 }
