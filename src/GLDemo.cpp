@@ -97,17 +97,11 @@ void GLDemo::mouseMoveEvent(QMouseEvent *event)
 	int dy = event->y() - lastPos.y();
 
 	if (event->buttons() & Qt::LeftButton) {
-		xRot += dy * ROTATION_SCALE / 2;
-		yRot += dx * ROTATION_SCALE / 2;
+		setXRotation(xRot + dy * ROTATION_SCALE / 2);
+		setYRotation(yRot + dx * ROTATION_SCALE / 2);
 	} else if (event->buttons() & Qt::RightButton) {
-		xRot += dy * ROTATION_SCALE / 2;
-		zRot += dx * ROTATION_SCALE / 2;
-	}
-	if (dx != 0 || dy != 0) {
-		qNormalizeAngle(xRot);
-		qNormalizeAngle(yRot);
-		qNormalizeAngle(zRot);
-		updateGL();
+		setXRotation(xRot + dy * ROTATION_SCALE / 2);
+		setZRotation(yRot + dx * ROTATION_SCALE / 2);
 	}
 	lastPos = event->pos();
 }
