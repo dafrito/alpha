@@ -3,17 +3,21 @@
 
 #include "GLDemo.h"
 
+class BlankDemo : public GLDemo
+{
+	void render();
+};
+
+void BlankDemo::render()
+{
+	// If there was rendering to be done, it would
+	// be done here.
+}
+
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-	GLDemo window;
-	window.resize(window.sizeHint());
-	int desktopArea = QApplication::desktop()->width() *
-			QApplication::desktop()->height();
-	int widgetArea = window.width() * window.height();
-	if (((float)widgetArea / (float)desktopArea) < 0.75f)
-		window.show();
-	else
-		window.showMaximized();
+	BlankDemo window;
+	setup_demo(window);
 	return app.exec();
 }

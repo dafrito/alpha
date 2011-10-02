@@ -39,6 +39,8 @@ void GLDemo::paintGL()
 	glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
 	glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
 	glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
+
+	this->render();
 }
 
 void GLDemo::resizeGL(int width, int height)
