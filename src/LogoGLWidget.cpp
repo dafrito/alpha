@@ -24,6 +24,10 @@ LogoGLWidget::LogoGLWidget(QWidget *parent)
 
 LogoGLWidget::~LogoGLWidget()
 {
+	if (logo) {
+		delete logo;
+		logo = 0;
+	}
 }
 
 static void qNormalizeAngle(int &angle)
@@ -68,6 +72,9 @@ void LogoGLWidget::initializeGL()
 {
     qglClearColor(qtOrange.dark());
 
+    if (logo) {
+        delete logo;
+    }
     logo = new Logo(this);
     logo->setColor(qtGreen.dark());
 
