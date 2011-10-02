@@ -31,15 +31,14 @@ protected:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 
+	void setXRotation(int angle);
+	void setYRotation(int angle);
+	void setZRotation(int angle);
 private:
 	int xRot;
 	int yRot;
 	int zRot;
 	QPoint lastPos;
-
-	void setXRotation(int angle);
-	void setYRotation(int angle);
-	void setZRotation(int angle);
 };
 
 #include <QApplication>
