@@ -9,15 +9,6 @@
 #define GL_MULTISAMPLE  0x809D
 #endif
 
-
-// We scale rotation such that 1 unit of xRot, yRot, or zRot is
-// equal to 1/ROTATION_SCALE degrees. Therefore, when you want to
-// set rotation, you need to multiply by this scale to get expected
-// results:
-//
-// xRot = 45 * ROTATION_SCALE; // xRot is now 45 degrees
-const int ROTATION_SCALE = 16;
-
 GLWidget::GLWidget(QWidget *parent)
 	: QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
@@ -34,7 +25,7 @@ void GLWidget::initializeGL()
 
 void GLWidget::paintGL()
 {
-	static const float ROTATION_DENOM = 1 / (float)ROTATION_SCALE;
+	static const float ROTATION_DENOM = 1 / (float)GLWidget::ROTATION_SCALE;
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
@@ -80,14 +71,6 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 	lastPos = event->pos();
 }
 
-static void qNormalizeAngle(int &angle)
-{
-	while (angle < 0)
-		angle += 360 * ROTATION_SCALE;
-	while (angle > 360 * ROTATION_SCALE)
-		angle -= 360 * ROTATION_SCALE;
-}
-
 /**
  * Interpret the mouse event to rotate the camera around the scene.
  */
@@ -97,18 +80,17 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 	int dy = event->y() - lastPos.y();
 
 	if (event->buttons() & Qt::LeftButton) {
-		setXRotation(xRot + dy * ROTATION_SCALE / 2);
-		setYRotation(yRot + dx * ROTATION_SCALE / 2);
+		setScaledXRotation(xRot + dy * GLWidget::ROTATION_SCALE / 2);
+		setScaledYRotation(yRot + dx * GLWidget::ROTATION_SCALE / 2);
 	} else if (event->buttons() & Qt::RightButton) {
-		setXRotation(xRot + dy * ROTATION_SCALE / 2);
-		setZRotation(yRot + dx * ROTATION_SCALE / 2);
+		setScaledXRotation(xRot + dy * GLWidget::ROTATION_SCALE / 2);
+		setScaledZRotation(zRot + dx * GLWidget::ROTATION_SCALE / 2);
 	}
 	lastPos = event->pos();
 }
 
-void GLWidget::setXRotation(int angle)
+void GLWidget::setScaledXRotation(int angle)
 {
-	angle *= ROTATION_SCALE;
 	qNormalizeAngle(angle);
 	if (angle != xRot) {
 		xRot = angle;
@@ -117,9 +99,8 @@ void GLWidget::setXRotation(int angle)
 	}
 }
 
-void GLWidget::setYRotation(int angle)
+void GLWidget::setScaledYRotation(int angle)
 {
-	angle *= ROTATION_SCALE;
 	qNormalizeAngle(angle);
 	if (angle != yRot) {
 		yRot = angle;
@@ -128,9 +109,8 @@ void GLWidget::setYRotation(int angle)
 	}
 }
 
-void GLWidget::setZRotation(int angle)
+void GLWidget::setScaledZRotation(int angle)
 {
-	angle *= ROTATION_SCALE;
 	qNormalizeAngle(angle);
 	if (angle != zRot) {
 		zRot = angle;
