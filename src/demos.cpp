@@ -5,6 +5,7 @@
 
 #include "SpiralGLDemo.h"
 #include "BlankGLDemo.h"
+#include "LogoGLDemo.h"
 
 class DemoTabWidget : public QTabWidget
 {
@@ -33,6 +34,9 @@ int main(int argc, char *argv[])
 
 	SpiralGLDemo spiralDemo;
 	demoStack.addTab(&spiralDemo, "Spiral");
+
+	LogoGLDemo logoDemo;
+	demoStack.addTab(&logoDemo, "Logo");
 
 	// Display most recently added tab.
 	demoStack.setCurrentIndex(demoStack.count() -1);
