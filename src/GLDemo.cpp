@@ -46,17 +46,20 @@ void GLDemo::paintGL()
 
 void GLDemo::resizeGL(int width, int height)
 {
-	int side = qMin(width, height);
-	glViewport((width - side) / 2, (height - side) / 2, side, side);
+	glViewport(0, 0, width, height);
+
+	const float aspectRatio = (float) height / (float) width;
+	const float range = 100.0;
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-#ifdef QT_OPENGL_ES_1
-	glOrthof(-0.5, +0.5, -0.5, +0.5, 4.0, 15.0);
-#else
-	glOrtho(-0.5, +0.5, -0.5, +0.5, 4.0, 15.0);
-#endif
+	if (width <= height) {
+		glOrtho(-range, range, -range * aspectRatio, range * aspectRatio, 2 * range, 2 * -range);
+	} else {
+		glOrtho(-range / aspectRatio, range / aspectRatio, -range, range, 2 * range, 2 * -range);
+	}
 	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 
 /**
