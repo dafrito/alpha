@@ -11,11 +11,11 @@ LogoGLDemo::LogoGLDemo()
     ySlider = createSlider();
     zSlider = createSlider();
 
-    connect(xSlider, SIGNAL(valueChanged(int)), glWidget, SLOT(setXRotation(int)));
+    connect(xSlider, SIGNAL(valueChanged(int)), glWidget, SLOT(setScaledXRotation(int)));
     connect(glWidget, SIGNAL(xRotationChanged(int)), xSlider, SLOT(setValue(int)));
-    connect(ySlider, SIGNAL(valueChanged(int)), glWidget, SLOT(setYRotation(int)));
+    connect(ySlider, SIGNAL(valueChanged(int)), glWidget, SLOT(setScaledYRotation(int)));
     connect(glWidget, SIGNAL(yRotationChanged(int)), ySlider, SLOT(setValue(int)));
-    connect(zSlider, SIGNAL(valueChanged(int)), glWidget, SLOT(setZRotation(int)));
+    connect(zSlider, SIGNAL(valueChanged(int)), glWidget, SLOT(setScaledZRotation(int)));
     connect(glWidget, SIGNAL(zRotationChanged(int)), zSlider, SLOT(setValue(int)));
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
