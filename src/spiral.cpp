@@ -38,7 +38,7 @@ void SpiralGLDemo::render()
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-	SpiralGLDemo window;
-	setup_demo(window);
+	SpiralGLDemo demo;
+	setup_demo(demo);
 	return app.exec();
 }

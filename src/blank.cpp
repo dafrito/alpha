@@ -17,7 +17,7 @@ void BlankGLDemo::render()
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-	BlankGLDemo window;
-	setup_demo(window);
+	BlankGLDemo demo;
+	setup_demo(demo);
 	return app.exec();
 }
