@@ -1,7 +1,7 @@
 # A buildfile for QMake
 
 TEMPLATE = app
-TARGET = 
+TARGET = demo-blank
 DEPENDPATH += . src
 INCLUDEPATH += . src
 
@@ -13,4 +13,4 @@ MOC_DIR = build
 HEADERS *= src/GLDemo.h
 
 SOURCES *= src/GLDemo.cpp
-SOURCES *= src/main.cpp
+SOURCES *= src/blank.cpp
