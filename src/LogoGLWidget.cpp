@@ -3,14 +3,14 @@
 
 #include <math.h>
 
-#include "glwidget.h"
-#include "qtlogo.h"
+#include "LogoGLWidget.h"
+#include "Logo.h"
 
 #ifndef GL_MULTISAMPLE
 #define GL_MULTISAMPLE  0x809D
 #endif
 
-GLWidget::GLWidget(QWidget *parent)
+LogoGLWidget::LogoGLWidget(QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
     logo = 0;
@@ -20,20 +20,18 @@ GLWidget::GLWidget(QWidget *parent)
 
     qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
     qtOrange = QColor::fromCmykF(0.0, 0.45, 1.0, 0.0);
-
-
 }
 
-GLWidget::~GLWidget()
+LogoGLWidget::~LogoGLWidget()
 {
 }
 
-QSize GLWidget::minimumSizeHint() const
+QSize LogoGLWidget::minimumSizeHint() const
 {
     return QSize(50, 50);
 }
 
-QSize GLWidget::sizeHint() const
+QSize LogoGLWidget::sizeHint() const
 {
     return QSize(400, 400);
 }
@@ -46,7 +44,7 @@ static void qNormalizeAngle(int &angle)
         angle -= 360 * 16;
 }
 
-void GLWidget::setXRotation(int angle)
+void LogoGLWidget::setXRotation(int angle)
 {
     qNormalizeAngle(angle);
     if (angle != xRot) {
@@ -56,7 +54,7 @@ void GLWidget::setXRotation(int angle)
     }
 }
 
-void GLWidget::setYRotation(int angle)
+void LogoGLWidget::setYRotation(int angle)
 {
     qNormalizeAngle(angle);
     if (angle != yRot) {
@@ -66,7 +64,7 @@ void GLWidget::setYRotation(int angle)
     }
 }
 
-void GLWidget::setZRotation(int angle)
+void LogoGLWidget::setZRotation(int angle)
 {
     qNormalizeAngle(angle);
     if (angle != zRot) {
@@ -76,11 +74,11 @@ void GLWidget::setZRotation(int angle)
     }
 }
 
-void GLWidget::initializeGL()
+void LogoGLWidget::initializeGL()
 {
     qglClearColor(qtOrange.dark());
 
-    logo = new QtLogo(this);
+    logo = new Logo(this);
     logo->setColor(qtGreen.dark());
 
     glEnable(GL_DEPTH_TEST);
@@ -93,7 +91,7 @@ void GLWidget::initializeGL()
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
 
-void GLWidget::paintGL()
+void LogoGLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -104,7 +102,7 @@ void GLWidget::paintGL()
     logo->draw();
 }
 
-void GLWidget::resizeGL(int width, int height)
+void LogoGLWidget::resizeGL(int width, int height)
 {
     int side = qMin(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
@@ -119,12 +117,12 @@ void GLWidget::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *event)
+void LogoGLWidget::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event)
+void LogoGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();

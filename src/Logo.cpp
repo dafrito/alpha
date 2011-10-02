@@ -4,7 +4,7 @@
 
 #include <qmath.h>
 
-#include "qtlogo.h"
+#include "Logo.h"
 
 static const qreal bar_thickness = 0.10;
 static const qreal logo_depth = 0.10;
@@ -302,26 +302,26 @@ RectTorus::RectTorus(Geometry *g, qreal iRad, qreal oRad, qreal depth, int k)
     parts << front << back << is << os;
 }
 
-QtLogo::QtLogo(QObject *parent, qreal scale)
+Logo::Logo(QObject *parent, qreal scale)
     : QObject(parent)
     , geom(new Geometry())
 {
     buildGeometry(scale);
 }
 
-QtLogo::~QtLogo()
+Logo::~Logo()
 {
     qDeleteAll(parts);
     delete geom;
 }
 
-void QtLogo::setColor(QColor c)
+void Logo::setColor(QColor c)
 {
     for (int i = 0; i < parts.count(); ++i)
         qSetColor(parts[i]->faceColor, c);
 }
 
-void QtLogo::buildGeometry(qreal scale)
+void Logo::buildGeometry(qreal scale)
 {
     qreal ld = logo_depth * scale;
     qreal bt = bar_thickness * scale;
@@ -354,7 +354,7 @@ void QtLogo::buildGeometry(qreal scale)
     geom->finalize();
 }
 
-void QtLogo::draw() const
+void Logo::draw() const
 {
     geom->loadArrays();
 

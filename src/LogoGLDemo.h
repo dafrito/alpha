@@ -1,19 +1,19 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef LOGOGLDEMO_H
+#define LOGOGLDEMO_H
 
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
 class QSlider;
 QT_END_NAMESPACE
-class GLWidget;
+class LogoGLWidget;
 
-class Window : public QWidget
+class LogoGLDemo : public QWidget
 {
     Q_OBJECT
 
 public:
-    Window();
+    LogoGLDemo();
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -21,10 +21,10 @@ protected:
 private:
     QSlider *createSlider();
 
-    GLWidget *glWidget;
+    LogoGLWidget *glWidget;
     QSlider *xSlider;
     QSlider *ySlider;
     QSlider *zSlider;
 };
 
-#endif
+#endif // LOGOGLDEMO_H

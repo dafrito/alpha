@@ -1,5 +1,5 @@
-#ifndef QTLOGO_H
-#define QTLOGO_H
+#ifndef LOGO_H
+#define LOGO_H
 
 #include <QObject>
 #include <QColor>
@@ -7,11 +7,11 @@
 class Patch;
 struct Geometry;
 
-class QtLogo : public QObject
+class Logo : public QObject
 {
 public:
-    QtLogo(QObject *parent, qreal s = 1.0);
-    ~QtLogo();
+    Logo(QObject *parent, qreal s = 1.0);
+    ~Logo();
     void setColor(QColor c);
     void draw() const;
 private:
@@ -21,4 +21,4 @@ private:
     Geometry *geom;
 };
 
-#endif // QTLOGO_H
+#endif // LOGO_H

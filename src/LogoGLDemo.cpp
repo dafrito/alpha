@@ -1,11 +1,11 @@
 #include <QtGui>
 
-#include "glwidget.h"
-#include "window.h"
+#include "LogoGLWidget.h"
+#include "LogoGLDemo.h"
 
-Window::Window()
+LogoGLDemo::LogoGLDemo()
 {
-    glWidget = new GLWidget;
+    glWidget = new LogoGLWidget;
 
     xSlider = createSlider();
     ySlider = createSlider();
@@ -31,7 +31,7 @@ Window::Window()
     setWindowTitle(tr("No Time!"));
 }
 
-QSlider *Window::createSlider()
+QSlider *LogoGLDemo::createSlider()
 {
     QSlider *slider = new QSlider(Qt::Vertical);
     slider->setRange(0, 360 * 16);
@@ -42,7 +42,7 @@ QSlider *Window::createSlider()
     return slider;
 }
 
-void Window::keyPressEvent(QKeyEvent *e)
+void LogoGLDemo::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape)
         close();

@@ -1,17 +1,17 @@
-#ifndef GLWIDGET_H
-#define GLWIDGET_H
+#ifndef LOGOGLWIDGET_H
+#define LOGOWGLIDGET_H
 
 #include <QGLWidget>
 
-class QtLogo;
+class Logo;
 
-class GLWidget : public QGLWidget
+class LogoGLWidget : public QGLWidget
 {
     Q_OBJECT
 
 public:
-    GLWidget(QWidget *parent = 0);
-    ~GLWidget();
+    LogoGLWidget(QWidget *parent = 0);
+    ~LogoGLWidget();
 
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
@@ -34,7 +34,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
 private:
-    QtLogo *logo;
+    Logo *logo;
     int xRot;
     int yRot;
     int zRot;
@@ -43,4 +43,4 @@ private:
     QColor qtOrange;
 };
 
-#endif
+#endif // LOGOGLWIDGET_H
