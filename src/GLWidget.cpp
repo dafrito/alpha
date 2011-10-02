@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-#include "GLDemo.h"
+#include "GLWidget.h"
 
 #ifndef GL_MULTISAMPLE
 #define GL_MULTISAMPLE  0x809D
@@ -18,7 +18,7 @@
 // xRot = 45 * ROTATION_SCALE; // xRot is now 45 degrees
 const int ROTATION_SCALE = 16;
 
-GLDemo::GLDemo(QWidget *parent)
+GLWidget::GLWidget(QWidget *parent)
 	: QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
 	xRot = 0;
@@ -26,13 +26,13 @@ GLDemo::GLDemo(QWidget *parent)
 	zRot = 0;
 }
 
-void GLDemo::initializeGL()
+void GLWidget::initializeGL()
 {
 	qglClearColor(Qt::black);
 	glEnable(GL_MULTISAMPLE);
 }
 
-void GLDemo::paintGL()
+void GLWidget::paintGL()
 {
 	static const float ROTATION_DENOM = 1 / (float)ROTATION_SCALE;
 
@@ -46,7 +46,7 @@ void GLDemo::paintGL()
 	this->render();
 }
 
-void GLDemo::resizeGL(int width, int height)
+void GLWidget::resizeGL(int width, int height)
 {
 	glViewport(0, 0, width, height);
 
@@ -67,7 +67,7 @@ void GLDemo::resizeGL(int width, int height)
 /**
  * Listen for the escape key for quick exiting.
  */
-void GLDemo::keyPressEvent(QKeyEvent *e)
+void GLWidget::keyPressEvent(QKeyEvent *e)
 {
 	if (e->key() == Qt::Key_Escape)
 		close();
@@ -75,7 +75,7 @@ void GLDemo::keyPressEvent(QKeyEvent *e)
 		QWidget::keyPressEvent(e);
 }
 
-void GLDemo::mousePressEvent(QMouseEvent *event)
+void GLWidget::mousePressEvent(QMouseEvent *event)
 {
 	lastPos = event->pos();
 }
@@ -91,7 +91,7 @@ static void qNormalizeAngle(int &angle)
 /**
  * Interpret the mouse event to rotate the camera around the scene.
  */
-void GLDemo::mouseMoveEvent(QMouseEvent *event)
+void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
 	int dx = event->x() - lastPos.x();
 	int dy = event->y() - lastPos.y();
@@ -106,7 +106,7 @@ void GLDemo::mouseMoveEvent(QMouseEvent *event)
 	lastPos = event->pos();
 }
 
-void GLDemo::setXRotation(int angle)
+void GLWidget::setXRotation(int angle)
 {
 	angle *= ROTATION_SCALE;
 	qNormalizeAngle(angle);
@@ -117,7 +117,7 @@ void GLDemo::setXRotation(int angle)
 	}
 }
 
-void GLDemo::setYRotation(int angle)
+void GLWidget::setYRotation(int angle)
 {
 	angle *= ROTATION_SCALE;
 	qNormalizeAngle(angle);
@@ -128,7 +128,7 @@ void GLDemo::setYRotation(int angle)
 	}
 }
 
-void GLDemo::setZRotation(int angle)
+void GLWidget::setZRotation(int angle)
 {
 	angle *= ROTATION_SCALE;
 	qNormalizeAngle(angle);

@@ -3,8 +3,8 @@
 #include <QTabWidget>
 #include <QKeyEvent>
 
-#include "SpiralGLDemo.h"
-#include "BlankGLDemo.h"
+#include "SpiralGLWidget.h"
+#include "BlankGLWidget.h"
 #include "LogoGLDemo.h"
 
 class DemoTabWidget : public QTabWidget
@@ -29,10 +29,10 @@ int main(int argc, char *argv[])
 	DemoTabWidget demoStack;
 	demoStack.resize(appSize);
 
-	BlankGLDemo blankDemo;
+	BlankGLWidget blankDemo;
 	demoStack.addTab(&blankDemo, "Blank");
 
-	SpiralGLDemo spiralDemo;
+	SpiralGLWidget spiralDemo;
 	demoStack.addTab(&spiralDemo, "Spiral");
 
 	LogoGLDemo logoDemo;

@@ -1,15 +1,15 @@
-#ifndef GLDEMO_H
-#define GLDEMO_H
+#ifndef GLWIDGET_H
+#define GLWIDGET_H
 
 #include <QGLWidget>
 
-class GLDemo : public QGLWidget
+class GLWidget : public QGLWidget
 {
 	Q_OBJECT
 
 public:
-	GLDemo(QWidget *parent = 0);
-	~GLDemo() {}
+	GLWidget(QWidget *parent = 0);
+	~GLWidget() {}
 
 	QSize minimumSizeHint() const
 	{
@@ -43,4 +43,4 @@ private:
 	QPoint lastPos;
 };
 
-#endif // GLDEMO_H
+#endif // GLWIDGET_H

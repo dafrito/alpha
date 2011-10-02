@@ -1,24 +1,24 @@
-#ifndef SPIRALGLDEMO_H
-#define SPIRALGLDEMO_H
+#ifndef SPIRALGLWIDGET_H
+#define SPIRALGLWIDGET_H
 
-#include "GLDemo.h"
+#include "GLWidget.h"
 #include <cmath>
 
-class SpiralGLDemo : public GLDemo
+class SpiralGLWidget : public GLWidget
 {
 	void render();
 public:
-	SpiralGLDemo();
+	SpiralGLWidget();
 };
 
-SpiralGLDemo::SpiralGLDemo()
+SpiralGLWidget::SpiralGLWidget()
 {
 	setXRotation(-45);
 	setYRotation(15);
 	setZRotation(45);
 }
 
-void SpiralGLDemo::render()
+void SpiralGLWidget::render()
 {
 	// How many revolutions of the spiral are rendered.
 	static const int REVOLUTIONS = 4;
@@ -35,4 +35,4 @@ void SpiralGLDemo::render()
 	glEnd();
 }
 
-#endif // SPIRALGLDEMO_H
+#endif // SPIRALGLWIDGET_H
