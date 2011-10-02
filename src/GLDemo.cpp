@@ -9,6 +9,15 @@
 #define GL_MULTISAMPLE  0x809D
 #endif
 
+
+// We scale rotation such that 1 unit of xRot, yRot, or zRot is
+// equal to 1/ROTATION_SCALE degrees. Therefore, when you want to
+// set rotation, you need to multiply by this scale to get expected
+// results:
+//
+// xRot = 45 * ROTATION_SCALE; // xRot is now 45 degrees
+const int ROTATION_SCALE = 16;
+
 GLDemo::GLDemo(QWidget *parent)
 	: QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
@@ -36,9 +45,9 @@ void GLDemo::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	glTranslatef(0.0, 0.0, -10.0);
-	glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
-	glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
-	glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
+	glRotatef(xRot / ROTATION_SCALE, 1.0, 0.0, 0.0);
+	glRotatef(yRot / ROTATION_SCALE, 0.0, 1.0, 0.0);
+	glRotatef(zRot / ROTATION_SCALE, 0.0, 0.0, 1.0);
 
 	this->render();
 }
@@ -83,11 +92,11 @@ void GLDemo::mouseMoveEvent(QMouseEvent *event)
 	int dy = event->y() - lastPos.y();
 
 	if (event->buttons() & Qt::LeftButton) {
-		setXRotation(xRot + 8 * dy);
-		setYRotation(yRot + 8 * dx);
+		setXRotation(xRot/ROTATION_SCALE + dx);
+		setYRotation(yRot/ROTATION_SCALE + dy);
 	} else if (event->buttons() & Qt::RightButton) {
-		setXRotation(xRot + 8 * dy);
-		setZRotation(zRot + 8 * dx);
+		setXRotation(xRot/ROTATION_SCALE + dx);
+		setZRotation(zRot/ROTATION_SCALE + dy);
 	}
 	lastPos = event->pos();
 }
@@ -95,13 +104,14 @@ void GLDemo::mouseMoveEvent(QMouseEvent *event)
 static void qNormalizeAngle(int &angle)
 {
 	while (angle < 0)
-		angle += 360 * 16;
-	while (angle > 360 * 16)
-		angle -= 360 * 16;
+		angle += 360 * ROTATION_SCALE;
+	while (angle > 360 * ROTATION_SCALE)
+		angle -= 360 * ROTATION_SCALE;
 }
 
 void GLDemo::setXRotation(int angle)
 {
+	angle *= ROTATION_SCALE;
 	qNormalizeAngle(angle);
 	if (angle != xRot) {
 		xRot = angle;
@@ -111,6 +121,7 @@ void GLDemo::setXRotation(int angle)
 
 void GLDemo::setYRotation(int angle)
 {
+	angle *= ROTATION_SCALE;
 	qNormalizeAngle(angle);
 	if (angle != yRot) {
 		yRot = angle;
@@ -120,6 +131,7 @@ void GLDemo::setYRotation(int angle)
 
 void GLDemo::setZRotation(int angle)
 {
+	angle *= ROTATION_SCALE;
 	qNormalizeAngle(angle);
 	if (angle != zRot) {
 		zRot = angle;
