@@ -14,3 +14,4 @@ HEADERS *= src/GLDemo.h
 HEADERS *= src/BlankGLDemo.h
 
 SOURCES *= src/GLDemo.cpp
+SOURCES *= src/blank.cpp
