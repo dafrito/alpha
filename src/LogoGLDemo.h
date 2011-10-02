@@ -15,9 +15,6 @@ class LogoGLDemo : public QWidget
 public:
     LogoGLDemo();
 
-protected:
-    void keyPressEvent(QKeyEvent *event);
-
 private:
     QSlider *createSlider();
 
