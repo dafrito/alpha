@@ -6,13 +6,14 @@
 
 class SpiralGLWidget : public GLWidget
 {
+protected:
+	void initializeGL();
 	void render();
-public:
-	SpiralGLWidget();
 };
 
-SpiralGLWidget::SpiralGLWidget()
+void SpiralGLWidget::initializeGL()
 {
+	GLWidget::initializeGL();
 	setXRotation(-45);
 	setYRotation(15);
 	setZRotation(45);
