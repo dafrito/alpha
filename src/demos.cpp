@@ -1,16 +1,31 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QTabWidget>
+#include <QKeyEvent>
 
 #include "SpiralGLDemo.h"
 #include "BlankGLDemo.h"
+
+class DemoTabWidget : public QTabWidget
+{
+protected:
+
+	void keyPressEvent(QKeyEvent* event)
+	{
+		if (event->key() == Qt::Key_Escape) {
+			close();
+		} else {
+			QWidget::keyPressEvent(event);
+		}
+	}
+};
 
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	QSize appSize(800, 600);
 
-	QTabWidget demoStack;
+	DemoTabWidget demoStack;
 	demoStack.resize(appSize);
 
 	BlankGLDemo blankDemo;
