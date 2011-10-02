@@ -7,6 +7,7 @@
 #include "BlankGLWidget.h"
 #include "LogoGLDemo.h"
 #include "AtomGLWidget.h"
+#include "TriangleGLWidget.h"
 
 class DemoTabWidget : public QTabWidget
 {
@@ -33,6 +34,9 @@ int main(int argc, char *argv[])
 
 	BlankGLWidget blankDemo;
 	demoStack.addTab(&blankDemo, "Blank");
+
+	TriangleGLWidget triangleDemo;
+	demoStack.addTab(&triangleDemo, "Triangle");
 
 	SpiralGLWidget spiralDemo;
 	demoStack.addTab(&spiralDemo, "Spiral");

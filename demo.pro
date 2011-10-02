@@ -17,6 +17,7 @@ HEADERS *= src/LogoGLWidget.h
 HEADERS *= src/Logo.h
 HEADERS *= src/LogoGLDemo.h
 HEADERS *= src/AtomGLWidget.h
+HEADERS *= src/TriangleGLWidget.h
 
 SOURCES *= src/GLWidget.cpp
 SOURCES *= src/demos.cpp
