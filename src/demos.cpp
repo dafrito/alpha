@@ -8,6 +8,7 @@
 #include "LogoGLDemo.h"
 #include "AtomGLWidget.h"
 #include "TriangleGLWidget.h"
+#include "RandomStippleGLWidget.h"
 
 class DemoTabWidget : public QTabWidget
 {
@@ -43,6 +44,9 @@ int main(int argc, char *argv[])
 
 	AtomGLWidget atomDemo;
 	demoStack.addTab(&atomDemo, "Atoms");
+
+	RandomStippleGLWidget randomStippleDemo;
+	demoStack.addTab(&randomStippleDemo, "Random Stipple");
 
 	LogoGLDemo logoDemo;
 	demoStack.addTab(&logoDemo, "Logo");

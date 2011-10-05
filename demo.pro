@@ -18,6 +18,7 @@ HEADERS *= src/Logo.h
 HEADERS *= src/LogoGLDemo.h
 HEADERS *= src/AtomGLWidget.h
 HEADERS *= src/TriangleGLWidget.h
+HEADERS *= src/RandomStippleGLWidget.h
 
 SOURCES *= src/GLWidget.cpp
 SOURCES *= src/demos.cpp
@@ -25,3 +26,4 @@ SOURCES *= src/Logo.cpp
 SOURCES *= src/LogoGLWidget.cpp
 SOURCES *= src/LogoGLDemo.cpp
 SOURCES *= src/AtomGLWidget.cpp
+SOURCES *= src/RandomStippleGLWidget.cpp
