@@ -16,15 +16,15 @@ class AtomGLWidget : public GLWidget
 public:
 	AtomGLWidget();
 protected:
-	void showEvent(QShowEvent* event);
-	void hideEvent(QHideEvent* event);
+	void showEvent(QShowEvent* const);
+	void hideEvent(QHideEvent* const);
 
 	void initializeGL();
 	void render();
 private slots:
 	void tick();
 private:
-	QTimer* timer;
+	QTimer* const timer;
 	float rotation;
 };
 

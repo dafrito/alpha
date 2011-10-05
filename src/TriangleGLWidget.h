@@ -21,8 +21,13 @@
  */
 class TriangleGLWidget : public GLWidget
 {
+public:
+	TriangleGLWidget(QWidget* const parent = 0);
+protected:
 	void render();
 };
+
+TriangleGLWidget::TriangleGLWidget(QWidget* const parent) : GLWidget(parent) {}
 
 void TriangleGLWidget::render()
 {

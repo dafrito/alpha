@@ -6,10 +6,14 @@
 
 class SpiralGLWidget : public GLWidget
 {
+public:
+	SpiralGLWidget(QWidget* parent = 0);
 protected:
 	void initializeGL();
 	void render();
 };
+
+SpiralGLWidget::SpiralGLWidget(QWidget* parent) : GLWidget(parent) {}
 
 void SpiralGLWidget::initializeGL()
 {

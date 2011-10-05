@@ -4,7 +4,8 @@
 #include "RandomStippleGLWidget.h"
 
 
-RandomStippleGLWidget::RandomStippleGLWidget()
+RandomStippleGLWidget::RandomStippleGLWidget(QWidget* const parent) :
+	GLWidget(parent)
 {
 	for(int i = 0; i < RandomStippleGLWidget::NUM_LINES; i++) {
 		stipples << (GLushort)rand();

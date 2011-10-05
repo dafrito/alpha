@@ -13,10 +13,10 @@ class LogoGLDemo : public QWidget
     Q_OBJECT
 
 public:
-    LogoGLDemo();
+    LogoGLDemo(QWidget* const parent = 0);
 
 private:
-    QSlider *createSlider();
+    QSlider *createSlider() const;
 
     LogoGLWidget *glWidget;
     QSlider *xSlider;

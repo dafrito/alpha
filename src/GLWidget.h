@@ -8,7 +8,7 @@ class GLWidget : public QGLWidget
 	Q_OBJECT
 
 public:
-	GLWidget(QWidget *parent = 0);
+	GLWidget(QWidget* const parent = 0);
 	~GLWidget() {}
 
 	QSize minimumSizeHint() const
@@ -58,7 +58,7 @@ protected:
 	// xRot = 45 * ROTATION_SCALE; // xRot is now 45 degrees
 	static const int ROTATION_SCALE = 16;
 
-	void qNormalizeAngle(int &angle)
+	void qNormalizeAngle(int &angle) const
 	{
 		while (angle < 0)
 			angle += 360 * GLWidget::ROTATION_SCALE;

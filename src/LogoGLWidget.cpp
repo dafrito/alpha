@@ -6,17 +6,17 @@
 #include "LogoGLWidget.h"
 #include "Logo.h"
 
-LogoGLWidget::LogoGLWidget() : GLWidget()
+LogoGLWidget::LogoGLWidget(QWidget* const parent) :
+	GLWidget(parent),
+	logo(0),
+	qtGreen(QColor::fromCmykF(0.40, 0.0, 1.0, 0.0).dark()),
+	qtOrange(QColor::fromCmykF(0.0, 0.45, 1.0, 0.0).dark())
 {
-    logo = 0;
-
-    qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
-    qtOrange = QColor::fromCmykF(0.0, 0.45, 1.0, 0.0);
 }
 
 void LogoGLWidget::initializeGL()
 {
-    qglClearColor(qtOrange.dark());
+    qglClearColor(qtOrange);
 
     setXRotation(15);
     setYRotation(345);
@@ -26,7 +26,7 @@ void LogoGLWidget::initializeGL()
         delete logo;
     }
     logo = new Logo(this);
-    logo->setColor(qtGreen.dark());
+    logo->setColor(qtGreen);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);

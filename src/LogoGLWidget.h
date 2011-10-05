@@ -10,18 +10,18 @@ class LogoGLWidget : public GLWidget
     Q_OBJECT
 
 public:
-    LogoGLWidget();
+    LogoGLWidget(QWidget* const parent = 0);
     ~LogoGLWidget();
 
 protected:
     void initializeGL();
     void render();
-    void resizeGL(int width, int height);
+    void resizeGL(const int width, const int height);
 
 private:
-    Logo *logo;
-    QColor qtGreen;
-    QColor qtOrange;
+    Logo* logo;
+    const QColor qtGreen;
+    const QColor qtOrange;
 };
 
 #endif // LOGOGLWIDGET_H

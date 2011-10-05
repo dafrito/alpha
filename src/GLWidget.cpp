@@ -9,12 +9,12 @@
 #define GL_MULTISAMPLE  0x809D
 #endif
 
-GLWidget::GLWidget(QWidget *parent)
-	: QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
+GLWidget::GLWidget(QWidget* const parent)
+	: QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
+	xRot(0),
+	yRot(0),
+	zRot(0)
 {
-	xRot = 0;
-	yRot = 0;
-	zRot = 0;
 }
 
 void GLWidget::initializeGL()

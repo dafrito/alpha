@@ -3,10 +3,10 @@
 #include "LogoGLWidget.h"
 #include "LogoGLDemo.h"
 
-LogoGLDemo::LogoGLDemo()
+LogoGLDemo::LogoGLDemo(QWidget* parent) :
+	QWidget(parent),
+	glWidget(new LogoGLWidget(this))
 {
-    glWidget = new LogoGLWidget;
-
     xSlider = createSlider();
     ySlider = createSlider();
     zSlider = createSlider();
@@ -28,7 +28,7 @@ LogoGLDemo::LogoGLDemo()
     setWindowTitle(tr("No Time!"));
 }
 
-QSlider *LogoGLDemo::createSlider()
+QSlider *LogoGLDemo::createSlider() const
 {
     QSlider *slider = new QSlider(Qt::Vertical);
     slider->setRange(0, 360 * 16);

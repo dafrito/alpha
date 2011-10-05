@@ -25,7 +25,7 @@ class RandomStippleGLWidget : public GLWidget
 	QList<GLushort> stipples;
 
 public:
-	RandomStippleGLWidget();
+	RandomStippleGLWidget(QWidget* const parent = 0);
 protected:
 	void render();
 };

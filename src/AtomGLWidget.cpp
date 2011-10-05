@@ -17,7 +17,7 @@ void AtomGLWidget::initializeGL()
 	glEnable(GL_DEPTH_TEST);
 }
 
-void AtomGLWidget::showEvent(QShowEvent*)
+void AtomGLWidget::showEvent(QShowEvent* const)
 {
 	if(!timer->isActive()) {
 		timer->start(1000 / 60);
@@ -64,7 +64,7 @@ void AtomGLWidget::render()
 	glPopMatrix();
 }
 
-void AtomGLWidget::hideEvent(QHideEvent*)
+void AtomGLWidget::hideEvent(QHideEvent* const)
 {
 	if(timer->isActive()) {
 		timer->stop();
