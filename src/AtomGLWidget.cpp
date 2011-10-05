@@ -19,7 +19,9 @@ void AtomGLWidget::initializeGL()
 
 void AtomGLWidget::showEvent(QShowEvent*)
 {
-	timer->start(1000 / 60);
+	if(!timer->isActive()) {
+		timer->start(1000 / 60);
+	}
 }
 
 void AtomGLWidget::tick()
@@ -64,6 +66,8 @@ void AtomGLWidget::render()
 
 void AtomGLWidget::hideEvent(QHideEvent*)
 {
-	timer->stop();
+	if(timer->isActive()) {
+		timer->stop();
+	}
 }
 
