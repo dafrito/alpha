@@ -1,8 +1,9 @@
 #include "AtomGLWidget.h"
 
-AtomGLWidget::AtomGLWidget()
+AtomGLWidget::AtomGLWidget() :
+	timer(new QTimer(this)),
+	rotation(0)
 {
-	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
