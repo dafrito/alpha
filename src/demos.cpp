@@ -1,8 +1,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
-#include <QTabWidget>
-#include <QKeyEvent>
 
+#include "DemoTabWidget.h"
 #include "SpiralGLWidget.h"
 #include "BlankGLWidget.h"
 #include "LogoGLDemo.h"
@@ -10,20 +9,6 @@
 #include "TriangleGLWidget.h"
 #include "RandomStippleGLWidget.h"
 #include "DiamondGLDemo.h"
-
-class DemoTabWidget : public QTabWidget
-{
-protected:
-
-	void keyPressEvent(QKeyEvent* event)
-	{
-		if (event->key() == Qt::Key_Escape) {
-			close();
-		} else {
-			QWidget::keyPressEvent(event);
-		}
-	}
-};
 
 int main(int argc, char *argv[])
 {

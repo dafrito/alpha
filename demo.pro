@@ -10,6 +10,7 @@ QT += opengl
 OBJECTS_DIR = build
 MOC_DIR = build
 
+HEADERS *= src/DemoTabWidget.h
 HEADERS *= src/GLWidget.h
 HEADERS *= src/BlankGLWidget.h
 HEADERS *= src/SpiralGLWidget.h
