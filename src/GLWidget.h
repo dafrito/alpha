@@ -46,6 +46,7 @@ protected:
 	virtual void resizeGL(int width, int height);
 
 	void paintGL();
+	void applyRotation() const;
 	void keyPressEvent(QKeyEvent *e);
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);

@@ -41,6 +41,10 @@ void LogoGLWidget::initializeGL()
 void LogoGLWidget::render()
 {
     glClear(GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glTranslatef(0, 0, -10);
+    applyRotation();
     logo->draw();
 }
 

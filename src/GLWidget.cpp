@@ -25,16 +25,18 @@ void GLWidget::initializeGL()
 
 void GLWidget::paintGL()
 {
-	static const float ROTATION_DENOM = 1 / (float)GLWidget::ROTATION_SCALE;
-
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
-	glTranslatef(0.0, 0.0, -10.0);
+	applyRotation();
+	this->render();
+}
+
+void GLWidget::applyRotation() const
+{
+	static const float ROTATION_DENOM = 1 / (float)GLWidget::ROTATION_SCALE;
 	glRotatef((float)(xRot) * ROTATION_DENOM, 1.0, 0.0, 0.0);
 	glRotatef((float)(yRot) * ROTATION_DENOM, 0.0, 1.0, 0.0);
 	glRotatef((float)(zRot) * ROTATION_DENOM, 0.0, 0.0, 1.0);
-
-	this->render();
 }
 
 void GLWidget::resizeGL(int width, int height)
