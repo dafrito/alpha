@@ -49,6 +49,10 @@ DiamondGLWidget::DiamondGLWidget(QWidget* const parent) :
 void DiamondGLWidget::initializeGL()
 {
 	glShadeModel(GL_FLAT);
+
+	setXRotation(50);
+	setYRotation(-15);
+	setZRotation(0);
 }
 
 void DiamondGLWidget::render()
