@@ -1,12 +1,12 @@
 #include <QtGui>
 #include <cassert>
 
-#include "ConeGLWidget.h"
-#include "ConeGLDemo.h"
+#include "DiamondGLWidget.h"
+#include "DiamondGLDemo.h"
 
-ConeGLDemo::ConeGLDemo(QWidget* const parent) :
+DiamondGLDemo::DiamondGLDemo(QWidget* const parent) :
 	QWidget(parent),
-	glWidget(new ConeGLWidget(this)),
+	glWidget(new DiamondGLWidget(this)),
 	useDepthTestingOption(new QCheckBox("Use Depth Testing")),
 	useBackFaceCullingOption(new QCheckBox("Use Back-face Culling")),
 	drawBacksAsWireframeOption(new QCheckBox("Draw Backs as Wireframe")),
@@ -58,7 +58,7 @@ ConeGLDemo::ConeGLDemo(QWidget* const parent) :
 	updateDescription();
 }
 
-void ConeGLDemo::setUseDepthTesting(const bool useDepthTesting)
+void DiamondGLDemo::setUseDepthTesting(const bool useDepthTesting)
 {
 	glWidget->setUseDepthTesting(useDepthTesting);
 	drawBacksAsWireframeOption->setEnabled(
@@ -66,7 +66,7 @@ void ConeGLDemo::setUseDepthTesting(const bool useDepthTesting)
 	correctWindingOrderOption->setEnabled(glWidget->usingBackFaceCulling() || !glWidget->usingDepthTesting());
 }
 
-void ConeGLDemo::setUseBackFaceCulling(const bool backFaceCulling)
+void DiamondGLDemo::setUseBackFaceCulling(const bool backFaceCulling)
 {
 	glWidget->setUseBackFaceCulling(backFaceCulling);
 	drawBacksAsWireframeOption->setEnabled(
@@ -74,19 +74,19 @@ void ConeGLDemo::setUseBackFaceCulling(const bool backFaceCulling)
 	correctWindingOrderOption->setEnabled(glWidget->usingBackFaceCulling() || !glWidget->usingDepthTesting());
 }
 
-void ConeGLDemo::setDrawBacksAsWireframe(const bool drawBacksAsWireframe)
+void DiamondGLDemo::setDrawBacksAsWireframe(const bool drawBacksAsWireframe)
 {
 	glWidget->setDrawBacksAsWireframe(drawBacksAsWireframe);
 	correctWindingOrderOption->setEnabled(
 		glWidget->usingBackFaceCulling() || glWidget->drawingBacksAsWireframes());
 }
 
-void ConeGLDemo::setCorrectWindingOrder(const bool correctWindingOrder)
+void DiamondGLDemo::setCorrectWindingOrder(const bool correctWindingOrder)
 {
 	glWidget->setCorrectWindingOrder(correctWindingOrder);
 }
 
-void ConeGLDemo::updateDescription()
+void DiamondGLDemo::updateDescription()
 {
 	QString text;
 	if (glWidget->usingBackFaceCulling()) {

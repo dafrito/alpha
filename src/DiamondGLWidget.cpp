@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-#include "ConeGLWidget.h"
+#include "DiamondGLWidget.h"
 
 typedef QList<QVector3D>::const_iterator PointIter;
 
@@ -35,7 +35,7 @@ static const QList<QVector3D> buildCircle(const float size, const float z, const
 	return points;
 }
 
-ConeGLWidget::ConeGLWidget(QWidget* const parent) :
+DiamondGLWidget::DiamondGLWidget(QWidget* const parent) :
 	GLWidget(parent),
 	useDepthTesting(true),
 	backFaceCulling(true),
@@ -46,12 +46,12 @@ ConeGLWidget::ConeGLWidget(QWidget* const parent) :
 	innerCircle.append(buildCircle(INNER_CIRCLE_SIZE, INNER_CIRCLE_Z, true));
 }
 
-void ConeGLWidget::initializeGL()
+void DiamondGLWidget::initializeGL()
 {
 	glShadeModel(GL_FLAT);
 }
 
-void ConeGLWidget::render()
+void DiamondGLWidget::render()
 {
 	const static QColor lightColor(135, 206, 250);
 	const static QColor darkColor(0, 191, 255);

@@ -1,5 +1,5 @@
-#ifndef CONEGLDEMO_H
-#define CONEGLDEMO_H
+#ifndef DIAMONDGLDEMO_H
+#define DIAMONDGLDEMO_H
 
 #include <QWidget>
 
@@ -7,13 +7,13 @@ QT_BEGIN_NAMESPACE
 class QCheckBox;
 class QLabel;
 QT_END_NAMESPACE
-class ConeGLWidget;
+class DiamondGLWidget;
 
-class ConeGLDemo : public QWidget
+class DiamondGLDemo : public QWidget
 {
 	Q_OBJECT
 	
-	ConeGLWidget* const glWidget;
+	DiamondGLWidget* const glWidget;
 
 	QCheckBox* const useDepthTestingOption;
 	QCheckBox* const useBackFaceCullingOption;
@@ -29,8 +29,8 @@ private slots:
 
 	void updateDescription();
 public:
-	ConeGLDemo(QWidget* const parent = 0);
+	DiamondGLDemo(QWidget* const parent = 0);
 
 };
 
-#endif // CONEGLDEMO_H
+#endif // DIAMONDGLDEMO_H

@@ -1,11 +1,11 @@
-#ifndef CONEGLWIDGET_H
-#define CONEGLWIDGET_H
+#ifndef DIAMONDGLWIDGET_H
+#define DIAMONDGLWIDGET_H
 
 #include <QVector3D>
 
 #include "GLWidget.h"
 
-class ConeGLWidget : public GLWidget
+class DiamondGLWidget : public GLWidget
 {
     Q_OBJECT
 
@@ -17,14 +17,14 @@ class ConeGLWidget : public GLWidget
 	QList<QVector3D> innerCircle;
 	QList<QVector3D> outerCircle;
 public:
-	ConeGLWidget(QWidget* const parent = 0);
+	DiamondGLWidget(QWidget* const parent = 0);
 public slots:
 	/**
 	 * Sets whether depth testing is used when rendering pixels. If {@code true},
-	 * the polygon will appear correctly. If {@code false}, polygons that are
+	 * the polygon will appear correctly. If false, polygons that are
 	 * drawn later in the rendering process will occlude polygons drawn earlier.
-	 * In this demonstration, this means that the bottom of the cone will always
-	 * occlude the cone portion.
+	 * In this demonstration, this means that the top of the diamond will occlude
+	 * the bottom portion.
 	 */
 	void setUseDepthTesting(const bool useDepthTesting)
 	{
@@ -38,9 +38,8 @@ public slots:
 	}
 
 	/**
-	 * Sets whether back-facing polygons are drawn. If this is {@code true} and
-	 * {@link #correctWindingOrder} is {@code false}, the cone will appear
-	 * incorrectly. This is intentional to demonstrate how occlusion is done.
+	 * Sets whether back-facing polygons are drawn. If the winding order is not
+	 * corrected, the top of the diamond will appear incorrectly.
 	 */
 	void setUseBackFaceCulling(const bool backFaceCulling)
 	{
@@ -55,8 +54,7 @@ public slots:
 
 	/**
 	 * Draws back-facing surfaces as a wireframe. Otherwise, they're drawn as
-	 * filled surfaces. This has no effect if {@link #backFaceCulling} is
-	 * {@code true}.
+	 * filled surfaces. This has no effect if back-face culling is enabled.
 	 */
 	void setDrawBacksAsWireframe(const bool drawBacksAsWireframe)
 	{
@@ -70,9 +68,8 @@ public slots:
 	}
 
 	/**
-	 * Corrects the winding order so that the cone can be drawn properly. If
-	 * {@link #backFaceCulling} is {@code true}, this must be also be
-	 * {@code true} for the cone to appear correctly.
+	 * Corrects the winding order so that the top of the diamond is
+	 * rendered properly if back-face culling is enabled.
 	 */
 	void setCorrectWindingOrder(const bool correctWindingOrder)
 	{
@@ -90,4 +87,4 @@ protected:
 	void render();
 };
 
-#endif // CONEGLWIDGET_H
+#endif // DIAMONDGLWIDGET_H
