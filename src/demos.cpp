@@ -9,6 +9,7 @@
 #include "AtomGLWidget.h"
 #include "TriangleGLWidget.h"
 #include "RandomStippleGLWidget.h"
+#include "ConeGLDemo.h"
 
 class DemoTabWidget : public QTabWidget
 {
@@ -50,6 +51,9 @@ int main(int argc, char *argv[])
 
 	LogoGLDemo logoDemo;
 	demoStack.addTab(&logoDemo, "Logo");
+
+	ConeGLDemo coneDemo;
+	demoStack.addTab(&coneDemo, "Cone");
 
 	// Display most recently added tab.
 	demoStack.setCurrentIndex(demoStack.count() -1);
