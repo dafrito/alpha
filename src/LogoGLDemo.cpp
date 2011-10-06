@@ -8,8 +8,15 @@ LogoGLDemo::LogoGLDemo(QWidget* parent) :
 	glWidget(new LogoGLWidget(this))
 {
     xSlider = createSlider();
+    xSlider->setInvertedControls(true);
+    xSlider->setTickPosition(QSlider::TicksLeft);
+
     ySlider = createSlider();
+    ySlider->setOrientation(Qt::Horizontal);
+    ySlider->setTickPosition(QSlider::TicksAbove);
+
     zSlider = createSlider();
+    zSlider->setTickPosition(QSlider::TicksRight);
 
     connect(xSlider, SIGNAL(valueChanged(int)), glWidget, SLOT(setScaledXRotation(int)));
     connect(glWidget, SIGNAL(xRotationChanged(int)), xSlider, SLOT(setValue(int)));
@@ -18,12 +25,17 @@ LogoGLDemo::LogoGLDemo(QWidget* parent) :
     connect(zSlider, SIGNAL(valueChanged(int)), glWidget, SLOT(setScaledZRotation(int)));
     connect(glWidget, SIGNAL(zRotationChanged(int)), zSlider, SLOT(setValue(int)));
 
-    QHBoxLayout *mainLayout = new QHBoxLayout;
-    mainLayout->addWidget(glWidget);
-    mainLayout->addWidget(xSlider);
-    mainLayout->addWidget(ySlider);
-    mainLayout->addWidget(zSlider);
-    setLayout(mainLayout);
+    QBoxLayout *vLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+    ySlider->setContentsMargins(xSlider->width(), 0, zSlider->width(), 0);
+    vLayout->addWidget(ySlider);
+
+    QBoxLayout *hLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+    hLayout->addWidget(xSlider);
+    hLayout->addWidget(glWidget);
+    hLayout->addWidget(zSlider);
+
+    vLayout->addLayout(hLayout);
+    setLayout(vLayout);
 
     setWindowTitle(tr("No Time!"));
 }
@@ -35,7 +47,6 @@ QSlider *LogoGLDemo::createSlider() const
     slider->setSingleStep(16);
     slider->setPageStep(15 * 16);
     slider->setTickInterval(15 * 16);
-    slider->setTickPosition(QSlider::TicksRight);
     return slider;
 }
 
