@@ -367,3 +367,5 @@ void Logo::draw() const
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
 }
+
+// vim: set ts=4 sw=4 et! :

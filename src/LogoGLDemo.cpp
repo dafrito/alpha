@@ -38,3 +38,5 @@ QSlider *LogoGLDemo::createSlider() const
     slider->setTickPosition(QSlider::TicksRight);
     return slider;
 }
+
+// vim: set ts=4 sw=4 et! :
