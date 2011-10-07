@@ -1,17 +1,7 @@
-This file contains information on how to compile and run this project.
+Install instructions are currently maintained on Unfuddle.
 
-## Tools
+Linux:
+http://bluespot.unfuddle.com/a#/projects/5/notebooks/4/pages/45/latest
 
-### Git
-### QMake
-### Make
-
-## Dependencies
-
-You'll need to install a few dependencies for this project in order for it to
-compile and run properly:
-
-### OpenGL
-### Qt
-
-vim: set ft=markdown tw=80 :
+Windows:
+http://bluespot.unfuddle.com/a#/projects/5/notebooks/4/pages/49/latest
