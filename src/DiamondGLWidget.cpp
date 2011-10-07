@@ -7,9 +7,9 @@
 
 typedef QList<QVector3D>::const_iterator PointIter;
 
-const float TAIL_Z = 75;
+const float TAIL_Z = -75;
 
-const float INNER_CIRCLE_Z = -20;
+const float INNER_CIRCLE_Z = 20;
 const float INNER_CIRCLE_SIZE = 35;
 
 const float OUTER_CIRCLE_Z = 0;
