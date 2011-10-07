@@ -50,9 +50,8 @@ void DiamondGLWidget::initializeGL()
 {
 	glShadeModel(GL_FLAT);
 
-	setXRotation(50);
-	setYRotation(-15);
-	setZRotation(0);
+	setXRotation(-50);
+	setYRotation(20);
 }
 
 void DiamondGLWidget::render()
