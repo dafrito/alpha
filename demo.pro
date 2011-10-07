@@ -23,6 +23,8 @@ HEADERS *= src/RandomStippleGLWidget.h
 HEADERS *= src/DiamondGLDemo.h
 HEADERS *= src/DiamondGLWidget.h
 HEADERS *= src/QuadGLWidget.h
+HEADERS *= src/StarGLDemo.h
+HEADERS *= src/StarGLWidget.h
 
 SOURCES *= src/GLWidget.cpp
 SOURCES *= src/demos.cpp
@@ -34,3 +36,5 @@ SOURCES *= src/RandomStippleGLWidget.cpp
 SOURCES *= src/DiamondGLWidget.cpp
 SOURCES *= src/DiamondGLDemo.cpp
 SOURCES *= src/QuadGLWidget.cpp
+SOURCES *= src/StarGLWidget.cpp
+SOURCES *= src/StarGLDemo.cpp

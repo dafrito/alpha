@@ -10,6 +10,7 @@
 #include "RandomStippleGLWidget.h"
 #include "DiamondGLDemo.h"
 #include "QuadGLWidget.h"
+#include "StarGLDemo.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,6 +26,9 @@ int main(int argc, char *argv[])
 
 	TriangleGLWidget triangleDemo;
 	demoStack.addTab(&triangleDemo, "Triangle");
+
+	StarGLDemo starDemo;
+	demoStack.addTab(&starDemo, "Star");
 
 	SpiralGLWidget spiralDemo;
 	demoStack.addTab(&spiralDemo, "Spiral");
