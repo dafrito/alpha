@@ -26,18 +26,17 @@ void RandomStippleGLWidget::render()
 	float y = -90.0f;
 
 	glEnable(GL_LINE_STIPPLE);
-	glLineWidth(2);
-	glBegin(GL_LINES);
 	while (stippleIter != stipples.end() && colorIter != colors.end()) {
-		glLineStipple(5, *stippleIter++);
+		glLineStipple(3, *stippleIter++);
+		glBegin(GL_LINES);
 		for(int sign=-1; sign <= 1; sign += 2) {
 			QColor color = *colorIter++;
 			glColor3f(color.redF(), color.greenF(), color.blueF());
 			glVertex2f(sign * LINE_HALF_LENGTH, y);
 		}
+		glEnd();
 		y += 20.0f;
 	}
-	glEnd();
 	assert(stippleIter == stipples.end());
 	assert(colorIter == colors.end());
 }
