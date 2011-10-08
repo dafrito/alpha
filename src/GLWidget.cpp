@@ -49,9 +49,20 @@ void GLWidget::resizeGL(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	if (width <= height) {
-		glOrtho(-range, range, -range * aspectRatio, range * aspectRatio, 2 * range, 2 * -range);
+		glOrtho(
+			-range,
+			range,
+			-range * aspectRatio,
+			range * aspectRatio,
+			2 * -range,
+			2 * range);
 	} else {
-		glOrtho(-range / aspectRatio, range / aspectRatio, -range, range, 2 * range, 2 * -range);
+		glOrtho(
+			-range / aspectRatio,
+			range / aspectRatio, -range,
+			range,
+			2 * -range,
+			2 * range);
 	}
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
