@@ -3,6 +3,7 @@
 
 #include "DemoTabWidget.h"
 #include "SpiralGLWidget.h"
+#include "SpiralLinesGLWidget.h"
 #include "BlankGLWidget.h"
 #include "LogoGLDemo.h"
 #include "AtomGLWidget.h"
@@ -32,6 +33,9 @@ int main(int argc, char *argv[])
 
 	SpiralGLWidget spiralDemo;
 	demoStack.addTab(&spiralDemo, "Spiral");
+
+	SpiralLinesGLWidget spiralLinesDemo;
+	demoStack.addTab(&spiralLinesDemo, "SpiralLines");
 
 	AtomGLWidget atomDemo;
 	demoStack.addTab(&atomDemo, "Atoms");

@@ -14,6 +14,7 @@ HEADERS *= src/DemoTabWidget.h
 HEADERS *= src/GLWidget.h
 HEADERS *= src/BlankGLWidget.h
 HEADERS *= src/SpiralGLWidget.h
+HEADERS *= src/SpiralLinesGLWidget.h
 HEADERS *= src/LogoGLWidget.h
 HEADERS *= src/Logo.h
 HEADERS *= src/LogoGLDemo.h
