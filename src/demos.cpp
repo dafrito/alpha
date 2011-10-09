@@ -8,6 +8,7 @@
 #include "LogoGLDemo.h"
 #include "AtomGLWidget.h"
 #include "TriangleGLWidget.h"
+#include "StippleGLWidget.h"
 #include "RandomStippleGLWidget.h"
 #include "DiamondGLDemo.h"
 #include "QuadGLWidget.h"
@@ -39,6 +40,9 @@ int main(int argc, char *argv[])
 
 	AtomGLWidget atomDemo;
 	demoStack.addTab(&atomDemo, "Atoms");
+
+	StippleGLWidget stippleDemo;
+	demoStack.addTab(&stippleDemo, "Stipple");
 
 	RandomStippleGLWidget randomStippleDemo;
 	demoStack.addTab(&randomStippleDemo, "Random Stipple");
