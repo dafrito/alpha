@@ -9,19 +9,10 @@ class StippleGLWidget : public GLWidget
 public:
 	StippleGLWidget(QWidget* parent = 0);
 protected:
-	void initializeGL();
 	void render();
 };
 
 StippleGLWidget::StippleGLWidget(QWidget* parent) : GLWidget(parent) {}
-
-void StippleGLWidget::initializeGL()
-{
-	GLWidget::initializeGL();
-	setXRotation(0);
-	setYRotation(0);
-	setZRotation(0);
-}
 
 void StippleGLWidget::render()
 {
