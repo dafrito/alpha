@@ -18,16 +18,10 @@ class TriangleStripGLWidget : public GLWidget
 public:
 	TriangleStripGLWidget(QWidget* parent = 0);
 protected:
-	void initializeGL();
 	void render();
 };
 
 TriangleStripGLWidget::TriangleStripGLWidget(QWidget* parent) : GLWidget(parent) {}
-
-void TriangleStripGLWidget::initializeGL()
-{
-	GLWidget::initializeGL();
-}
 
 void TriangleStripGLWidget::render()
 {
