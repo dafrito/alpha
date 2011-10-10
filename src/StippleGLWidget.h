@@ -33,7 +33,6 @@ void StippleGLWidget::render()
 		glVertex2f(-(length/2) , y );
 		glVertex2f( (length/2), y  );
 		glEnd();
-		factor += 0;
 		pattern -= 0x1111;
 	}
 }
