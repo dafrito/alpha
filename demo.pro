@@ -20,6 +20,7 @@ HEADERS *= src/Logo.h
 HEADERS *= src/RotatableGLDemo.h
 HEADERS *= src/AtomGLWidget.h
 HEADERS *= src/TriangleGLWidget.h
+HEADERS *= src/TriangleStripGLWidget.h
 HEADERS *= src/StippleGLWidget.h
 HEADERS *= src/RandomStippleGLWidget.h
 HEADERS *= src/DiamondGLDemo.h

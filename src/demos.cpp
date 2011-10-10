@@ -9,6 +9,7 @@
 #include "LogoGLWidget.h"
 #include "AtomGLWidget.h"
 #include "TriangleGLWidget.h"
+#include "TriangleStripGLWidget.h"
 #include "StippleGLWidget.h"
 #include "RandomStippleGLWidget.h"
 #include "DiamondGLDemo.h"
@@ -30,14 +31,17 @@ int main(int argc, char *argv[])
 	TriangleGLWidget triangleDemo;
 	demoStack.addTab(&triangleDemo, "Triangle");
 
+	TriangleStripGLWidget triangleStripDemo;
+	demoStack.addTab(&triangleStripDemo, "Triangle Strip");	
+
 	StarGLDemo starDemo;
 	demoStack.addTab(&starDemo, "Star");
 
 	SpiralGLWidget spiralDemo;
-	demoStack.addTab(&spiralDemo, "Spiral");
+	demoStack.addTab(&spiralDemo, "3D Spiral");
 
 	SpiralLinesGLWidget spiralLinesDemo;
-	demoStack.addTab(&spiralLinesDemo, "SpiralLines");
+	demoStack.addTab(&spiralLinesDemo, "Spiral");
 
 	AtomGLWidget atomDemo;
 	demoStack.addTab(&atomDemo, "Atoms");
