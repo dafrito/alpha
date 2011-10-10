@@ -42,10 +42,10 @@ int main(int argc, char *argv[])
 	AtomGLWidget atomDemo;
 	demoStack.addTab(&atomDemo, "Atoms");
 
-	StippleGLWidget stippleDemo;
+	RotatableGLDemo stippleDemo(new StippleGLWidget);
 	demoStack.addTab(&stippleDemo, "Stipple");
 
-	RandomStippleGLWidget randomStippleDemo;
+	RotatableGLDemo randomStippleDemo(new RandomStippleGLWidget);
 	demoStack.addTab(&randomStippleDemo, "Random Stipple");
 
 	QuadGLWidget quadDemo;
