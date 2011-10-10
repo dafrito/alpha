@@ -28,7 +28,7 @@ void SpiralLinesGLWidget::render()
 	// How many revolutions of the spiral are rendered.
 	static const float PI = 3.14159;
 
-	glBegin(GL_LINES); //how do you make GL_LINES not have spaces?
+	glBegin(GL_LINE_STRIP);
 	//the java code C++'d
 	/*for (float angle = 0; angle < PI ; angle +=  PI / 5.0f) {
 		float x = 50.0f * (float) sin(angle);
