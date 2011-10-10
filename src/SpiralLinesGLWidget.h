@@ -26,10 +26,11 @@ void SpiralLinesGLWidget::initializeGL()
 void SpiralLinesGLWidget::render()
 {
 	// How many revolutions of the spiral are rendered.
+	static const float REVOLUTIONS = 10;
 	static const float PI = 3.14159;
 
 	glBegin(GL_LINE_STRIP);
-	for (float angle = 0; angle < PI*20 ; angle +=  PI / 200.0f) {
+	for (float angle = 0; angle < 2*PI*REVOLUTIONS; angle +=  PI / (2 * REVOLUTIONS * 10)) {
 		glVertex2f(
 			angle * (float) sin(angle),
 			angle * (float) cos(angle));
