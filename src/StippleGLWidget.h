@@ -17,13 +17,12 @@ StippleGLWidget::StippleGLWidget(QWidget* parent) : GLWidget(parent) {}
 void StippleGLWidget::render()
 {
 	glEnable(GL_LINE_STIPPLE);
-	int height = 160;
-	int length = 100;
-	int lineSpacing = 10;
+	const int height = 160;
+	const int length = 100;
+	const int lineSpacing = 10;
 
 	int pattern = 0xffff; //bit pattern determines which parts of the line to draw
-	int factor = 3; //how many times to use each bit in the pattern before going to the next
-
+	const int factor = 3; //how many times to use each bit in the pattern before going to the next
 
 	for (int y = -(height/2); y < (height/2); y += lineSpacing) {
 		glLineStipple(factor, pattern);
