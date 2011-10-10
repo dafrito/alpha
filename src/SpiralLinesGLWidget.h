@@ -26,27 +26,19 @@ void SpiralLinesGLWidget::initializeGL()
 void SpiralLinesGLWidget::render()
 {
 	// How many revolutions of the spiral are rendered.
+	static const float REVOLUTIONS = 10;
 	static const float PI = 3.14159;
 
-	glBegin(GL_LINES); //how do you make GL_LINES not have spaces?
-		//the java code C++'d
-		/*for (float angle = 0; angle < PI ; angle +=  PI / 5.0f) {
-			float x = 50.0f * (float) sin(angle); 
-			float y = 50.0f * (float) cos(angle);
-			glVertex2f(x, y);
+	// How many vertices per revolution.
+	static const float SLICES = 40;
 
-			x = 50.0f * (float) sin(PI + angle);
-			y = 50.0f * (float) cos(PI + angle);
-			glVertex2f(x, y);
-		*/
-		//An actual spiral
-		for (float angle = 0; angle < PI*20 ; angle +=  PI / 200.0f) {
-			float x = angle * (float) sin(angle); 
-			float y = angle * (float) cos(angle);
-			glVertex2f(x, y);
-		
-		} 
-	
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= REVOLUTIONS * SLICES; i++) {
+		const float angle = i * 2 * PI / SLICES;
+		glVertex2f(
+			angle * (float) sin(angle),
+			angle * (float) cos(angle));
+	}
 	glEnd();
 }
 
