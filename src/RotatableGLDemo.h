@@ -1,29 +1,29 @@
-#ifndef LOGOGLDEMO_H
-#define LOGOGLDEMO_H
+#ifndef ROTATABLEGLDEMO_H
+#define ROTATABLEGLDEMO_H
 
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
 class QSlider;
 QT_END_NAMESPACE
-class LogoGLWidget;
+class GLWidget;
 
-class LogoGLDemo : public QWidget
+class RotatableGLDemo : public QWidget
 {
     Q_OBJECT
 
 public:
-    LogoGLDemo(QWidget* const parent = 0);
+    RotatableGLDemo(GLWidget* const widget, QWidget* const parent = 0);
 
 private:
     QSlider *createSlider() const;
 
-    LogoGLWidget *glWidget;
+    GLWidget* const glWidget;
     QSlider *xSlider;
     QSlider *ySlider;
     QSlider *zSlider;
 };
 
-#endif // LOGOGLDEMO_H
+#endif // ROTATABLEGLDEMO_H
 
 // vim: set ts=4 sw=4 et! :

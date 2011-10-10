@@ -5,7 +5,8 @@
 #include "SpiralGLWidget.h"
 #include "SpiralLinesGLWidget.h"
 #include "BlankGLWidget.h"
-#include "LogoGLDemo.h"
+#include "RotatableGLDemo.h"
+#include "LogoGLWidget.h"
 #include "AtomGLWidget.h"
 #include "TriangleGLWidget.h"
 #include "StippleGLWidget.h"
@@ -50,7 +51,7 @@ int main(int argc, char *argv[])
 	QuadGLWidget quadDemo;
 	demoStack.addTab(&quadDemo, "Quad");
 
-	LogoGLDemo logoDemo;
+	RotatableGLDemo logoDemo(new LogoGLWidget);
 	demoStack.addTab(&logoDemo, "Logo");
 
 	DiamondGLDemo diamondDemo;

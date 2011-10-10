@@ -1,11 +1,11 @@
 #include <QtGui>
 
-#include "LogoGLWidget.h"
-#include "LogoGLDemo.h"
+#include "RotatableGLDemo.h"
+#include "GLWidget.h"
 
-LogoGLDemo::LogoGLDemo(QWidget* parent) :
+RotatableGLDemo::RotatableGLDemo(GLWidget* const widget, QWidget* parent) :
 	QWidget(parent),
-	glWidget(new LogoGLWidget(this))
+	glWidget(widget)
 {
     xSlider = createSlider();
     xSlider->setInvertedControls(true);
@@ -36,11 +36,9 @@ LogoGLDemo::LogoGLDemo(QWidget* parent) :
 
     vLayout->addLayout(hLayout);
     setLayout(vLayout);
-
-    setWindowTitle(tr("No Time!"));
 }
 
-QSlider *LogoGLDemo::createSlider() const
+QSlider *RotatableGLDemo::createSlider() const
 {
     QSlider *slider = new QSlider(Qt::Vertical);
     slider->setRange(0, 360 * 16);
