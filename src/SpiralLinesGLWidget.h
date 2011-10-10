@@ -41,9 +41,9 @@ void SpiralLinesGLWidget::render()
 	*/
 	// An actual spiral
 	for (float angle = 0; angle < PI*20 ; angle +=  PI / 200.0f) {
-		float x = angle * (float) sin(angle);
-		float y = angle * (float) cos(angle);
-		glVertex2f(x, y);
+		glVertex2f(
+			angle * (float) sin(angle),
+			angle * (float) cos(angle));
 	}
 	glEnd();
 }
