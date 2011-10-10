@@ -7,7 +7,7 @@
 #include "BlankGLWidget.h"
 #include "RotatableGLDemo.h"
 #include "LogoGLWidget.h"
-#include "AtomGLWidget.h"
+#include "PlanetsGLWidget.h"
 #include "TriangleGLWidget.h"
 #include "TriangleStripGLWidget.h"
 #include "StippleGLWidget.h"
@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
 	SpiralLinesGLWidget spiralLinesDemo;
 	demoStack.addTab(&spiralLinesDemo, "Spiral");
 
-	AtomGLWidget atomDemo;
-	demoStack.addTab(&atomDemo, "Atoms");
+	RotatableGLDemo planetsDemo(new PlanetsGLWidget);
+	demoStack.addTab(&planetsDemo, "Planets");
 
 	RotatableGLDemo stippleDemo(new StippleGLWidget);
 	demoStack.addTab(&stippleDemo, "Stipple");

@@ -1,5 +1,5 @@
-#ifndef ATOMGLWIDGET_H
-#define ATOMGLWIDGET_H
+#ifndef PLANETSGLWIDGET_H
+#define PLANETSGLWIDGET_H
 
 #include "GLWidget.h"
 
@@ -9,12 +9,12 @@
 #include <QTimer>
 #include <GL/glut.h>
 
-class AtomGLWidget : public GLWidget
+class PlanetsGLWidget : public GLWidget
 {
 	Q_OBJECT
 
 public:
-	AtomGLWidget();
+	PlanetsGLWidget();
 protected:
 	void showEvent(QShowEvent* const);
 	void hideEvent(QHideEvent* const);
@@ -28,4 +28,4 @@ private:
 	float rotation;
 };
 
-#endif // ATOMGLWIDGET_H
+#endif // PLANETSGLWIDGET_H
