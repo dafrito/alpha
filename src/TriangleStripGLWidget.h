@@ -33,10 +33,10 @@ void TriangleStripGLWidget::render()
 {
 	glBegin(GL_TRIANGLE_STRIP);
 
-	glColor3f(1,0,0);
+	glColor3f(1, 0, 0);
 	glVertex2f(0, 0);
 
-	glColor3f(1,1,0);
+	glColor3f(1, 1, 0);
 	glVertex2f(50, 0);
 
 	glColor3f(0, 1, 0);
@@ -45,7 +45,7 @@ void TriangleStripGLWidget::render()
 	glColor3f(0, 1, 1);
 	glVertex2f(75, 50);
 
-	glColor3f(0,0,1);
+	glColor3f(0, 0, 1);
 	glVertex2f(50, 100);
 
 	glEnd();
