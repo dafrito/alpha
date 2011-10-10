@@ -21,8 +21,8 @@ void StippleGLWidget::render()
 	const int length = 100;
 	const int lineSpacing = 10;
 
-	int pattern = 0xffff; //bit pattern determines which parts of the line to draw
-	const int factor = 3; //how many times to use each bit in the pattern before going to the next
+	int pattern = 0xffff; // Bit pattern determines which parts of the line to draw.
+	const int factor = 3; // How many times to use each bit in the pattern before going to the next.
 
 	for (int y = -(height/2); y < (height/2); y += lineSpacing) {
 		glLineStipple(factor, pattern);
