@@ -31,7 +31,6 @@ void TriangleStripGLWidget::initializeGL()
 
 void TriangleStripGLWidget::render()
 {
-	
 	glBegin(GL_TRIANGLE_STRIP);
 
 	glColor3f(1,0,0);
