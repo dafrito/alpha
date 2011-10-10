@@ -12,7 +12,6 @@
  * @author Aaron Faanes, ported by Brett Langford
  * 
  */
-
 class TriangleStripGLWidget : public GLWidget
 {
 public:
