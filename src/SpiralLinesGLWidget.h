@@ -30,7 +30,7 @@ void SpiralLinesGLWidget::render()
 	static const float PI = 3.14159;
 
 	// How many vertices per revolution.
-	static const float SLICES = 10;
+	static const float SLICES = 40;
 
 	glBegin(GL_LINE_STRIP);
 	for (int i = 0; i <= REVOLUTIONS * SLICES; i++) {
