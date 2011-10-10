@@ -28,6 +28,7 @@ HEADERS *= src/DiamondGLWidget.h
 HEADERS *= src/QuadGLWidget.h
 HEADERS *= src/StarGLDemo.h
 HEADERS *= src/StarGLWidget.h
+HEADERS *= src/TorusGLWidget.h
 
 SOURCES *= src/GLWidget.cpp
 SOURCES *= src/demos.cpp

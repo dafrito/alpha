@@ -15,6 +15,7 @@
 #include "DiamondGLDemo.h"
 #include "QuadGLWidget.h"
 #include "StarGLDemo.h"
+#include "TorusGLWidget.h"
 
 int main(int argc, char *argv[])
 {
@@ -42,6 +43,9 @@ int main(int argc, char *argv[])
 
 	SpiralLinesGLWidget spiralLinesDemo;
 	demoStack.addTab(&spiralLinesDemo, "Spiral");
+
+	RotatableGLDemo torusDemo(new TorusGLWidget);
+	demoStack.addTab(&torusDemo, "Torus");
 
 	RotatableGLDemo planetsDemo(new PlanetsGLWidget);
 	demoStack.addTab(&planetsDemo, "Planets");
