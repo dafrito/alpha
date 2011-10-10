@@ -31,16 +31,30 @@ TriangleGLWidget::TriangleGLWidget(QWidget* const parent) : GLWidget(parent) {}
 
 void TriangleGLWidget::render()
 {
+	glTranslatef(-50, 0, 0);
+
 	glBegin(GL_TRIANGLES);
+	{
+		glColor3f(1, 1, 1);
+		glVertex2f(0, 0);
+		glVertex2f(25, 25);
+		glVertex2f(50, 0);
+	}
+	glEnd();
 
-	glVertex2f(0, 0);
-	glVertex2f(25, 25);
-	glVertex2f(50, 0);
+	glTranslatef(50, 0, 0);
 
-	glVertex2f(-50, 0);
-	glVertex2f(-75, 50);
-	glVertex2f(-25, 0);
+	glBegin(GL_TRIANGLES);
+	{
+		glColor3f(1, 0, 0);
+		glVertex2f(0, 0);
 
+		glColor3f(0, 1, 0);
+		glVertex2f(25, 25);
+
+		glColor3f(0, 0, 1);
+		glVertex2f(50, 0);
+	}
 	glEnd();
 }
 
