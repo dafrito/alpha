@@ -39,7 +39,7 @@ void SpiralLinesGLWidget::render()
 		y = 50.0f * (float) cos(PI + angle);
 		glVertex2f(x, y);
 	*/
-	//An actual spiral
+	// An actual spiral
 	for (float angle = 0; angle < PI*20 ; angle +=  PI / 200.0f) {
 		float x = angle * (float) sin(angle);
 		float y = angle * (float) cos(angle);
