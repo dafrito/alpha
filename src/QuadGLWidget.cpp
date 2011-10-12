@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstdlib>
+#include <GL/glut.h>
 
 #include "QuadGLWidget.h"
 
@@ -74,20 +75,14 @@ void QuadGLWidget::tick(const float& elapsed)
 
 void QuadGLWidget::render()
 {
-	glBegin(GL_QUADS);
-
 	for (QList<Quad>::const_iterator quadIter = quads.begin(); quadIter != quads.end(); ++quadIter) {
 		const Quad quad = *quadIter;
 		glColor3f(quad.color.redF(), quad.color.greenF(), quad.color.blueF());
-		const double x = quad.pos.x();
-		const double y = quad.pos.y();
-		const double z = quad.pos.z();
-		glVertex3f(x - quad.size, y - quad.size, z);
-		glVertex3f(x + quad.size, y - quad.size, z);
-		glVertex3f(x + quad.size, y + quad.size, z);
-		glVertex3f(x - quad.size, y + quad.size, z);
+		glPushMatrix();
+		glTranslatef(quad.pos.x(), quad.pos.y(), quad.pos.z());
+		glutSolidCube(2 * quad.size);
+		glPopMatrix();
 	}
-	glEnd();
 }
 
 void QuadGLWidget::resizeGL(int width, int height)
