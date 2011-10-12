@@ -75,6 +75,7 @@ void QuadGLWidget::tick(const float& elapsed)
 
 void QuadGLWidget::render()
 {
+	glTranslatef(0, 0, -HALF_RANGE - 100);
 	for (QList<Quad>::const_iterator quadIter = quads.begin(); quadIter != quads.end(); ++quadIter) {
 		const Quad quad = *quadIter;
 		glColor3f(quad.color.redF(), quad.color.greenF(), quad.color.blueF());
@@ -87,14 +88,10 @@ void QuadGLWidget::render()
 
 void QuadGLWidget::resizeGL(int width, int height)
 {
-	int side = qMin(width, height);
-	glViewport((width - side) / 2, (height - side) / 2, side, side);
+	glViewport(0, 0, width, height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(
-		-HALF_RANGE, HALF_RANGE,
-		-HALF_RANGE, HALF_RANGE,
-		-HALF_RANGE, HALF_RANGE);
+	gluPerspective(60, (float) width / height, 1, 800);
 	glMatrixMode(GL_MODELVIEW);
 }
