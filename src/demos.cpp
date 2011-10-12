@@ -38,10 +38,10 @@ int main(int argc, char *argv[])
 	StarGLDemo starDemo;
 	demoStack.addTab(&starDemo, "Star");
 
-	SpiralGLWidget spiralDemo;
+	RotatableGLDemo spiralDemo(new SpiralGLWidget);
 	demoStack.addTab(&spiralDemo, "3D Spiral");
 
-	SpiralLinesGLWidget spiralLinesDemo;
+	RotatableGLDemo spiralLinesDemo(new SpiralLinesGLWidget);
 	demoStack.addTab(&spiralLinesDemo, "Spiral");
 
 	RotatableGLDemo torusDemo(new TorusGLWidget);
