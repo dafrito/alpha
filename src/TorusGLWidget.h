@@ -36,10 +36,19 @@ void Circlef (float radius,float vertices = 40) {
 void TorusGLWidget::render()
 {
 	
-	for ( int i = 0; i <= 360 ; i++ ) {
-		glRotatef(i,0,1,0);
+	for ( float i = 0; i <= 360 ; i++ ) {
+		glRotatef(1,0,1,0);
 		glPushMatrix();
 		{
+			if (i <= 120) {
+				glColor3f(1-(i/120),(i/120),0);
+			}
+			else if (i <= 240) {
+				glColor3f(0,1-(i/240),(i/240));
+			}
+			else {
+				glColor3f(i/360,0,1-(i/360));
+			}
 			glTranslatef(50,0,0);
 			Circlef(30,40);
 		}
