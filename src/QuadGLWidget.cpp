@@ -14,7 +14,7 @@ QuadGLWidget::QuadGLWidget(QWidget* const parent) :
 			QVector3D(
 				-HALF_RANGE + size + rand() % ((HALF_RANGE - size) * 2),
 				-HALF_RANGE + size + rand() % ((HALF_RANGE - size) * 2),
-				-10 + rand() % 10),
+				-HALF_RANGE + size + rand() % ((HALF_RANGE - size) * 2)),
 			QColor(
 				rand() % 255,
 				rand() % 255,
