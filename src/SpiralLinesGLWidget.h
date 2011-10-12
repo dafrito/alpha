@@ -32,12 +32,17 @@ void SpiralLinesGLWidget::render()
 	// How many vertices per revolution.
 	static const float SLICES = 40;
 
+	static const float DEPTH = 50;
+
 	glBegin(GL_LINE_STRIP);
+	float z=-50;
 	for (int i = 0; i <= REVOLUTIONS * SLICES; i++) {
 		const float angle = i * 2 * PI / SLICES;
-		glVertex2f(
+		glVertex3f(
 			angle * (float) sin(angle),
-			angle * (float) cos(angle));
+			angle * (float) cos(angle),
+			z);
+		z += DEPTH / (REVOLUTIONS * SLICES);
 	}
 	glEnd();
 }
