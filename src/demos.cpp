@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 	RotatableGLDemo randomStippleDemo(new RandomStippleGLWidget);
 	demoStack.addTab(&randomStippleDemo, "Random Stipple");
 
-	QuadGLWidget quadDemo;
+	RotatableGLDemo quadDemo(new QuadGLWidget);
 	demoStack.addTab(&quadDemo, "Quad");
 
 	RotatableGLDemo logoDemo(new LogoGLWidget);
