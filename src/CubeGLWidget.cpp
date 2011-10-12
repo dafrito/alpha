@@ -26,7 +26,7 @@ CubeGLWidget::CubeGLWidget(QWidget* const parent) :
 			QVector3D(
 				-MAX_VELOCITY + rand() % (MAX_VELOCITY * 2),
 				-MAX_VELOCITY + rand() % (MAX_VELOCITY * 2),
-				0)
+				-MAX_VELOCITY + rand() % (MAX_VELOCITY * 2))
 		};
 		cubes << cube;
 	}
@@ -36,6 +36,7 @@ void CubeGLWidget::tick(const float& elapsed)
 {
 	static const QVector3D VEC_X(-1, 1, 1);
 	static const QVector3D VEC_Y(1, -1, 1);
+	static const QVector3D VEC_Z(1, 1, -1);
 	AnimatedGLWidget::tick(elapsed);
 	for (QList<Cube>::iterator q = cubes.begin(); q != cubes.end(); ++q) {
 		const int range = HALF_RANGE - q->size;
@@ -68,6 +69,21 @@ void CubeGLWidget::tick(const float& elapsed)
 				}
 			}
 			q->pos.setY(y);
+		}
+		{
+			double z = q->pos.z() + q->velocity.z();
+			const double diff = abs(z) - range;
+			if (diff > 0) {
+				q->velocity *= VEC_Z;
+				if (z > 0) {
+					// Z is positive; head negative
+					z = range - diff;
+				} else {
+					// Z is negative; head positive
+					z = -range + diff;
+				}
+			}
+			q->pos.setZ(z);
 		}
 		q->velocity.setY(q->velocity.y() - GRAVITY * elapsed);
 	}
