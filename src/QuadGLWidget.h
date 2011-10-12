@@ -5,20 +5,21 @@
 #include <QColor>
 #include <QVector3D>
 
-#include "GLWidget.h"
+#include "AnimatedGLWidget.h"
 
 struct Quad
 {
-	const QVector3D pos;
+	QVector3D pos;
 	const QColor color;
 	const unsigned int size;
+	QVector3D velocity;
 };
 
 /**
  * A demonstration showing a small number of randomly sized and positioned
  * quads.
  */
-class QuadGLWidget : public GLWidget
+class QuadGLWidget : public AnimatedGLWidget
 {
 	Q_OBJECT
 
@@ -31,6 +32,8 @@ public:
 protected:
 	void resizeGL(int, int);
 	void render();
+protected slots:
+	void tick(const float& elapsed);
 };
 
 #endif // QUADGLWIDGET_H
