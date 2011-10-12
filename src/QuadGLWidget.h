@@ -29,6 +29,7 @@ class QuadGLWidget : public GLWidget
 public:
 	QuadGLWidget(QWidget* const parent = 0);
 protected:
+	void resizeGL(int, int);
 	void render();
 };
 
