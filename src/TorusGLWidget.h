@@ -42,18 +42,22 @@ void Circlef (float radius,float vertices = 40) {
 
 void renderTorus()
 {
-	for ( float i = 0; i <= 360 ; i++ ) {
-		glRotatef(1,0,1,0);
+	const int slices = 360;
+	const int third = slices/3;
+	const float angle = (float) 360/slices;
+
+	for ( float i = 1; i <= slices ; i++ ) {
+		glRotatef(angle,0,1,0);
 		glPushMatrix();
 		{
-			if (i <= 120) {
-				glColor3f(1-(i/120),(i/120),0);
+			if (i < 1*third) {
+				glColor3f(1-(i/third),i/(third),0);
 			}
-			else if (i <= 240) {
-				glColor3f(0,1-(i/240),(i/240));
+			else if (i < 2*third) {
+				glColor3f(0,1-((i-third)/third),(i-third)/third);
 			}
 			else {
-				glColor3f(i/360,0,1-(i/360));
+				glColor3f((i-2*third)/third,0,1-((i-2*third)/third));
 			}
 			glTranslatef(50,0,0);
 			Circlef(30,40);
