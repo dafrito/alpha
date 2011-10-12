@@ -20,7 +20,7 @@ protected:
 	void initializeGL();
 	void render();
 protected slots:
-	void tick();
+	void tick(const float& elapsed);
 private:
 	float rotation;
 };
