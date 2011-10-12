@@ -19,8 +19,6 @@ void TorusGLWidget::initializeGL()
 {
 	GLWidget::initializeGL();
 	setXRotation(90);
-	setYRotation(0);
-	setZRotation(0);
 }
 
 void Circlef (float radius,float vertices = 40) {

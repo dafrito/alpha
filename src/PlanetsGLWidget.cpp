@@ -11,8 +11,6 @@ void PlanetsGLWidget::initializeGL()
 {
 	GLWidget::initializeGL();
 	setXRotation(90);
-	setYRotation(0);
-	setZRotation(0);
 
 	glEnable(GL_DEPTH_TEST);
 }

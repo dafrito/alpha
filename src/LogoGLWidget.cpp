@@ -20,7 +20,6 @@ void LogoGLWidget::initializeGL()
 
     setXRotation(15);
     setYRotation(345);
-    setZRotation(0);
 
     if (logo) {
         delete logo;
