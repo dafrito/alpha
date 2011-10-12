@@ -2,18 +2,18 @@
 #include <cstdlib>
 #include <GL/glut.h>
 
-#include "QuadGLWidget.h"
+#include "CubeGLWidget.h"
 
 const int HALF_RANGE = 200;
 const int MAX_VELOCITY = 3;
 const double GRAVITY = 3;
 
-QuadGLWidget::QuadGLWidget(QWidget* const parent) :
+CubeGLWidget::CubeGLWidget(QWidget* const parent) :
 	AnimatedGLWidget(parent)
 {
-	for(int i = 0; i < QuadGLWidget::NUM_QUADS; i++) {
+	for(int i = 0; i < CubeGLWidget::NUM_CUBES; i++) {
 		const int size = 1 + rand() % (HALF_RANGE / 7);
-		Quad quad = {
+		Cube cube = {
 			QVector3D(
 				-HALF_RANGE + size + rand() % ((HALF_RANGE - size) * 2),
 				-HALF_RANGE + size + rand() % ((HALF_RANGE - size) * 2),
@@ -28,16 +28,16 @@ QuadGLWidget::QuadGLWidget(QWidget* const parent) :
 				-MAX_VELOCITY + rand() % (MAX_VELOCITY * 2),
 				0)
 		};
-		quads << quad;
+		cubes << cube;
 	}
 }
 
-void QuadGLWidget::tick(const float& elapsed)
+void CubeGLWidget::tick(const float& elapsed)
 {
 	static const QVector3D VEC_X(-1, 1, 1);
 	static const QVector3D VEC_Y(1, -1, 1);
 	AnimatedGLWidget::tick(elapsed);
-	for (QList<Quad>::iterator q = quads.begin(); q != quads.end(); ++q) {
+	for (QList<Cube>::iterator q = cubes.begin(); q != cubes.end(); ++q) {
 		const int range = HALF_RANGE - q->size;
 		{
 			double x = q->pos.x() + q->velocity.x();
@@ -73,20 +73,19 @@ void QuadGLWidget::tick(const float& elapsed)
 	}
 }
 
-void QuadGLWidget::render()
+void CubeGLWidget::render()
 {
 	glTranslatef(0, 0, -HALF_RANGE - 100);
-	for (QList<Quad>::const_iterator quadIter = quads.begin(); quadIter != quads.end(); ++quadIter) {
-		const Quad quad = *quadIter;
-		glColor3f(quad.color.redF(), quad.color.greenF(), quad.color.blueF());
+	for (QList<Cube>::const_iterator cube = cubes.begin(); cube != cubes.end(); ++cube) {
+		glColor3f(cube->color.redF(), cube->color.greenF(), cube->color.blueF());
 		glPushMatrix();
-		glTranslatef(quad.pos.x(), quad.pos.y(), quad.pos.z());
-		glutSolidCube(2 * quad.size);
+		glTranslatef(cube->pos.x(), cube->pos.y(), cube->pos.z());
+		glutSolidCube(2 * cube->size);
 		glPopMatrix();
 	}
 }
 
-void QuadGLWidget::resizeGL(int width, int height)
+void CubeGLWidget::resizeGL(int width, int height)
 {
 	glViewport(0, 0, width, height);
 

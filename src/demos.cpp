@@ -13,7 +13,7 @@
 #include "StippleGLWidget.h"
 #include "RandomStippleGLWidget.h"
 #include "DiamondGLDemo.h"
-#include "QuadGLWidget.h"
+#include "CubeGLWidget.h"
 #include "StarGLDemo.h"
 #include "TorusGLWidget.h"
 
@@ -56,8 +56,8 @@ int main(int argc, char *argv[])
 	RotatableGLDemo randomStippleDemo(new RandomStippleGLWidget);
 	demoStack.addTab(&randomStippleDemo, "Random Stipple");
 
-	RotatableGLDemo quadDemo(new QuadGLWidget);
-	demoStack.addTab(&quadDemo, "Quad");
+	RotatableGLDemo cubeDemo(new CubeGLWidget);
+	demoStack.addTab(&cubeDemo, "Cube");
 
 	RotatableGLDemo logoDemo(new LogoGLWidget);
 	demoStack.addTab(&logoDemo, "Logo");

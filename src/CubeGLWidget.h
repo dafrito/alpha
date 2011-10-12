@@ -1,5 +1,5 @@
-#ifndef QUADGLWIDGET_H
-#define QUADGLWIDGET_H
+#ifndef CUBEGLWIDGET_H
+#define CUBEGLWIDGET_H
 
 #include <QList>
 #include <QColor>
@@ -7,7 +7,7 @@
 
 #include "AnimatedGLWidget.h"
 
-struct Quad
+struct Cube
 {
 	QVector3D pos;
 	const QColor color;
@@ -17,18 +17,18 @@ struct Quad
 
 /**
  * A demonstration showing a small number of randomly sized and positioned
- * quads.
+ * cubes.
  */
-class QuadGLWidget : public AnimatedGLWidget
+class CubeGLWidget : public AnimatedGLWidget
 {
 	Q_OBJECT
 
-	// The number of rendered quads
-	static const int NUM_QUADS = 60;
+	// The number of rendered cubes
+	static const int NUM_CUBES = 60;
 
-	QList<Quad> quads;
+	QList<Cube> cubes;
 public:
-	QuadGLWidget(QWidget* const parent = 0);
+	CubeGLWidget(QWidget* const parent = 0);
 protected:
 	void resizeGL(int, int);
 	void render();
@@ -36,4 +36,4 @@ protected slots:
 	void tick(const float& elapsed);
 };
 
-#endif // QUADGLWIDGET_H
+#endif // CUBEGLWIDGET_H
