@@ -22,6 +22,7 @@ void TorusGLWidget::initializeGL()
 	setYRotation(0);
 	setZRotation(0);
 }
+
 void Circlef (float radius,float vertices = 40) {
     glBegin(GL_LINE_STRIP);
 	for (int i = 0; i <= vertices; i++) {
@@ -33,6 +34,7 @@ void Circlef (float radius,float vertices = 40) {
 	}
     glEnd();
 }
+
 void TorusGLWidget::render()
 {
 	
