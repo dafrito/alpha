@@ -28,14 +28,17 @@ void SpiralGLWidget::render()
 	// How many revolutions of the spiral are rendered.
 	static const int REVOLUTIONS = 4;
 	static const float PI = 3.14159;
+	static const float SLICES = 36 * 8;
+	static const float LENGTH = 125;
 
 	glBegin(GL_POINTS);
 	float z = -50.0;
-	for (float angle = 0; angle <= REVOLUTIONS * 2 * PI; angle += 0.1f) {
+	for (int i = 0; i <= SLICES * REVOLUTIONS; ++i) {
+		float angle = (float)i * 2 * PI / SLICES;
 		float x = 50.0f * (float) sin(angle);
 		float y = 50.0f * (float) cos(angle);
 		glVertex3f(x, y, z);
-		z += 0.5f;
+		z += LENGTH / (REVOLUTIONS * SLICES);
 	}
 	glEnd();
 }
