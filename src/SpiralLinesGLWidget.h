@@ -35,14 +35,12 @@ void SpiralLinesGLWidget::render()
 	static const float DEPTH = 50;
 
 	glBegin(GL_LINE_STRIP);
-	float z=-50;
 	for (int i = 0; i <= REVOLUTIONS * SLICES; i++) {
 		const float angle = i * 2 * PI / SLICES;
 		glVertex3f(
 			angle * (float) sin(angle),
 			angle * (float) cos(angle),
-			z);
-		z += DEPTH / (REVOLUTIONS * SLICES);
+			-DEPTH + DEPTH * pow(i / (REVOLUTIONS * SLICES), 2));
 	}
 	glEnd();
 }
