@@ -8,6 +8,7 @@ class TorusGLWidget : public GLWidget
 {
 public:
 	TorusGLWidget(QWidget* parent = 0);
+	~TorusGLWidget();
 protected:
 	void initializeGL();
 	void render();
@@ -15,10 +16,16 @@ protected:
 
 TorusGLWidget::TorusGLWidget(QWidget* parent) : GLWidget(parent) {}
 
+void renderTorus();
+
 void TorusGLWidget::initializeGL()
 {
 	GLWidget::initializeGL();
 	setXRotation(90);
+
+	glNewList(1, GL_COMPILE);
+	renderTorus();
+	glEndList();
 }
 
 void Circlef (float radius,float vertices = 40) {
@@ -33,9 +40,8 @@ void Circlef (float radius,float vertices = 40) {
     glEnd();
 }
 
-void TorusGLWidget::render()
+void renderTorus()
 {
-	
 	for ( float i = 0; i <= 360 ; i++ ) {
 		glRotatef(1,0,1,0);
 		glPushMatrix();
@@ -55,6 +61,16 @@ void TorusGLWidget::render()
 		glPopMatrix();
 		
 	}
+}
+
+void TorusGLWidget::render()
+{
+	glCallList(1);
+}
+
+TorusGLWidget::~TorusGLWidget()
+{
+	glDeleteLists(1, 1);
 }
 
 #endif // TORUSGLWIDGET_H
