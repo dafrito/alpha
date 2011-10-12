@@ -1,10 +1,9 @@
 #include "PlanetsGLWidget.h"
 
-PlanetsGLWidget::PlanetsGLWidget() :
-	timer(new QTimer(this)),
+PlanetsGLWidget::PlanetsGLWidget(QWidget* const parent) :
+	AnimatedGLWidget(parent),
 	rotation(0)
 {
-	connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
 void PlanetsGLWidget::initializeGL()
@@ -15,20 +14,13 @@ void PlanetsGLWidget::initializeGL()
 	glEnable(GL_DEPTH_TEST);
 }
 
-void PlanetsGLWidget::showEvent(QShowEvent* const)
-{
-	if(!timer->isActive()) {
-		timer->start(1000 / 60);
-	}
-}
-
 void PlanetsGLWidget::tick()
 {
+	AnimatedGLWidget::tick();
 	rotation += .5f;
 	while (rotation > 360) {
 		rotation -= 360;
 	}
-	updateGL();
 }
 
 void PlanetsGLWidget::render()
@@ -108,11 +100,3 @@ void PlanetsGLWidget::render()
 	glPopMatrix(); 							
 
 }
-
-void PlanetsGLWidget::hideEvent(QHideEvent* const)
-{
-	if(timer->isActive()) {
-		timer->stop();
-	}
-}
-

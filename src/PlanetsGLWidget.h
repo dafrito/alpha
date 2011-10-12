@@ -8,23 +8,20 @@
 #include <QShowEvent>
 #include <QTimer>
 #include <GL/glut.h>
+#include "AnimatedGLWidget.h"
 
-class PlanetsGLWidget : public GLWidget
+class PlanetsGLWidget : public AnimatedGLWidget
 {
 	Q_OBJECT
 
 public:
-	PlanetsGLWidget();
+	PlanetsGLWidget(QWidget* const parent = 0);
 protected:
-	void showEvent(QShowEvent* const);
-	void hideEvent(QHideEvent* const);
-
 	void initializeGL();
 	void render();
-private slots:
+protected slots:
 	void tick();
 private:
-	QTimer* const timer;
 	float rotation;
 };
 
