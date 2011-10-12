@@ -89,9 +89,19 @@ void CubeGLWidget::tick(const float& elapsed)
 	}
 }
 
-void CubeGLWidget::render()
+void CubeGLWidget::initializeGL()
 {
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+}
+
+void CubeGLWidget::render()
+{
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glTranslatef(0, 0, -HALF_RANGE - 100);
 	for (QList<Cube>::const_iterator cube = cubes.begin(); cube != cubes.end(); ++cube) {

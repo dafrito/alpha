@@ -30,6 +30,7 @@ class CubeGLWidget : public AnimatedGLWidget
 public:
 	CubeGLWidget(QWidget* const parent = 0);
 protected:
+	void initializeGL();
 	void resizeGL(int, int);
 	void render();
 protected slots:
