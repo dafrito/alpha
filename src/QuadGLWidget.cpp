@@ -24,12 +24,6 @@ QuadGLWidget::QuadGLWidget(QWidget* const parent) :
 	}
 }
 
-void QuadGLWidget::initializeGL()
-{
-	GLWidget::initializeGL();
-	setZRotation(45);
-}
-
 void QuadGLWidget::render()
 {
 	glBegin(GL_QUADS);
