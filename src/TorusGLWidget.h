@@ -26,15 +26,15 @@ void Circlef (float radius,float vertices = 40) {
     glBegin(GL_LINE_STRIP);
 	for (int i = 0; i <= vertices; i++) {
 		const float angle = i * 2 * (3.14159 / (float) vertices);
-		glVertex2f( 
-			radius * (float) sin(angle), 
+		glVertex2f(
+			radius * (float) sin(angle),
 			radius * (float) cos(angle)
 		);
-	}		
+	}
     glEnd();
 }
 void TorusGLWidget::render()
-{	
+{
 	
 	for ( int i = 0; i <= 360 ; i++ ) {
 		glRotatef(i,0,1,0);
@@ -42,7 +42,7 @@ void TorusGLWidget::render()
 		{
 			glTranslatef(50,0,0);
 			Circlef(30,40);
-		}		
+		}
 		glPopMatrix();
 		
 	}
