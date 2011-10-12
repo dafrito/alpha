@@ -91,6 +91,8 @@ void CubeGLWidget::tick(const float& elapsed)
 
 void CubeGLWidget::render()
 {
+	glEnable(GL_DEPTH_TEST);
+	glClear(GL_DEPTH_BUFFER_BIT);
 	glTranslatef(0, 0, -HALF_RANGE - 100);
 	for (QList<Cube>::const_iterator cube = cubes.begin(); cube != cubes.end(); ++cube) {
 		glColor3f(cube->color.redF(), cube->color.greenF(), cube->color.blueF());
