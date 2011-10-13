@@ -16,6 +16,7 @@
 #include "CubeGLWidget.h"
 #include "StarGLDemo.h"
 #include "TorusGLWidget.h"
+#include "CylinderGLWidget.h"
 
 int main(int argc, char *argv[])
 {
@@ -37,6 +38,9 @@ int main(int argc, char *argv[])
 
 	StarGLDemo starDemo;
 	demoStack.addTab(&starDemo, "Star");
+
+	RotatableGLDemo cylinderDemo(new CylinderGLWidget);
+	demoStack.addTab(&cylinderDemo, "Cylinder");
 
 	RotatableGLDemo spiralDemo(new SpiralGLWidget);
 	demoStack.addTab(&spiralDemo, "3D Spiral");

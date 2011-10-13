@@ -30,6 +30,7 @@ HEADERS *= src/CubeGLWidget.h
 HEADERS *= src/StarGLDemo.h
 HEADERS *= src/StarGLWidget.h
 HEADERS *= src/TorusGLWidget.h
+HEADERS *= src/CylinderGLWidget.h
 
 SOURCES *= src/GLWidget.cpp
 SOURCES *= src/demos.cpp
