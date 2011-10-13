@@ -16,10 +16,9 @@ public:
 protected:
 	void showEvent(QShowEvent* const);
 	void hideEvent(QHideEvent* const);
+	virtual void tick(const float& elapsed)=0;
 private slots:
 	void tick();
-protected slots:
-	virtual void tick(const float& elapsed);
 };
 
 #endif // ANIMATEDGLWIDGET_H

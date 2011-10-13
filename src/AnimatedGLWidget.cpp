@@ -17,12 +17,7 @@ void AnimatedGLWidget::showEvent(QShowEvent* const)
 void AnimatedGLWidget::tick()
 {
 	updateGL();
-	emit tick((float)time.restart() / 1000);
-}
-
-void AnimatedGLWidget::tick(const float&)
-{
-	// Do nothing.
+	tick((float)time.restart() / 1000);
 }
 
 void AnimatedGLWidget::hideEvent(QHideEvent* const)

@@ -19,7 +19,6 @@ public:
 protected:
 	void initializeGL();
 	void render();
-protected slots:
 	void tick(const float& elapsed);
 private:
 	float rotation;

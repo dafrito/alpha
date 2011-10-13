@@ -37,7 +37,6 @@ void CubeGLWidget::tick(const float& elapsed)
 	static const QVector3D VEC_X(-1, 1, 1);
 	static const QVector3D VEC_Y(1, -1, 1);
 	static const QVector3D VEC_Z(1, 1, -1);
-	AnimatedGLWidget::tick(elapsed);
 	for (QList<Cube>::iterator q = cubes.begin(); q != cubes.end(); ++q) {
 		const int range = HALF_RANGE - q->size;
 		{

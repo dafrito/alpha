@@ -16,7 +16,6 @@ void PlanetsGLWidget::initializeGL()
 
 void PlanetsGLWidget::tick(const float& elapsed)
 {
-	AnimatedGLWidget::tick(elapsed);
 	rotation += 30 * elapsed;
 	while (rotation > 360) {
 		rotation -= 360;
