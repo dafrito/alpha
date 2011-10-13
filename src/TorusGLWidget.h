@@ -41,8 +41,6 @@ void Circlef (float radius,float vertices = 40) {
     glEnd();
 }
 
-#include <QDebug>
-
 void renderTorus()
 {
 	// How many circles are rendered.
