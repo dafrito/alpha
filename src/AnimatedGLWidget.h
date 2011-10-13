@@ -13,12 +13,15 @@ class AnimatedGLWidget : public GLWidget
 	QTimer timer;
 public:
 	AnimatedGLWidget(QWidget* const parent = 0);
+signals:
+	void timeout(const float& elapsed);
 protected:
 	void showEvent(QShowEvent* const);
 	void hideEvent(QHideEvent* const);
+protected slots:
 	virtual void tick(const float& elapsed)=0;
 private slots:
-	void tick();
+	void dispatchTick();
 };
 
 #endif // ANIMATEDGLWIDGET_H

@@ -3,7 +3,7 @@
 AnimatedGLWidget::AnimatedGLWidget(QWidget* const parent) :
 	GLWidget(parent)
 {
-	connect(&timer, SIGNAL(timeout()), this, SLOT(tick()));
+	connect(&timer, SIGNAL(timeout()), this, SLOT(dispatchTick()));
 }
 
 void AnimatedGLWidget::showEvent(QShowEvent* const)
@@ -14,10 +14,10 @@ void AnimatedGLWidget::showEvent(QShowEvent* const)
 	}
 }
 
-void AnimatedGLWidget::tick()
+void AnimatedGLWidget::dispatchTick()
 {
 	updateGL();
-	tick((float)time.restart() / 1000);
+	emit tick((float)time.restart() / 1000);
 }
 
 void AnimatedGLWidget::hideEvent(QHideEvent* const)
