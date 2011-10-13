@@ -1,13 +1,13 @@
-#ifndef CYLINDERGLWIDGET_H
-#define CYLINDERGLWIDGET_H
+#ifndef FILMROLLGLWIDGET_H
+#define FILMROLLGLWIDGET_H
 
 #include "GLWidget.h"
 #include <cmath>
 
-class CylinderGLWidget : public GLWidget
+class FilmRollGLWidget : public GLWidget
 {
 public:
-	CylinderGLWidget(QWidget* parent = 0) : GLWidget(parent) {}
+	FilmRollGLWidget(QWidget* parent = 0) : GLWidget(parent) {}
 protected:
 	void render();
 };
@@ -17,7 +17,7 @@ static const int RADIUS = 25;
 static const float LENGTH = 10;
 static const float REVOLUTIONS = 10;
 
-void CylinderGLWidget::render()
+void FilmRollGLWidget::render()
 {
 	static const float PI = 3.14159;
 	static const float SLICE_ANGLE = 2 * PI / SLICES;
@@ -36,4 +36,4 @@ void CylinderGLWidget::render()
 	glEnd();
 }
 
-#endif // CYLINDERGLWIDGET_H
+#endif // FILMROLLGLWIDGET_H
