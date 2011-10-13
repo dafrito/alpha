@@ -2,6 +2,7 @@
 #define TORUSGLWIDGET_H
 
 #include "GLWidget.h"
+#include <cassert>
 #include <cmath>
 
 class TorusGLWidget : public GLWidget
@@ -40,30 +41,46 @@ void Circlef (float radius,float vertices = 40) {
     glEnd();
 }
 
+#include <QDebug>
+
 void renderTorus()
 {
-	const int slices = 360;
-	const int third = slices/3;
-	const float angle = (float) 360/slices;
+	// How many circles are rendered.
+	const int SLICES = 360;
+	assert(SLICES >= 5); // We need at least one slice per color group, else PARTITION is zero.
 
-	for ( float i = 1; i <= slices ; i++ ) {
-		glRotatef(angle,0,1,0);
+	// How many circles for each color transition.
+	const int PARTITION = SLICES / 5;
+
+	const float ANGLE_PER_SLICE = (float) 360 / SLICES;
+	for (int i = 0; i < SLICES; i++) {
 		glPushMatrix();
 		{
-			if (i < 1*third) {
-				glColor3f(1-(i/third),i/(third),0);
-			}
-			else if (i < 2*third) {
-				glColor3f(0,1-((i-third)/third),(i-third)/third);
-			}
-			else {
-				glColor3f((i-2*third)/third,0,1-((i-2*third)/third));
+			glRotatef(ANGLE_PER_SLICE * i, 0, 1, 0);
+			const float slice = i % PARTITION;
+			// inc and dec are both guaranteed to be [0, 1].
+			const float inc = slice / PARTITION;
+			const float dec = 1 - inc;
+			if (i < PARTITION) {
+				// Purple to red
+				glColor3f(1, 0, dec);
+			} else if (i < 2 * PARTITION) {
+				// Red to yellow
+				glColor3f(1, inc, 0);
+			} else if (i < 3 * PARTITION) {
+				// Yellow to green
+				glColor3f(dec, 1, 0);
+			} else if (i < 4 * PARTITION) {
+				// Green to blue
+				glColor3f(0, dec, inc);
+			} else {
+				// Blue to purple
+				glColor3f(inc, 0, 1);
 			}
 			glTranslatef(50,0,0);
 			Circlef(30,40);
 		}
 		glPopMatrix();
-		
 	}
 }
 
