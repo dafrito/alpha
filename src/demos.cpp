@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 	demoStack.addTab(&randomStippleDemo, "Random Stipple");
 
 	RotatableGLDemo cubeDemo(new CubeGLWidget);
-	demoStack.addTab(&cubeDemo, "Cube");
+	demoStack.addTab(&cubeDemo, "Cubes");
 
 	RotatableGLDemo logoDemo(new LogoGLWidget);
 	demoStack.addTab(&logoDemo, "Logo");
