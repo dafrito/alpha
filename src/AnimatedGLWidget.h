@@ -4,24 +4,22 @@
 #include <QTime>
 #include <QTimer>
 #include "GLWidget.h"
+#include "MeasuredTimer.h"
+
+QT_BEGIN_NAMESPACE
+class QShowEvent;
+class QHideEvent;
+QT_END_NAMESPACE
 
 class AnimatedGLWidget : public GLWidget
 {
 	Q_OBJECT
 
-	QTime time;
-	QTimer timer;
+	MeasuredTimer timer;
 public:
 	AnimatedGLWidget(QWidget* const parent = 0);
-signals:
-	void timeout(const float& elapsed);
-protected:
-	void showEvent(QShowEvent* const);
-	void hideEvent(QHideEvent* const);
 protected slots:
 	virtual void tick(const float& elapsed)=0;
-private slots:
-	void dispatchTick();
 };
 
 #endif // ANIMATEDGLWIDGET_H
