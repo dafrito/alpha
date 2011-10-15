@@ -3,8 +3,8 @@
 #include <cmath>
 
 // All values are half-size.
-const int VEHICLE_WIDTH = 25;
-const int VEHICLE_HEIGHT = 15;
+const int VEHICLE_LENGTH = 30;
+const int VEHICLE_WIDTH = 15;
 const int ARENA_SIZE = 500;
 const int WALL_SIZE = 10;
 
@@ -108,9 +108,55 @@ void VehicleGLWidget::paintGL()
 	glTranslatef(car.pos.x(), car.pos.y(), car.pos.z());
 	glRotatef(car.angle * 180 / M_PI, 0, 0, 1);
 	glBegin(GL_QUADS);
-	glColor3ub(0xd8, 0xfa, 0xff);
-	glBegin(GL_QUADS);
-	drawQuad(VEHICLE_WIDTH, VEHICLE_HEIGHT);
+	// Body
+	glColor3ub(0, 0x5b, 0xa9);
+	drawQuad(VEHICLE_LENGTH, VEHICLE_WIDTH);
+	// Windshields
+	glColor3ub(35, 35, 35);
+	drawQuad(
+		-VEHICLE_LENGTH + 10,
+		VEHICLE_LENGTH / 3,
+		-VEHICLE_WIDTH + 2,
+		VEHICLE_WIDTH - 2
+		);
+	// Front lights
+	glColor3f(1, 1, .2);
+	drawQuad(
+		VEHICLE_LENGTH,
+		VEHICLE_LENGTH - 3,
+		-VEHICLE_WIDTH,
+		VEHICLE_WIDTH
+		);
+	glColor3ub(0, 0x5b, 0xa9);
+	drawQuad(
+		VEHICLE_LENGTH,
+		VEHICLE_LENGTH - 3,
+		-VEHICLE_WIDTH + 5,
+		VEHICLE_WIDTH - 5
+		);
+	// Rear lights
+	glColor3f(.7, 0, 0);
+	drawQuad(
+		-VEHICLE_LENGTH,
+		-VEHICLE_LENGTH + 2,
+		-VEHICLE_WIDTH,
+		VEHICLE_WIDTH
+		);
+	glColor3ub(0, 0x5b, 0xa9);
+	drawQuad(
+		-VEHICLE_LENGTH,
+		-VEHICLE_LENGTH + 2,
+		-VEHICLE_WIDTH + 7,
+		VEHICLE_WIDTH - 7
+		);
+	// Top
+	glColor3ub(0, 0x5b, 0xa9);
+	drawQuad(
+		-VEHICLE_LENGTH / 2 + 2,
+		0,
+		-VEHICLE_WIDTH + 4,
+		VEHICLE_WIDTH - 4
+		);
 	glEnd();
 }
 
