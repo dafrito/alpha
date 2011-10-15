@@ -146,12 +146,22 @@ void VehicleGLWidget::paintGL()
 		-VEHICLE_WIDTH,
 		VEHICLE_WIDTH
 		);
+	// Reverse lights
+	if (pad.brake && pad.accelerator) {
+		glColor3f(1, 1, 1);
+		drawQuad(
+			-VEHICLE_LENGTH,
+			-VEHICLE_LENGTH + 2,
+			-VEHICLE_WIDTH + 7,
+			VEHICLE_WIDTH - 7
+			);
+	}
 	glColor3ub(0, 0x5b, 0xa9);
 	drawQuad(
 		-VEHICLE_LENGTH,
 		-VEHICLE_LENGTH + 2,
-		-VEHICLE_WIDTH + 7,
-		VEHICLE_WIDTH - 7
+		-VEHICLE_WIDTH + 9,
+		VEHICLE_WIDTH - 9
 		);
 	// Top
 	glColor3ub(0, 0x5b, 0xa9);
