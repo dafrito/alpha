@@ -17,6 +17,7 @@
 #include "StarGLDemo.h"
 #include "TorusGLWidget.h"
 #include "FilmRollGLWidget.h"
+#include "VehicleGLWidget.h"
 
 int main(int argc, char *argv[])
 {
@@ -68,6 +69,9 @@ int main(int argc, char *argv[])
 
 	DiamondGLDemo diamondDemo;
 	demoStack.addTab(&diamondDemo, "Diamond");
+
+	VehicleGLWidget vehicleDemo;
+	demoStack.addTab(&vehicleDemo, "Vehicle");
 
 	// Display most recently added tab.
 	demoStack.setCurrentIndex(demoStack.count() -1);

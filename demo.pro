@@ -32,6 +32,7 @@ HEADERS *= src/StarGLDemo.h
 HEADERS *= src/StarGLWidget.h
 HEADERS *= src/TorusGLWidget.h
 HEADERS *= src/FilmRollGLWidget.h
+HEADERS *= src/VehicleGLWidget.h
 
 SOURCES *= src/GLWidget.cpp
 SOURCES *= src/demos.cpp
@@ -47,3 +48,4 @@ SOURCES *= src/DiamondGLDemo.cpp
 SOURCES *= src/CubeGLWidget.cpp
 SOURCES *= src/StarGLWidget.cpp
 SOURCES *= src/StarGLDemo.cpp
+SOURCES *= src/VehicleGLWidget.cpp
