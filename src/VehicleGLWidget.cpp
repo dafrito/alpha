@@ -135,7 +135,11 @@ void VehicleGLWidget::paintGL()
 		VEHICLE_WIDTH - 5
 		);
 	// Rear lights
-	glColor3f(.7, 0, 0);
+	if (pad.brake) {
+		glColor3f(1, .2, .2);
+	} else {
+		glColor3f(.7, 0, 0);
+	}
 	drawQuad(
 		-VEHICLE_LENGTH,
 		-VEHICLE_LENGTH + 2,
