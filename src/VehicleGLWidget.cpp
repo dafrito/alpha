@@ -48,6 +48,35 @@ void VehicleGLWidget::tick(const float& elapsed)
 	car.velocity += accel * elapsed;
 	car.pos.setX(x);
 	car.pos.setY(y);
+	const int range = ARENA_SIZE - VEHICLE_WIDTH;
+	{
+		const double diff = abs(x) - range;
+		if (diff > 0) {
+			car.velocity *= -1;
+			if (x > 0) {
+				// X is positive; head negative
+				x = range - diff;
+			} else {
+				// X is negative; head positive
+				x = -range + diff;
+			}
+		}
+		car.pos.setX(x);
+	}
+	{
+		const double diff = abs(y) - range;
+		if (diff > 0) {
+			car.velocity *= -1;
+			if (y > 0) {
+				// Y is positive; head negative
+				y = range - diff;
+			} else {
+				// Y is negative; head positive
+				y = -range + diff;
+			}
+		}
+		car.pos.setY(y);
+	}
 }
 
 void drawQuad(float left, float right, float bottom, float top)
