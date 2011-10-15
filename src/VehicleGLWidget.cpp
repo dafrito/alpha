@@ -52,7 +52,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 	{
 		const double diff = abs(x) - range;
 		if (diff > 0) {
-			car.velocity *= -1;
+			car.velocity *= -.2;
 			if (x > 0) {
 				// X is positive; head negative
 				x = range - diff;
@@ -66,7 +66,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 	{
 		const double diff = abs(y) - range;
 		if (diff > 0) {
-			car.velocity *= -1;
+			car.velocity *= -.2;
 			if (y > 0) {
 				// Y is positive; head negative
 				y = range - diff;
