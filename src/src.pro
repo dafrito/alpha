@@ -1,4 +1,9 @@
-include(../lua-cxx/lib/lib.pro)
+!include(../lua-cxx/lib/lib.pro) {
+	message("lua-cxx was not found. You probably need to initialize it by running:")
+	message("$ git submodule init")
+	message("$ git submodule update")
+	error();
+}
 
 TEMPLATE = app
 DEPENDPATH += . ../lua-cxx/lib
