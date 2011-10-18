@@ -1,0 +1,3 @@
+[submodule "lua-cxx"]
+	path = lua-cxx
+	url = git@bluespot.unfuddle.com:bluespot/lua-cxx.git
