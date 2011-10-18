@@ -23,6 +23,7 @@ struct KeyPad
 	bool brake;
 	bool left;
 	bool right;
+	KeyPad() : accelerator(false), brake(false), left(false), right(false) {}
 };
 
 class VehicleGLWidget : public QGLWidget
