@@ -3,10 +3,10 @@
 #include <cmath>
 
 // Config 
-const float MAXSPEED = 1200;
-const float REV_MAXSPEED = 800;
-const int ACCELERATION = 200;
-const int REV_ACCEL = 75;
+const float MAXSPEED = 900;
+const float REV_MAXSPEED = 400;
+const int ACCELERATION = 250;
+const int REV_ACCEL = 120;
 const int DRAG = 0;						
 const int BRAKE_POWER = 1100;
 const float TURN_SPEED = 1;				
@@ -41,26 +41,29 @@ void VehicleGLWidget::initializeGL()
 
 void VehicleGLWidget::tick(const float& elapsed)
 {
+
 	float accel = 0;
-	if (pad.accelerator && pad.brake) {
-		accel =  -REV_ACCEL;
-	} else if (pad.accelerator) {
+	const float dir = car.velocity > 0 ? -1 : 1;	// if car.velocity > 0 then dir = -1 else dir = 1
+	const float friction = pad.brake ? dir * (BRAKE_POWER + DRAG) : dir * DRAG; // activate an opposing force
+	const float antiVelocity = friction * elapsed;	// reducing speeds is easier than manipulating negative acceleration
+
+	if (pad.accelerator) {
 		accel = ACCELERATION;
-	} else if (abs(car.velocity) > 10) {
-		const float dir = car.velocity > 0 ? -1 : 1;
-		const float friction = pad.brake ? BRAKE_POWER : DRAG;
-		accel = dir * friction;
-	} else {
-		car.velocity = 0;
+	} else if (pad.reverse) {
+		accel =  -REV_ACCEL;
 	}
+
 	if (pad.left && !pad.right) {
 		car.angle += M_PI * elapsed * TURN_SPEED;
 	}
 	if (pad.right && !pad.left) {
 		car.angle -= M_PI * elapsed * TURN_SPEED;
 	}
+
+
 	float velocity_init = car.velocity;					// for position calculation purposes
 	car.velocity += accel * elapsed;					// the equations with acceleration would lead to a wrong result when moving at maxspeed
+	car.velocity = abs(car.velocity) > abs(antiVelocity) ? car.velocity + antiVelocity : 0 ;		
 
 	if (car.velocity > car.maxspeed) {car.velocity = car.maxspeed; }	// no going over maxspeed
 	else if (car.velocity < car.rev_maxspeed) { car.velocity = car.rev_maxspeed; }
@@ -68,7 +71,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 	float x = car.pos.x() + 0.5 * (car.velocity + velocity_init) * elapsed * cos(car.angle); // S = Sinit + (1/2) * (V + Vinit) * deltaT
 	float y = car.pos.y() + 0.5 * (car.velocity + velocity_init) * elapsed * sin(car.angle); 
 	
-	const int range = ARENA_SIZE - VEHICLE_WIDTH;
+	const int range = ARENA_SIZE - VEHICLE_LENGTH;
 	{
 		const double diff = abs(x) - range;
 		if (diff > 0) {
@@ -167,7 +170,7 @@ void VehicleGLWidget::paintGL()
 		VEHICLE_WIDTH
 		);
 	// Reverse lights
-	if (pad.brake && pad.accelerator) {
+	if (pad.reverse && car.velocity <= 0) {
 		glColor3f(1, 1, 1);
 		drawQuad(
 			-VEHICLE_LENGTH,
@@ -203,9 +206,10 @@ void VehicleGLWidget::keyPressEvent(QKeyEvent* event)
 			car.angle = 0;
 			break;
 		case Qt::Key_W: pad.accelerator = true; break;
-		case Qt::Key_S: pad.brake = true; break;
+		case Qt::Key_S: pad.reverse = true; break;
 		case Qt::Key_A: pad.left = true; break;
 		case Qt::Key_D: pad.right = true; break;
+		case Qt::Key_Shift: pad.brake = true; break;
 		default:
 			QGLWidget::keyPressEvent(event);
 	}
@@ -215,9 +219,10 @@ void VehicleGLWidget::keyReleaseEvent(QKeyEvent* event)
 {
 	switch (event->key()) {
 		case Qt::Key_W: pad.accelerator = false; break;
-		case Qt::Key_S: pad.brake = false; break;
+		case Qt::Key_S: pad.reverse = false; break;
 		case Qt::Key_A: pad.left = false; break;
 		case Qt::Key_D: pad.right = false; break;
+		case Qt::Key_Shift: pad.brake = false; break;
 		default:
 			QGLWidget::keyReleaseEvent(event);
 	}
