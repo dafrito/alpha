@@ -9,12 +9,16 @@ struct Vehicle
 {
 	Vehicle() :
 		velocity(0),
-		angle(0)
+		angle(0),
+		maxspeed(1200),
+		rev_maxspeed(-100)
 	{
 	}
 	QVector3D pos;
 	float velocity;
 	float angle;
+	float maxspeed;
+	float rev_maxspeed;
 };
 
 struct KeyPad

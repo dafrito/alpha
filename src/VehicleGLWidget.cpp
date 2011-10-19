@@ -3,8 +3,10 @@
 #include <cmath>
 
 // Config 
+const float MAXSPEED = 1200;
+const float REV_MAXSPEED = 800;
 const int ACCELERATION = 200;
-const int REVERSE_ACCEL = 75;
+const int REV_ACCEL = 75;
 const int DRAG = 0;						
 const int BRAKE_POWER = 1100;
 const float TURN_SPEED = 1;				
@@ -28,6 +30,8 @@ VehicleGLWidget::VehicleGLWidget(QWidget* const parent) :
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
 	timer.startOnShow(this);
+	car.maxspeed = MAXSPEED;
+	car.rev_maxspeed = -REV_MAXSPEED;
 }
 
 void VehicleGLWidget::initializeGL()
@@ -39,7 +43,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 {
 	float accel = 0;
 	if (pad.accelerator && pad.brake) {
-		accel =  REVERSE_ACCEL;
+		accel =  -REV_ACCEL;
 	} else if (pad.accelerator) {
 		accel = ACCELERATION;
 	} else if (abs(car.velocity) > 10) {
@@ -55,11 +59,15 @@ void VehicleGLWidget::tick(const float& elapsed)
 	if (pad.right && !pad.left) {
 		car.angle -= M_PI * elapsed * TURN_SPEED;
 	}
-	float x = elapsed * cos(car.angle) * (.5 * accel * elapsed + car.velocity) + car.pos.x();
-	float y = elapsed * sin(car.angle) * (.5 * accel * elapsed + car.velocity) + car.pos.y();
-	car.velocity += accel * elapsed;
-	car.pos.setX(x);
-	car.pos.setY(y);
+	float velocity_init = car.velocity;					// for position calculation purposes
+	car.velocity += accel * elapsed;					// the equations with acceleration would lead to a wrong result when moving at maxspeed
+
+	if (car.velocity > car.maxspeed) {car.velocity = car.maxspeed; }	// no going over maxspeed
+	else if (car.velocity < car.rev_maxspeed) { car.velocity = car.rev_maxspeed; }
+
+	float x = car.pos.x() + 0.5 * (car.velocity + velocity_init) * elapsed * cos(car.angle); // S = Sinit + (1/2) * (V + Vinit) * deltaT
+	float y = car.pos.y() + 0.5 * (car.velocity + velocity_init) * elapsed * sin(car.angle); 
+	
 	const int range = ARENA_SIZE - VEHICLE_WIDTH;
 	{
 		const double diff = abs(x) - range;
