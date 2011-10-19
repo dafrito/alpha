@@ -6,11 +6,11 @@
 const float MAXSPEED = 900;
 const float REV_MAXSPEED = 400;
 const int ACCELERATION = 250;
-const int REV_ACCEL = 120;
-const int DRAG = 0;						
+const int REV_ACCEL = 160;
+const int DRAG = 70;						
 const int BRAKE_POWER = 1100;
 const float TURN_SPEED = 1;				
-const float ELASTICITY = .4;		// Bounciness after collisions
+const float ELASTICITY = .3;		// Bounciness after collisions
 // end Config
 
 
@@ -21,7 +21,7 @@ const int VEHICLE_LENGTH = 30;
 const int VEHICLE_WIDTH = 15;
 const int ARENA_SIZE = 500;
 const int WALL_SIZE = 10;
-
+// End
 VehicleGLWidget::VehicleGLWidget(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this)
@@ -59,6 +59,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 	if (pad.right && !pad.left) {
 		car.angle -= M_PI * elapsed * TURN_SPEED;
 	}
+	if ( car.angle > 2 * M_PI ) { car.angle -= 2 * M_PI; }	// keeps our angles within 1 revolution
 
 
 	float velocity_init = car.velocity;					// for position calculation purposes
@@ -71,32 +72,56 @@ void VehicleGLWidget::tick(const float& elapsed)
 	float x = car.pos.x() + 0.5 * (car.velocity + velocity_init) * elapsed * cos(car.angle); // S = Sinit + (1/2) * (V + Vinit) * deltaT
 	float y = car.pos.y() + 0.5 * (car.velocity + velocity_init) * elapsed * sin(car.angle); 
 	
-	const int range = ARENA_SIZE - VEHICLE_LENGTH;
+	const int range = ARENA_SIZE - VEHICLE_LENGTH;	// BUG: VEHICLE_LENGTH needs to be replaced with something that varies by car.angle
 	{
 		const double diff = abs(x) - range;
-		if (diff > 0) {
-			car.velocity *= -ELASTICITY;
-			if (x > 0) {
-				// X is positive; head negative
+		if (diff > 0) {										// collision on the X-axis!
+		car.velocity *= ELASTICITY / 2 ;					// slow the vehicle down -- 2 is arbritrary
+			if (x > 0) {	// get out of the wall
+				// X is positive, head negative to a good position
 				x = range - diff;
 			} else {
-				// X is negative; head positive
+				// X is negative; head positive to a good position
 				x = -range + diff;
 			}
+
+			if ( car.angle < 2 * M_PI /4 && car.angle > 1 * M_PI / 4 ) {	// 
+				car.angle += 2 * M_PI / 4 - car.angle;
+			} else if ( car.angle > 2 * M_PI / 4 && car.angle < 3 * M_PI / 4 ) {
+				car.angle -= 2 * M_PI / 4 - car.angle;
+			} else if ( car.angle < 6 * M_PI / 4 && car.angle > 5 * M_PI / 4 ) {
+				car.angle += 6 * M_PI / 4 - car.angle;
+			} else if ( car.angle > 6 * M_PI / 4 && car.angle < 7 * M_PI / 4 ) {
+				car.angle -= 6 * M_PI / 4 - car.angle;
+			} else {
+				car.velocity /= -2;  // bounce backwards with the correct "elasticity"
+			}
+
 		}
 		car.pos.setX(x);
 	}
 	{
 		const double diff = abs(y) - range;
-		if (diff > 0) {
-			car.velocity *= -ELASTICITY;
+		if (diff > 0) {										// collision on the Y-axis!
+			car.velocity *= ELASTICITY * 2;				// slow the vehicle down -- 2 is arbritrary
 			if (y > 0) {
-				// Y is positive; head negative
+				// Y is positive; head negative to a good position
 				y = range - diff;
 			} else {
-				// Y is negative; head positive
+				// Y is negative; head positive to a good position
 				y = -range + diff;
 			}
+			if ( car.angle < 4 * M_PI /4 && car.angle > 3 * M_PI / 4 ) {	 
+				car.angle += 4 * M_PI / 4 - car.angle;
+			} else if ( car.angle > 4 * M_PI / 4 && car.angle < 5 * M_PI / 4 ) {
+				car.angle -= 4 * M_PI / 4 - car.angle;
+			} else if ( car.angle < 8 * M_PI / 4 && car.angle > 7 * M_PI / 4 ) {
+				car.angle += 8 * M_PI / 4 - car.angle;
+			} else if ( car.angle > 8 * M_PI / 4 && car.angle < 1 * M_PI / 4 ) {
+				car.angle -= 8 * M_PI / 4 - car.angle;
+			} else {
+				car.velocity /= -2; // bounce backwards with the correct "elasticity"
+			}		
 		}
 		car.pos.setY(y);
 	}
