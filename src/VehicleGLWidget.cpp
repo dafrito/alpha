@@ -2,6 +2,18 @@
 #include <QKeyEvent>
 #include <cmath>
 
+// Config 
+const int ACCELERATION = 200;
+const int REVERSE_ACCEL = 75;
+const int DRAG = 0;						
+const int BRAKE_POWER = 1100;
+const float TURN_SPEED = 1;				
+const float ELASTICITY = .4;		// Bounciness after collisions
+// end Config
+
+
+
+
 // All values are half-size.
 const int VEHICLE_LENGTH = 30;
 const int VEHICLE_WIDTH = 15;
@@ -27,21 +39,21 @@ void VehicleGLWidget::tick(const float& elapsed)
 {
 	float accel = 0;
 	if (pad.accelerator && pad.brake) {
-		accel = -125;
+		accel =  REVERSE_ACCEL;
 	} else if (pad.accelerator) {
-		accel = 250;
+		accel = ACCELERATION;
 	} else if (abs(car.velocity) > 10) {
 		const float dir = car.velocity > 0 ? -1 : 1;
-		const float friction = pad.brake ? 1500 : 50;
+		const float friction = pad.brake ? BRAKE_POWER : DRAG;
 		accel = dir * friction;
 	} else {
 		car.velocity = 0;
 	}
 	if (pad.left && !pad.right) {
-		car.angle += M_PI * elapsed;
+		car.angle += M_PI * elapsed * TURN_SPEED;
 	}
 	if (pad.right && !pad.left) {
-		car.angle -= M_PI * elapsed;
+		car.angle -= M_PI * elapsed * TURN_SPEED;
 	}
 	float x = elapsed * cos(car.angle) * (.5 * accel * elapsed + car.velocity) + car.pos.x();
 	float y = elapsed * sin(car.angle) * (.5 * accel * elapsed + car.velocity) + car.pos.y();
@@ -52,7 +64,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 	{
 		const double diff = abs(x) - range;
 		if (diff > 0) {
-			car.velocity *= -.2;
+			car.velocity *= -ELASTICITY;
 			if (x > 0) {
 				// X is positive; head negative
 				x = range - diff;
@@ -66,7 +78,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 	{
 		const double diff = abs(y) - range;
 		if (diff > 0) {
-			car.velocity *= -.2;
+			car.velocity *= -ELASTICITY;
 			if (y > 0) {
 				// Y is positive; head negative
 				y = range - diff;
