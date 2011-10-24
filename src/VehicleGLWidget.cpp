@@ -2,14 +2,14 @@
 #include <QKeyEvent>
 #include <cmath>
 
-// Config 
+// Config
 const float MAXSPEED = 900;
 const float REV_MAXSPEED = 400;
 const int ACCELERATION = 250;
 const int REV_ACCEL = 160;
-const int DRAG = 70;						
+const int DRAG = 70;
 const int BRAKE_POWER = 1100;
-const float TURN_SPEED = 1;				
+const float TURN_SPEED = 1;
 const float ELASTICITY = .3;		// Bounciness after collisions
 // end Config
 
@@ -44,8 +44,10 @@ void VehicleGLWidget::tick(const float& elapsed)
 
 	float accel = 0;
 	const float dir = car.velocity > 0 ? -1 : 1;	// if car.velocity > 0 then dir = -1 else dir = 1
-	const float friction = pad.brake ? dir * (BRAKE_POWER + DRAG) : dir * DRAG; // activate an opposing force
-	const float antiVelocity = friction * elapsed;	// reducing speeds is easier than manipulating negative acceleration
+	// create a force that wants to keep the car from moving
+	const float friction = pad.brake ? dir * (BRAKE_POWER + DRAG) : dir * DRAG;
+	// reducing speeds is easier than manipulating negative accelleration
+	const float antiVelocity = friction * elapsed;
 
 	if (pad.accelerator) {
 		accel = ACCELERATION;
@@ -62,22 +64,24 @@ void VehicleGLWidget::tick(const float& elapsed)
 	if ( car.angle > 2 * M_PI ) { car.angle -= 2 * M_PI; }	// keeps our angles within 1 revolution
 
 
-	float velocity_init = car.velocity;					// for position calculation purposes
-	car.velocity += accel * elapsed;					// the equations with acceleration would lead to a wrong result when moving at maxspeed
-	car.velocity = abs(car.velocity) > abs(antiVelocity) ? car.velocity + antiVelocity : 0 ;		
+	float velocity_init = car.velocity; // for position calculation purposes
+	// the equations with acceleration would lead to a wrong result when moving at maxspeed
+	car.velocity += accel * elapsed;
+	car.velocity = abs(car.velocity) > abs(antiVelocity) ? car.velocity + antiVelocity : 0 ;
 
 	if (car.velocity > car.maxspeed) {car.velocity = car.maxspeed; }	// no going over maxspeed
 	else if (car.velocity < car.rev_maxspeed) { car.velocity = car.rev_maxspeed; }
 
-	float x = car.pos.x() + 0.5 * (car.velocity + velocity_init) * elapsed * cos(car.angle); // S = Sinit + (1/2) * (V + Vinit) * deltaT
-	float y = car.pos.y() + 0.5 * (car.velocity + velocity_init) * elapsed * sin(car.angle); 
-	
-	const int range = ARENA_SIZE - VEHICLE_LENGTH;	// BUG: VEHICLE_LENGTH needs to be replaced with something that varies by car.angle
+	// S = Sinit + (1/2) * (V + Vinit) * deltaT
+	float x = car.pos.x() + 0.5 * (car.velocity + velocity_init) * elapsed * cos(car.angle);
+	float y = car.pos.y() + 0.5 * (car.velocity + velocity_init) * elapsed * sin(car.angle);
+	// TODO make range take the vehicles angle into account
+	const int range = ARENA_SIZE - VEHICLE_LENGTH;
 	{
 		const double diff = abs(x) - range;
-		if (diff > 0) {										// collision on the X-axis!
-		car.velocity *= ELASTICITY / 2 ;					// slow the vehicle down -- 2 is arbritrary
-			if (x > 0) {	// get out of the wall
+		if (diff > 0) { // collision on the X-axis!
+		car.velocity *= ELASTICITY / 2 ; // slow the vehicle down XXX 2 is arbritrary
+			if (x > 0) { // get out of the wall
 				// X is positive, head negative to a good position
 				x = range - diff;
 			} else {
@@ -85,7 +89,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 				x = -range + diff;
 			}
 
-			if ( car.angle < 2 * M_PI /4 && car.angle > 1 * M_PI / 4 ) {	// 
+			if ( car.angle < 2 * M_PI /4 && car.angle > 1 * M_PI / 4 ) {
 				car.angle += 2 * M_PI / 4 - car.angle;
 			} else if ( car.angle > 2 * M_PI / 4 && car.angle < 3 * M_PI / 4 ) {
 				car.angle -= 2 * M_PI / 4 - car.angle;
@@ -94,7 +98,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 			} else if ( car.angle > 6 * M_PI / 4 && car.angle < 7 * M_PI / 4 ) {
 				car.angle -= 6 * M_PI / 4 - car.angle;
 			} else {
-				car.velocity /= -2;  // bounce backwards with the correct "elasticity"
+				car.velocity /= -2; // bounce backwards with the correct "elasticity"
 			}
 
 		}
@@ -102,8 +106,8 @@ void VehicleGLWidget::tick(const float& elapsed)
 	}
 	{
 		const double diff = abs(y) - range;
-		if (diff > 0) {										// collision on the Y-axis!
-			car.velocity *= ELASTICITY * 2;				// slow the vehicle down -- 2 is arbritrary
+		if (diff > 0) { // collision on the Y-axis!
+			car.velocity *= ELASTICITY * 2; // slow the vehicle down XXX 2 is arbritrary
 			if (y > 0) {
 				// Y is positive; head negative to a good position
 				y = range - diff;
@@ -111,7 +115,8 @@ void VehicleGLWidget::tick(const float& elapsed)
 				// Y is negative; head positive to a good position
 				y = -range + diff;
 			}
-			if ( car.angle < 4 * M_PI /4 && car.angle > 3 * M_PI / 4 ) {	 
+
+			if ( car.angle < 4 * M_PI /4 && car.angle > 3 * M_PI / 4 ) {
 				car.angle += 4 * M_PI / 4 - car.angle;
 			} else if ( car.angle > 4 * M_PI / 4 && car.angle < 5 * M_PI / 4 ) {
 				car.angle -= 4 * M_PI / 4 - car.angle;
@@ -121,7 +126,7 @@ void VehicleGLWidget::tick(const float& elapsed)
 				car.angle -= 8 * M_PI / 4 - car.angle;
 			} else {
 				car.velocity /= -2; // bounce backwards with the correct "elasticity"
-			}		
+			}
 		}
 		car.pos.setY(y);
 	}
