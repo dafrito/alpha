@@ -54,7 +54,7 @@ HEADERS *= LuaGLDemo.h
 HEADERS *= Object.h
 
 SOURCES *= GLWidget.cpp
-SOURCES *= demos.cpp
+SOURCES *= main.cpp
 SOURCES *= Logo.cpp
 SOURCES *= LogoGLWidget.cpp
 SOURCES *= RotatableGLDemo.cpp
