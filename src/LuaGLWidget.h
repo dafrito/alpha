@@ -1,47 +1,88 @@
 #ifndef LUAGLWIDGET_H
 #define LUAGLWIDGET_H
 
+#include <QVector3D>
+
 #include "GLWidget.h"
 #include "Lua.hpp"
 #include "MeasuredTimer.h"
 
-class Square : public QObject
-{
-	Q_OBJECT
-	Q_PROPERTY(double x READ getX WRITE setX)
-public:
-	double x, y;
-	void setX(double x)
-	{
-		this->x = x;
-	}
-
-	double getX()
-	{
-		return x;
-	}
-
-	void setY(double y)
-	{
-		this->y = y;
-	}
-
-	double getY()
-	{
-		return y;
-	}
-};
+using namespace std;
 
 class LuaGLWidget : public GLWidget
 {
 	Q_OBJECT
-	Lua lua;
-	MeasuredTimer timer;
-	Square square;
+	MeasuredTimer* const timer;
+
+	static const int HALFSIZE=100;
+
+	static const int SCALE=8;
+
+	float heights[HALFSIZE*2][HALFSIZE*2];
 public:
-	LuaGLWidget();
+	LuaGLWidget(QWidget* const parent = 0);
+
+	template <typename T>
+	void update(T& func)
+	{
+		for (int y = -HALFSIZE; y < HALFSIZE; y++) {
+			for (int x = -HALFSIZE; x < HALFSIZE; x++) {
+				set(x, y, func(x, y));
+			}
+		}
+	}
+
+private:
+	
+	QVector3D normal(int x, int y)
+	{
+		QVector3D a(x, SCALE*get(x, y), y);
+		QVector3D b(x, SCALE*get(x, y+1), y+1);
+		QVector3D c(x+1, SCALE*get(x+1, y+1), y+1);
+		return QVector3D::normal(a - b, b - c);
+	}
+
+	QVector3D average(const QVector3D& a, const QVector3D& b)
+	{
+		QVector3D r;
+		r.setX((a.x() + b.x()) / 2);
+		r.setY((a.y() + b.y()) / 2);
+		r.setZ((a.z() + b.z()) / 2);
+		return r;
+	}
+
+	void renderVertex(const QVector3D& vec)
+	{
+		glVertex3f(vec.x(), vec.y(), vec.z());
+	}
+
+	void renderNormal(const QVector3D& vec)
+	{
+		glNormal3f(vec.x(), vec.y(), vec.z());
+	}
+
+	void validate(int& x, int& y)
+	{
+		x = max(0, min(x + HALFSIZE, HALFSIZE * 2 - 1));
+		y = max(0, min(y + HALFSIZE, HALFSIZE * 2 - 1));
+	}
+	
+	void set(int x, int y, float value)
+	{
+		validate(x, y);
+		heights[y][x] = value;
+	}
+
+	float get(int x, int y)
+	{
+		validate(x, y);
+		return heights[y][x];
+	}
+
 protected:
 	void render();
+	void initializeGL();
+	void resizeGL(int width, int height);
 private slots:
 	void tick(const float& elapsed);
 };
