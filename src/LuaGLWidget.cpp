@@ -27,4 +27,3 @@ void LuaGLWidget::render()
 	glColor3f(1, 0, 0);
 	glutSolidCube(40);
 }
-
