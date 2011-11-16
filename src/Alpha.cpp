@@ -104,15 +104,14 @@ void Alpha::resizeGL(int width, int height)
 
 void Alpha::paintGL()
 {
-	glClear(GL_COLOR_BUFFER_BIT); // Clears the view
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clears the view
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	applyRotation();
 
-	//glEnable(GL_DEPTH_TEST); // XXX: figure out why this causes flickering
-	//glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
 	glEnable(GL_CULL_FACE);
-	//glCullFace(GL_FRONT);
 
 	// draw the player's cube
 	glRotatef(player.yaw * 180 / M_PI, 0, 0, 1);
