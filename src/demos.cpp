@@ -19,6 +19,7 @@
 #include "FilmRollGLWidget.h"
 #include "VehicleGLWidget.h"
 #include "LuaGLWidget.h"
+#include "Alpha.h"
 
 int main(int argc, char *argv[])
 {
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
 	demoStack.addTab(&triangleDemo, "Triangle");
 
 	TriangleStripGLWidget triangleStripDemo;
-	demoStack.addTab(&triangleStripDemo, "Triangle Strip");	
+	demoStack.addTab(&triangleStripDemo, "Triangle Strip");
 
 	StarGLDemo starDemo;
 	demoStack.addTab(&starDemo, "Star");
@@ -76,6 +77,9 @@ int main(int argc, char *argv[])
 
 	VehicleGLWidget vehicleDemo;
 	demoStack.addTab(&vehicleDemo, "Vehicle");
+
+	Alpha alphaDemo;
+	demoStack.addTab(&alphaDemo, "Alpha");
 
 	// Display most recently added tab.
 	demoStack.setCurrentIndex(demoStack.count() -1);

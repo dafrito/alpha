@@ -42,6 +42,7 @@ HEADERS *= TorusGLWidget.h
 HEADERS *= FilmRollGLWidget.h
 HEADERS *= VehicleGLWidget.h
 HEADERS *= LuaGLWidget.h
+HEADERS *= Alpha.h
 
 SOURCES *= GLWidget.cpp
 SOURCES *= demos.cpp
@@ -59,3 +60,4 @@ SOURCES *= StarGLWidget.cpp
 SOURCES *= StarGLDemo.cpp
 SOURCES *= VehicleGLWidget.cpp
 SOURCES *= LuaGLWidget.cpp
+SOURCES *= Alpha.cpp
