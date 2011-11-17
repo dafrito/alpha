@@ -111,21 +111,14 @@ void Alpha::resizeGL(int width, int height)
 
 void Alpha::paintGL()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clears the view
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	applyRotation();
 
-
-
-	//glCullFace(GL_FRONT);
-
-
-
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
+	glEnable(GL_CULL_FACE);
 
 	// The world
 	glPushMatrix();
