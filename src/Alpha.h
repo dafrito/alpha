@@ -7,9 +7,10 @@
 
 struct Player //TODO: understand why these are made like this
 {
-	Player() : velocity(0), yaw(0), pitch(0), roll(0) {}
+	Player() : velocity(0), vvelocity(0), yaw(0), pitch(0), roll(0){}
 	QVector3D pos;
 	float velocity;
+	float vvelocity; // XXX: need to combine into 1 true velocity
 	float yaw;
 	float pitch;
 	float roll;
@@ -80,7 +81,7 @@ protected:
 	void keyReleaseEvent(QKeyEvent* event);
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
-		// We scale rotation such that 1 unit of xRot, yRot, or zRot is
+	// We scale rotation such that 1 unit of xRot, yRot, or zRot is
 	// equal to 1/ROTATION_SCALE degrees. Therefore, when you want to
 	// set rotation, you need to multiply by this scale to get expected
 	// results:

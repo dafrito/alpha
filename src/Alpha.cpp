@@ -1,7 +1,7 @@
 #include "Alpha.h"
 #include <QKeyEvent>
 #include <cmath>
-
+#include <GL/glut.h>
 
 // Config
 const float TURN_SPEED = 1;
@@ -18,12 +18,13 @@ Alpha::Alpha(QWidget* const parent) :
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
 	timer.startOnShow(this);
 	player.pos.setZ(10);
+	player.yaw = M_PI / 2;
 }
 
 void Alpha::tick(const float& elapsed)
 {
 	float velocity_init = player.velocity; // for position calculation purposes
-
+	float vvelocity_init = player.vvelocity;
 	if (pad.forward) {
 		player.velocity = PLAYER_FWD;
 	} else if (pad.backward) {
@@ -31,35 +32,41 @@ void Alpha::tick(const float& elapsed)
 	} else {
 		player.velocity = 0;
 	}
-
+	if (pad.up) {
+		player.vvelocity = PLAYER_FWD;
+	} else if (pad.down) {
+		player.vvelocity = -PLAYER_BWD;
+	} else {
+		player.vvelocity = 0;
+	}
 	if (pad.yawleft && !pad.yawright) {
-		player.yaw -= M_PI * elapsed * TURN_SPEED;
+		player.yaw += M_PI * elapsed * TURN_SPEED;
 	}
 	if (pad.yawright && !pad.yawleft) {
-		player.yaw += M_PI * elapsed * TURN_SPEED;
+		player.yaw -= M_PI * elapsed * TURN_SPEED;
 	}
 
 	if (pad.pitchup && !pad.pitchdown) {
-		player.pitch += M_PI * elapsed * TURN_SPEED;
+		player.pitch -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
 	}
 	if (pad.pitchdown && !pad.pitchup) {
-		player.pitch -= M_PI * elapsed * TURN_SPEED;
+		player.pitch += M_PI * elapsed * TURN_SPEED;
 	}
 
 	if ( player.yaw >= 2 * M_PI ) { player.yaw -= 2 * M_PI; } // TODO: turn this into 1 normalize function
 	else if (player.yaw <=  0 ) { player.yaw += 2 * M_PI; }	// keeps our angles within 1 revolution
 
-	if ( player.pitch >= 2 * M_PI ) { player.pitch -= 2 * M_PI; } // TODO: turn this into 1 normalize function
+	if ( player.pitch >= 2 * M_PI ) { player.pitch -= 2 * M_PI; }
 	else if (player.pitch <=  0 ) { player.pitch += 2 * M_PI; }	// keeps our angles within 1 revolution
 
 	// S = Sinit + (1/2) * (V + Vinit) * deltaT
-	float x = player.pos.x() + 0.5 * (player.velocity + velocity_init) * elapsed * cos(player.yaw);
-	float y = player.pos.y() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(player.yaw);
-	float z; // TODO: use this;
+	float x = player.pos.x() + 0.5 * (player.velocity + velocity_init) * elapsed * cos(player.yaw) * cos(player.pitch);
+	float y = player.pos.y() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(player.yaw) * cos(player.pitch);
+	float z = player.pos.z() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(-player.pitch);
 
 	player.pos.setX(x);
 	player.pos.setY(y);
-
+	player.pos.setZ(z);
 
 }
 
@@ -67,7 +74,7 @@ void Alpha::tick(const float& elapsed)
 void Alpha::initializeGL()
 {
 	glClearColor(0.4,0.6,1,0);	// background: r,g,b,a
-	setXRotation(130);
+	setXRotation(-90);
 	setYRotation(0);
 	setZRotation(0);
 }
@@ -104,35 +111,73 @@ void Alpha::resizeGL(int width, int height)
 
 void Alpha::paintGL()
 {
-	glClear(GL_COLOR_BUFFER_BIT); // Clears the view
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	applyRotation();
 
-	//glEnable(GL_DEPTH_TEST); // XXX: figure out why this causes flickering
-	//glDepthMask(GL_TRUE);
-	glEnable(GL_CULL_FACE);
+
+
 	//glCullFace(GL_FRONT);
 
-	// draw the player's cube
-	glRotatef(player.yaw * 180 / M_PI, 0, 0, 1);
-	glRotatef(player.pitch * 180 /M_PI, 0,1,0);
-	glBegin(GL_QUADS);
-	{
 
+
+
+	// The world
+	glPushMatrix();
+	{
+		glTranslatef(-player.pos.x(), -player.pos.y(), -player.pos.z()); // move the world, not the camera
+		glBegin(GL_QUADS);
+		glColor3f(0.1f, 0.65f, 0.1f);
+
+		glVertex3f( 100.0f, 100.0f, 0.0f); // Top Right
+		glVertex3f(-100.0f, 100.0f, 0.0f); // Top Left
+		glVertex3f(-100.0f,-100.0f, 0.0f); // Bottom Left
+		glVertex3f( 100.0f,-100.0f, 0.0f); // Bottom Right
+
+		glEnd();
+		// for bearing
+		glPushMatrix();
+		{
+			glTranslatef(0.0f,90.0f,10.0f);
+			glColor3f(1.0f,1.0f,0.0f);
+			glutWireSphere(10, 15, 15);
+		}
+		glPopMatrix();
+		glPushMatrix();
+		{
+			glTranslatef(-90.0f,0.0f,10.0f);
+			glColor3f(1.0f,0.0f,1.0f);
+			glutWireSphere(10, 15, 15);
+		}
+		glPopMatrix();
+	}
+	glPopMatrix();
+
+	// draw the player's cube
+	//glTranslatef(player.pos.x(), player.pos.y(), player.pos.z());
+	glPushMatrix();
+	{
+		glRotatef(player.yaw * 180 / M_PI, 0, 0, 1);
+		glRotatef(player.pitch * 180 /M_PI, 0,1,0);
+
+		glBegin(GL_QUADS);
 		// TOP is BLACK
 		glColor3f(0.0f,0.0f,0.0f);
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Bottom Left
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Bottom Right
-		// BOTTOM is WHITE
+			// BOTTOM is WHITE
 		glColor3f(1.0f,1.0f,1.0f);
 		glVertex3f(-4.0f, 4.0f, -4.0f); // Top Right
 		glVertex3f( 4.0f, 4.0f, -4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f, -4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f, -4.0f); // Bottom Right
-
 		// BACK is RED
 		glColor3f(1.0f,0.0f,0.0f);
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Right
@@ -156,26 +201,10 @@ void Alpha::paintGL()
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Left
 		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Right
-	}
-	glEnd();
-
-	// draw the ground
-	glPushMatrix();
-	{
-		glTranslatef(player.pos.x(), player.pos.y(), player.pos.z()); // move the world, not the camera
-		glBegin(GL_QUADS);
-		{
-			glColor3f(0.1f, 0.65f, 0.1f);
-			// XXX: This is all backwards
-			glVertex3f(-80.0f, 80.0f, 0.0f); // Top Left
-			glVertex3f( 80.0f, 80.0f, 0.0f); // Top Right
-			glVertex3f( 80.0f,-80.0f, 0.0f); // Bottom Right
-			glVertex3f(-80.0f,-80.0f, 0.0f); // Bottom Left
-
-		}
 		glEnd();
 	}
 	glPopMatrix();
+
 }
 
 void Alpha::keyPressEvent(QKeyEvent* event)
@@ -187,8 +216,8 @@ void Alpha::keyPressEvent(QKeyEvent* event)
 		case Qt::Key_D: pad.yawright = true; break;
 		case Qt::Key_Space: pad.up = true; break;
 		case Qt::Key_X: pad.down = true; break;
-		case Qt::Key_Q: pad.pitchup = true; break;
-		case Qt::Key_E: pad.pitchdown = true; break;
+		case Qt::Key_E: pad.pitchup = true; break;
+		case Qt::Key_Q: pad.pitchdown = true; break;
 		default: // TODO: have frito explain where the esc key is bound to close()
 			QGLWidget::keyPressEvent(event);
 	}
@@ -203,8 +232,8 @@ void Alpha::keyReleaseEvent(QKeyEvent* event)
 		case Qt::Key_D: pad.yawright = false; break;
 		case Qt::Key_Space: pad.up = false; break;
 		case Qt::Key_X: pad.down = false; break;
-		case Qt::Key_Q: pad.pitchup = false; break;
-		case Qt::Key_E: pad.pitchdown = false; break;
+		case Qt::Key_E: pad.pitchup = false; break;
+		case Qt::Key_Q: pad.pitchdown = false; break;
 		default:
 			QGLWidget::keyPressEvent(event);
 	}
@@ -225,10 +254,9 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 
 	if (event->buttons() & Qt::LeftButton) {
 		setScaledXRotation(xRot + dy * Alpha::ROTATION_SCALE / 2);
-		setScaledYRotation(yRot + dx * Alpha::ROTATION_SCALE / 2);
-	} else if (event->buttons() & Qt::RightButton) {
-		setScaledXRotation(xRot + dy * Alpha::ROTATION_SCALE / 2);
 		setScaledZRotation(zRot + dx * Alpha::ROTATION_SCALE / 2);
+	} else if (event->buttons() & Qt::RightButton) {
+
 	}
 	lastPos = event->pos();
 }
