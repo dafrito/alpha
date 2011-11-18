@@ -1,4 +1,5 @@
 #include "Alpha.h"
+#include "util.h"
 #include <QKeyEvent>
 #include <cmath>
 #include <GL/glut.h>
@@ -83,27 +84,11 @@ void Alpha::resizeGL(int width, int height)
 {
 	glViewport(0, 0, width, height); // viewport: (startx,starty, width, height)
 
-	const float aspectRatio = (float) height / (float) width;
-	const float range = 100.0;
-	// do not do anything with GL_PROJECTION besides set glOrtho
+	const float aspectRatio = (float) width / height;
+	const float range = 800.0;
 	glMatrixMode(GL_PROJECTION); // determines how the the world is viewed by the user
 	glLoadIdentity(); // set the matrix to an unmodified state
-	if (width <= height) {
-		glOrtho( // clips everything drawn outside the params
-			-range, // left
-			range, // right
-			-range * aspectRatio, // bottom
-			range * aspectRatio, // top
-			2 * -range, // back
-			2 * range); // front
-	} else {
-		glOrtho(
-			-range / aspectRatio,
-			range / aspectRatio, -range,
-			range,
-			2 * -range,
-			2 * range);
-	}
+	nt::setGLFrustrum(60, aspectRatio, 1, range);
 	glMatrixMode(GL_MODELVIEW); // the world and where it is viewed from
 	glLoadIdentity(); // set the matrix to an unmodified state
 }
