@@ -1,6 +1,7 @@
 #include "Alpha.h"
 #include "util.h"
 #include <QKeyEvent>
+#include <QWheelEvent>
 #include <cmath>
 #include <GL/glut.h>
 
@@ -8,6 +9,15 @@
 const float TURN_SPEED = 1;
 const float PLAYER_FWD = 50;
 const float PLAYER_BWD = 30;
+const float FOV = 65;
+const float viewDistance = 800;
+
+const float camRadius = 100;
+const float camZoomSpeed = 5; // a multiplier
+const float camSpeed = 1; // a multiplier
+
+
+
 // end Config
 
 Alpha::Alpha(QWidget* const parent) :
@@ -20,12 +30,14 @@ Alpha::Alpha(QWidget* const parent) :
 	timer.startOnShow(this);
 	player.pos.setZ(10);
 	player.yaw = M_PI / 2;
+	player.camRadius = camRadius;
+	player.camZoomSpeed = camZoomSpeed;
+	player.camSpeed = camSpeed;
 }
 
 void Alpha::tick(const float& elapsed)
 {
 	float velocity_init = player.velocity; // for position calculation purposes
-	float vvelocity_init = player.vvelocity;
 	if (pad.forward) {
 		player.velocity = PLAYER_FWD;
 	} else if (pad.backward) {
@@ -33,13 +45,7 @@ void Alpha::tick(const float& elapsed)
 	} else {
 		player.velocity = 0;
 	}
-	if (pad.up) {
-		player.vvelocity = PLAYER_FWD;
-	} else if (pad.down) {
-		player.vvelocity = -PLAYER_BWD;
-	} else {
-		player.vvelocity = 0;
-	}
+
 	if (pad.yawleft && !pad.yawright) {
 		player.yaw += M_PI * elapsed * TURN_SPEED;
 	}
@@ -47,11 +53,16 @@ void Alpha::tick(const float& elapsed)
 		player.yaw -= M_PI * elapsed * TURN_SPEED;
 	}
 
-	if (pad.pitchup && !pad.pitchdown) {
-		player.pitch -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
+	if (pad.pitchup) {
+		//player.pitch -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
+		pad.pitchup = false;
+		setZRotation(zRot + 90);
 	}
-	if (pad.pitchdown && !pad.pitchup) {
-		player.pitch += M_PI * elapsed * TURN_SPEED;
+	if (pad.pitchdown)  {
+		//player.pitch += M_PI * elapsed * TURN_SPEED;
+		pad.pitchdown = false;
+		setZRotation(zRot-90);
+
 	}
 
 	if ( player.yaw >= 2 * M_PI ) { player.yaw -= 2 * M_PI; } // TODO: turn this into 1 normalize function
@@ -75,9 +86,9 @@ void Alpha::tick(const float& elapsed)
 void Alpha::initializeGL()
 {
 	glClearColor(0.4,0.6,1,0);	// background: r,g,b,a
-	setXRotation(-90);
+	setXRotation(-90); // makes the camera horizontal
 	setYRotation(0);
-	setZRotation(0);
+	setZRotation(90); // makes the camera line up with the player's view
 }
 
 void Alpha::resizeGL(int width, int height)
@@ -85,10 +96,9 @@ void Alpha::resizeGL(int width, int height)
 	glViewport(0, 0, width, height); // viewport: (startx,starty, width, height)
 
 	const float aspectRatio = (float) width / height;
-	const float range = 800.0;
 	glMatrixMode(GL_PROJECTION); // determines how the the world is viewed by the user
 	glLoadIdentity(); // set the matrix to an unmodified state
-	nt::setGLFrustrum(60, aspectRatio, 1, range);
+	nt::setGLFrustrum(FOV, aspectRatio, 1, viewDistance);
 	glMatrixMode(GL_MODELVIEW); // the world and where it is viewed from
 	glLoadIdentity(); // set the matrix to an unmodified state
 }
@@ -99,16 +109,31 @@ void Alpha::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clears the view
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	// originally the z-axis is near to far and we haven't rotated yet
+	glTranslatef(0.0f,0.0f,-player.camRadius); // for 3rd person perspective
 	applyRotation();
+
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 	glEnable(GL_CULL_FACE);
 
+
+
+
+
 	// The world
 	glPushMatrix();
 	{
-		glTranslatef(-player.pos.x(), -player.pos.y(), -player.pos.z()); // move the world, not the camera
+
+		// rotate world around player
+		glRotatef(-player.yaw * 180 / M_PI, 0, 0, 1);
+		glRotatef(-player.pitch * 180 /M_PI, 0,1,0);
+
+
+		// move the world around the player
+		glTranslatef(-player.pos.x(), -player.pos.y(), -player.pos.z());
+
 		glBegin(GL_QUADS);
 		glColor3f(0.1f, 0.65f, 0.1f);
 
@@ -137,11 +162,9 @@ void Alpha::paintGL()
 	glPopMatrix();
 
 	// draw the player's cube
-	//glTranslatef(player.pos.x(), player.pos.y(), player.pos.z());
 	glPushMatrix();
 	{
-		glRotatef(player.yaw * 180 / M_PI, 0, 0, 1);
-		glRotatef(player.pitch * 180 /M_PI, 0,1,0);
+
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
@@ -183,8 +206,10 @@ void Alpha::paintGL()
 	}
 	glPopMatrix();
 
+
 }
 
+// XXX: not set up so you can do single actions on key down
 void Alpha::keyPressEvent(QKeyEvent* event)
 {
 	switch (event->key()) {
@@ -194,9 +219,9 @@ void Alpha::keyPressEvent(QKeyEvent* event)
 		case Qt::Key_D: pad.yawright = true; break;
 		case Qt::Key_Space: pad.up = true; break;
 		case Qt::Key_X: pad.down = true; break;
-		case Qt::Key_E: pad.pitchup = true; break;
-		case Qt::Key_Q: pad.pitchdown = true; break;
-		default: // TODO: have frito explain where the esc key is bound to close()
+		case Qt::Key_E: pad.pitchup = false; break;
+		case Qt::Key_Q: pad.pitchdown = false; break;
+		default: // ???: have frito explain where the esc key is bound to close()
 			QGLWidget::keyPressEvent(event);
 	}
 }
@@ -210,36 +235,60 @@ void Alpha::keyReleaseEvent(QKeyEvent* event)
 		case Qt::Key_D: pad.yawright = false; break;
 		case Qt::Key_Space: pad.up = false; break;
 		case Qt::Key_X: pad.down = false; break;
-		case Qt::Key_E: pad.pitchup = false; break;
-		case Qt::Key_Q: pad.pitchdown = false; break;
+		case Qt::Key_E: pad.pitchup = true; break;
+		case Qt::Key_Q: pad.pitchdown = true; break;
 		default:
-			QGLWidget::keyPressEvent(event);
+			QGLWidget::keyReleaseEvent(event);
 	}
 }
 
+// TODO: prevent the mouse from moving during a press, similar to wow
 void Alpha::mousePressEvent(QMouseEvent *event)
 {
 	lastPos = event->pos();
+	if (event->buttons() & Qt::LeftButton) {
+		pad.leftPress = true;
+	}
+	if (event->buttons() & Qt::RightButton) {
+		pad.rightPress = true;
+	}
 }
-
-/**
- * Interpret the mouse event to rotate the camera around the scene.
- */
+void Alpha::mouseReleaseEvent(QMouseEvent * event)
+{
+	// XXX: why do I have to use event->button() here?
+	if (event->button() & Qt::LeftButton) {
+		pad.leftPress = false;
+	}
+	if (event->button() & Qt::RightButton) {
+		pad.rightPress = false;
+	}
+}
+// Rotates the camera about the player
 void Alpha::mouseMoveEvent(QMouseEvent *event)
 {
 	int dx = event->x() - lastPos.x();
 	int dy = event->y() - lastPos.y();
 
 	if (event->buttons() & Qt::LeftButton) {
-		setScaledXRotation(xRot + dy * Alpha::ROTATION_SCALE / 2);
-		setScaledZRotation(zRot + dx * Alpha::ROTATION_SCALE / 2);
+		setXRotation(xRot + dy * 0.5 * player.camSpeed);
+		setZRotation(zRot + dx * 0.5 * player.camSpeed);
 	} else if (event->buttons() & Qt::RightButton) {
 
 	}
 	lastPos = event->pos();
 }
+void Alpha::wheelEvent(QWheelEvent *event)
+{
+	int numDegrees = event->delta() / 8;
+	int numSteps = numDegrees / 15;
 
-void Alpha::setScaledXRotation(int angle)
+	if (event->orientation() == Qt::Vertical) {
+		player.camRadius -= numSteps * player.camZoomSpeed;
+	}
+	event->accept();
+}
+
+void Alpha::setXRotation(int angle)
 {
 	qNormalizeAngle(angle);
 	if (angle != xRot) {
@@ -249,7 +298,7 @@ void Alpha::setScaledXRotation(int angle)
 	}
 }
 
-void Alpha::setScaledYRotation(int angle)
+void Alpha::setYRotation(int angle)
 {
 	qNormalizeAngle(angle);
 	if (angle != yRot) {
@@ -259,7 +308,7 @@ void Alpha::setScaledYRotation(int angle)
 	}
 }
 
-void Alpha::setScaledZRotation(int angle)
+void Alpha::setZRotation(int angle)
 {
 	qNormalizeAngle(angle);
 	if (angle != zRot) {
@@ -271,8 +320,7 @@ void Alpha::setScaledZRotation(int angle)
 
 void Alpha::applyRotation() const
 {
-	static const float ROTATION_DENOM = 1 / (float)Alpha::ROTATION_SCALE;
-	glRotatef((float)(xRot) * ROTATION_DENOM, 1.0, 0.0, 0.0);
-	glRotatef((float)(yRot) * ROTATION_DENOM, 0.0, 1.0, 0.0);
-	glRotatef((float)(zRot) * ROTATION_DENOM, 0.0, 0.0, 1.0);
+	glRotatef((float)(xRot), 1.0, 0.0, 0.0);
+	glRotatef((float)(yRot), 0.0, 1.0, 0.0);
+	glRotatef((float)(zRot), 0.0, 0.0, 1.0);
 }

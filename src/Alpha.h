@@ -5,17 +5,21 @@
 #include <QVector3D>
 #include "MeasuredTimer.h"
 
-struct Player //TODO: understand why these are made like this
+struct Player // ???: understand why these are made like this
 {
-	Player() : velocity(0), vvelocity(0), yaw(0), pitch(0), roll(0){}
+	Player() : velocity(0), yaw(0), pitch(0), roll(0),
+	camRadius(100), camZoomSpeed(5), camSpeed(0.9){}
 	QVector3D pos;
 	float velocity;
-	float vvelocity; // XXX: need to combine into 1 true velocity
 	float yaw;
 	float pitch;
 	float roll;
+	float camRadius; // Distance from player
+	float camZoomSpeed; // A multiplier
+	float camSpeed; // a multiplier
 };
 
+// XXX: hardcoded keybinds
 struct KeyBinds
 {
 	bool forward;
@@ -27,6 +31,9 @@ struct KeyBinds
 	bool pitchup; // aim down
 	bool pitchdown; // aim down
 
+	bool leftPress;	// mouse clicks
+	bool rightPress;
+
 	KeyBinds() :
 	forward(false),
 	backward(false),
@@ -35,8 +42,11 @@ struct KeyBinds
 	up(false),
 	down(false),
 	pitchup(false),
-	pitchdown(false)
-	{}
+	pitchdown(false),
+	leftPress(false),
+	rightPress(false)
+	{};
+
 };
 
 class Alpha : public QGLWidget
@@ -50,24 +60,9 @@ class Alpha : public QGLWidget
 public:
 	Alpha(QWidget* const parent = 0);
 public slots:
-	void setXRotation(int angle)
-	{
-		setScaledXRotation(angle * Alpha::ROTATION_SCALE);
-	}
-
-	void setYRotation(int angle)
-	{
-		setScaledYRotation(angle * Alpha::ROTATION_SCALE);
-	}
-
-	void setZRotation(int angle)
-	{
-		setScaledZRotation(angle * Alpha::ROTATION_SCALE);
-	}
-
-	void setScaledXRotation(int angle);
-	void setScaledYRotation(int angle);
-	void setScaledZRotation(int angle);
+	void setXRotation(int angle);
+	void setYRotation(int angle);
+	void setZRotation(int angle);
 signals:
 	void xRotationChanged(int angle);
 	void yRotationChanged(int angle);
@@ -76,25 +71,20 @@ protected:
 	void initializeGL();
 	void paintGL();
 	void resizeGL(int width, int height);
-	void applyRotation() const;
+	void applyRotation() const; // ???: what does const after mean?
 	void keyPressEvent(QKeyEvent* event);
 	void keyReleaseEvent(QKeyEvent* event);
 	void mousePressEvent(QMouseEvent *event);
+	void mouseReleaseEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
-	// We scale rotation such that 1 unit of xRot, yRot, or zRot is
-	// equal to 1/ROTATION_SCALE degrees. Therefore, when you want to
-	// set rotation, you need to multiply by this scale to get expected
-	// results:
-	//
-	// xRot = 45 * ROTATION_SCALE; // xRot is now 45 degrees
-	static const int ROTATION_SCALE = 16;
+	void wheelEvent(QWheelEvent *event);
 
 	void qNormalizeAngle(int &angle) const
 	{
 		while (angle < 0)
-			angle += 360 * Alpha::ROTATION_SCALE;
-		while (angle > 360 * Alpha::ROTATION_SCALE)
-			angle -= 360 * Alpha::ROTATION_SCALE;
+			angle += 360;
+		while (angle > 360)
+			angle -= 360;
 	}
 private:
 	int xRot;
