@@ -28,7 +28,7 @@ struct KeyBinds
 	bool yawright; // turn right
 	bool up;
 	bool down;
-	bool pitchup; // aim down
+	bool pitchup; // aim up
 	bool pitchdown; // aim down
 
 	bool leftPress;	// mouse clicks
@@ -60,18 +60,19 @@ class Alpha : public QGLWidget
 public:
 	Alpha(QWidget* const parent = 0);
 public slots:
-	void setXRotation(int angle);
-	void setYRotation(int angle);
-	void setZRotation(int angle);
+	void setXRotation(float angle);
+	void setYRotation(float angle);
+	void setZRotation(float angle);
 signals:
-	void xRotationChanged(int angle);
-	void yRotationChanged(int angle);
-	void zRotationChanged(int angle);
+	void xRotationChanged(float angle);
+	void yRotationChanged(float angle);
+	void zRotationChanged(float angle);
 protected:
 	void initializeGL();
 	void paintGL();
 	void resizeGL(int width, int height);
-	void applyRotation() const; // ???: what does const after mean?
+	void alphaRotateCamera(float x, float y, float z);
+	void applyRotation() const; // ???: what does the const after mean?
 	void keyPressEvent(QKeyEvent* event);
 	void keyReleaseEvent(QKeyEvent* event);
 	void mousePressEvent(QMouseEvent *event);
@@ -79,7 +80,7 @@ protected:
 	void mouseMoveEvent(QMouseEvent *event);
 	void wheelEvent(QWheelEvent *event);
 
-	void qNormalizeAngle(int &angle) const
+	void qNormalizeAngle(float &angle) const
 	{
 		while (angle < 0)
 			angle += 360;
@@ -87,9 +88,9 @@ protected:
 			angle -= 360;
 	}
 private:
-	int xRot;
-	int yRot;
-	int zRot;
+	float xRot;
+	float yRot;
+	float zRot;
 	QPoint lastPos;
 private slots:
 	void tick(const float& elapsed);
