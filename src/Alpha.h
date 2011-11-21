@@ -8,15 +8,20 @@
 struct Player // ???: understand why these are made like this
 {
 	Player() : velocity(0), facing(0), pitch(0), roll(0),
-	camRadius(100), camZoomSpeed(5), camSpeed(0.9){}
+	camRadius(100), camZoomSpeed(5), camSpeed(0.9),
+	camFreeSpin(false),camRotatePlayer(false), camFollowPlayer(true){}
 	QVector3D pos;
 	float velocity;
 	float facing;
 	float pitch;
 	float roll;
+	// TODO: combine all the camera stuff, including (x,y,z)Rot
 	float camRadius; // Distance from player
 	float camZoomSpeed; // A multiplier
 	float camSpeed; // a multiplier
+	bool camFreeSpin; // Cam spins around player on mouse movements
+	bool camRotatePlayer;
+	bool camFollowPlayer;
 	void limitCamRadius(float &radius ){
 		if (radius < 0) { radius = 0;}
 		if (radius > 800) {radius = 800;}
@@ -38,8 +43,8 @@ struct KeyBinds
 	bool pitchup; // aim up
 	bool pitchdown; // aim down
 
-	bool leftPress;	// mouse clicks
-	bool rightPress;
+	bool leftMouse;	// mouse clicks
+	bool rightMouse;
 
 	KeyBinds() :
 	forward(false),
@@ -52,8 +57,8 @@ struct KeyBinds
 	down(false),
 	pitchup(false),
 	pitchdown(false),
-	leftPress(false),
-	rightPress(false)
+	leftMouse(false),
+	rightMouse(false)
 	{};
 
 };

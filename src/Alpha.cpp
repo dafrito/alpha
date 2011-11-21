@@ -26,7 +26,7 @@ Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this)
 {
-	setFocusPolicy(Qt::ClickFocus); // allows keypresses to passed to the rendered window
+	setFocusPolicy(Qt::ClickFocus); // allows keyMousees to passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
 	timer.startOnShow(this);
@@ -40,9 +40,12 @@ Alpha::Alpha(QWidget* const parent) :
 void Alpha::tick(const float& elapsed)
 {
 	float velocity_init = player.velocity; // for position calculation purposes
-	if (pad.forward) {
+
+	if ((pad.leftMouse && pad.rightMouse) && !pad.backward) {
 		player.velocity = PLAYER_FWD;
-	} else if (pad.backward) {
+	} else if (pad.forward && !pad.backward) {
+		player.velocity = PLAYER_FWD;
+	} else if (pad.backward && !pad.forward && !(pad.leftMouse && pad.rightMouse)) {
 	 	player.velocity = -PLAYER_BWD;
 	} else {
 		player.velocity = 0;
@@ -50,28 +53,22 @@ void Alpha::tick(const float& elapsed)
 
 	if (pad.turnLeft && !pad.turnRight) {
 		player.facing += M_PI * elapsed * TURN_SPEED;
-	}
-	if (pad.turnRight && !pad.turnLeft) {
+	} else if (pad.turnRight && !pad.turnLeft) {
 		player.facing -= M_PI * elapsed * TURN_SPEED;
 	}
 
-	if (pad.up) {
+	// TODO: reimplement this
+	if (pad.up && !pad.down) {
 
-		player.facing = player.facing + (90 - zRot) * toRadians;
-		pad.up = false;
-
-	}
-
-	if (pad.pitchup) {
-		//player.pitch -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
-		pad.pitchup = false;
+	} else if (pad.down && !pad.up) {
 
 	}
-	if (pad.pitchdown)  {
-		//player.pitch += M_PI * elapsed * TURN_SPEED;
-		pad.pitchdown = false;
+	// XXX: pretty broken atm;
+	if (pad.pitchup && !pad.pitchdown) {
+		player.pitch -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
 
-
+	}else if (pad.pitchdown && !pad.pitchup)  {
+		player.pitch += M_PI * elapsed * TURN_SPEED;
 	}
 
 	if ( player.facing >= 2 * M_PI ) { player.facing -= 2 * M_PI; } // TODO: turn this into 1 normalize function
@@ -137,9 +134,9 @@ void Alpha::paintGL()
 	glPushMatrix();
 	{
 
-		if (!pad.leftPress)
+		if (!player.camFreeSpin )
 		{	glRotatef(-player.facing * toDegrees, 0, 0, 1);
-			glRotatef(-player.pitch * toDegrees, 0,1,0);
+			glRotatef(player.pitch * toDegrees, 1,0,0);
 		}
 		// move the world around the player
 		glTranslatef(-player.pos.x(), -player.pos.y(), -player.pos.z());
@@ -174,7 +171,7 @@ void Alpha::paintGL()
 	// draw the player's cube
 	glPushMatrix();
 	{
-		if (pad.leftPress)
+		if ( player.camFreeSpin )
 		{	glRotatef(player.facing * toDegrees, 0, 0, 1);
 			glRotatef(player.pitch * toDegrees, 0,1,0);
 		}
@@ -230,10 +227,10 @@ void Alpha::keyPressEvent(QKeyEvent* event)
 		case Qt::Key_S: pad.backward = true; break;
 		case Qt::Key_A: pad.turnLeft = true; break;
 		case Qt::Key_D: pad.turnRight = true; break;
-		case Qt::Key_Space: pad.up = false; break;
+		case Qt::Key_Space: pad.up = true; break;
 		case Qt::Key_X: pad.down = true; break;
-		case Qt::Key_E: pad.pitchup = false; break;
-		case Qt::Key_Q: pad.pitchdown = false; break;
+		case Qt::Key_E: pad.pitchup = true; break;
+		case Qt::Key_Q: pad.pitchdown = true; break;
 		default: // ???: have frito explain where the esc key is bound to close()
 			QGLWidget::keyPressEvent(event);
 	}
@@ -246,49 +243,68 @@ void Alpha::keyReleaseEvent(QKeyEvent* event)
 		case Qt::Key_S: pad.backward = false; break;
 		case Qt::Key_A: pad.turnLeft = false; break;
 		case Qt::Key_D: pad.turnRight = false; break;
-		case Qt::Key_Space: pad.up = true; break;
+		case Qt::Key_Space: pad.up = false; break;
 		case Qt::Key_X: pad.down = false; break;
-		case Qt::Key_E: pad.pitchup = true; break;
-		case Qt::Key_Q: pad.pitchdown = true; break;
+		case Qt::Key_E: pad.pitchup = false; break;
+		case Qt::Key_Q: pad.pitchdown = false; break;
 		default:
 			QGLWidget::keyReleaseEvent(event);
 	}
 }
 
-// TODO: prevent the mouse cursor from moving during a press, similar to wow
+// TODO: prevent the mouse cursor from moving during a Mouse, similar to wow
 void Alpha::mousePressEvent(QMouseEvent *event)
 {
 	lastPos = event->pos();
 	if (event->button() & Qt::LeftButton) {
-		// we want bothMouse to rotate like rightPress only
-		// so we don't bother activating if rightPress is down
-		if (!pad.rightPress){
+		// we want RotatePlayer to override FreeSpin
+		if (!player.camRotatePlayer){
 			zRot -= player.facing * toDegrees;
-			pad.leftPress = true;
+			// xRot += player.pitch * toDegrees;
+			player.camFreeSpin = true;
+			player.camFollowPlayer = false;
 		}
+		pad.leftMouse = true;
 	}else if (event->button() & Qt::RightButton) {
-		// we want bothMouse to rotate like rightPress only
-		// so we unactivate leftPress if rightPress goes down
-		if (pad.leftPress) {
+		// we want bothMouse to rotate to rotate the player
+		// so we unactivate FreeSpin if rightMouse goes down
+		if (player.camFreeSpin) {
 			zRot += player.facing  * toDegrees;
-			pad.leftPress = false;
+			player.camRotatePlayer = true;
+			player.camFreeSpin = false;
+			player.camFollowPlayer = false;
 		}
 		player.facing += (90 - zRot) * toRadians;
 		zRot = 90;
-		pad.rightPress = true;
+		pad.rightMouse = true;
+		player.camFreeSpin = false;
+		player.camFollowPlayer = false;
+		player.camRotatePlayer = true;
 	}
 }
 void Alpha::mouseReleaseEvent(QMouseEvent * event)
 {
 
 	if (event->button() & Qt::LeftButton) {
-		// don't need to release it unless we consider it pressed
-		if (pad.leftPress){
+		// don't need to undo changes if its already been done by rightMouse
+		if (player.camFreeSpin){
 			zRot += player.facing  * toDegrees;
-			pad.leftPress = false;
+			// xRot -= player.pitch * toDegrees;
+			player.camFreeSpin = false;
+			if( pad.rightMouse ) {
+				player.camRotatePlayer = true;
+			} else {player.camFollowPlayer = true;}
 		}
+		pad.leftMouse = false;
 	}else if (event->button() & Qt::RightButton) {
-		pad.rightPress = false;
+		if (player.camRotatePlayer) {
+			player.camRotatePlayer = false;
+			if (pad.leftMouse) {
+				player.camFreeSpin = true;
+				zRot -= player.facing * toDegrees;
+			} else { player.camFollowPlayer = true;}
+		}
+	pad.rightMouse = false;
 	}
 
 }
