@@ -31,7 +31,7 @@ Alpha::Alpha(QWidget* const parent) :
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
 	timer.startOnShow(this);
 	player.pos.setZ(10);
-	player.yaw = M_PI / 2;
+	player.facing = M_PI / 2;
 	player.camRadius = camRadius;
 	player.camZoomSpeed = camZoomSpeed;
 	player.camSpeed = camSpeed;
@@ -48,16 +48,18 @@ void Alpha::tick(const float& elapsed)
 		player.velocity = 0;
 	}
 
-	if (pad.yawleft && !pad.yawright) {
-		player.yaw += M_PI * elapsed * TURN_SPEED;
+	if (pad.turnLeft && !pad.turnRight) {
+		player.facing += M_PI * elapsed * TURN_SPEED;
 	}
-	if (pad.yawright && !pad.yawleft) {
-		player.yaw -= M_PI * elapsed * TURN_SPEED;
+	if (pad.turnRight && !pad.turnLeft) {
+		player.facing -= M_PI * elapsed * TURN_SPEED;
 	}
 
 	if (pad.up) {
-		player.yaw = player.yaw + (90 - zRot) * toRadians;
+
+		player.facing = player.facing + (90 - zRot) * toRadians;
 		pad.up = false;
+
 	}
 
 	if (pad.pitchup) {
@@ -72,15 +74,15 @@ void Alpha::tick(const float& elapsed)
 
 	}
 
-	if ( player.yaw >= 2 * M_PI ) { player.yaw -= 2 * M_PI; } // TODO: turn this into 1 normalize function
-	else if (player.yaw <=  0 ) { player.yaw += 2 * M_PI; }	// keeps our angles within 1 revolution
+	if ( player.facing >= 2 * M_PI ) { player.facing -= 2 * M_PI; } // TODO: turn this into 1 normalize function
+	else if (player.facing <=  0 ) { player.facing += 2 * M_PI; }	// keeps our angles within 1 revolution
 
 	if ( player.pitch >= 2 * M_PI ) { player.pitch -= 2 * M_PI; }
 	else if (player.pitch <=  0 ) { player.pitch += 2 * M_PI; }	// keeps our angles within 1 revolution
 
 	// S = Sinit + (1/2) * (V + Vinit) * deltaT
-	float x = player.pos.x() + 0.5 * (player.velocity + velocity_init) * elapsed * cos(player.yaw) * cos(player.pitch);
-	float y = player.pos.y() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(player.yaw) * cos(player.pitch);
+	float x = player.pos.x() + 0.5 * (player.velocity + velocity_init) * elapsed * cos(player.facing) * cos(player.pitch);
+	float y = player.pos.y() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(player.facing) * cos(player.pitch);
 	float z = player.pos.z() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(-player.pitch);
 
 	player.pos.setX(x);
@@ -95,7 +97,7 @@ void Alpha::tick(const float& elapsed)
 void Alpha::initializeGL()
 {
 	glClearColor(0.4,0.6,1,0);	// background: r,g,b,a
-	setXRotation(-90); // makes the camera horizontal
+	setXRotation(270); // makes the camera horizontal
 	setYRotation(0);
 	setZRotation(90); // Lines camera up behind player
 }
@@ -118,6 +120,10 @@ void Alpha::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clears the view
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
 	// originally the z-axis is near to far
 	glTranslatef( 0.0f, 0.0f, -player.camRadius);
 	applyRotation();
@@ -132,8 +138,8 @@ void Alpha::paintGL()
 	{
 
 		if (!pad.leftPress)
-		{	glRotatef(-player.yaw * 180 / M_PI, 0, 0, 1);
-			glRotatef(-player.pitch * 180 /M_PI, 0,1,0);
+		{	glRotatef(-player.facing * toDegrees, 0, 0, 1);
+			glRotatef(-player.pitch * toDegrees, 0,1,0);
 		}
 		// move the world around the player
 		glTranslatef(-player.pos.x(), -player.pos.y(), -player.pos.z());
@@ -169,37 +175,37 @@ void Alpha::paintGL()
 	glPushMatrix();
 	{
 		if (pad.leftPress)
-		{	glRotatef(player.yaw * 180 / M_PI, 0, 0, 1);
-			glRotatef(player.pitch * 180 /M_PI, 0,1,0);
+		{	glRotatef(player.facing * toDegrees, 0, 0, 1);
+			glRotatef(player.pitch * toDegrees, 0,1,0);
 		}
-
+		float pAlpha = player.camRadius / 100;
 		glBegin(GL_QUADS);
 		// TOP is BLACK
-		glColor3f(0.0f,0.0f,0.0f);
+		glColor4f(0.0f,0.0f,0.0f, pAlpha);
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Bottom Left
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Bottom Right
 			// BOTTOM is WHITE
-		glColor3f(1.0f,1.0f,1.0f);
+		glColor4f(1.0f,1.0f,1.0f, pAlpha);
 		glVertex3f(-4.0f, 4.0f, -4.0f); // Top Right
 		glVertex3f( 4.0f, 4.0f, -4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f, -4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f, -4.0f); // Bottom Right
 		// BACK is RED
-		glColor3f(1.0f,0.0f,0.0f);
+		glColor4f(1.0f,0.0f,0.0f, pAlpha);
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Right
 		// FRONT is GREEN
-		glColor3f(0.0f,1.0f,0.0f);
+		glColor4f(0.0f,1.0f,0.0f, pAlpha);
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Right
 		// LEFT is BLUE
-		glColor3f(0.0f,0.0f,1.0f);
+		glColor4f(0.0f,0.0f,1.0f, pAlpha);
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Left
@@ -222,8 +228,8 @@ void Alpha::keyPressEvent(QKeyEvent* event)
 	switch (event->key()) {
 		case Qt::Key_W: pad.forward = true; break;
 		case Qt::Key_S: pad.backward = true; break;
-		case Qt::Key_A: pad.yawleft = true; break;
-		case Qt::Key_D: pad.yawright = true; break;
+		case Qt::Key_A: pad.turnLeft = true; break;
+		case Qt::Key_D: pad.turnRight = true; break;
 		case Qt::Key_Space: pad.up = false; break;
 		case Qt::Key_X: pad.down = true; break;
 		case Qt::Key_E: pad.pitchup = false; break;
@@ -238,8 +244,8 @@ void Alpha::keyReleaseEvent(QKeyEvent* event)
 	switch (event->key()) {
 		case Qt::Key_W: pad.forward = false; break;
 		case Qt::Key_S: pad.backward = false; break;
-		case Qt::Key_A: pad.yawleft = false; break;
-		case Qt::Key_D: pad.yawright = false; break;
+		case Qt::Key_A: pad.turnLeft = false; break;
+		case Qt::Key_D: pad.turnRight = false; break;
 		case Qt::Key_Space: pad.up = true; break;
 		case Qt::Key_X: pad.down = false; break;
 		case Qt::Key_E: pad.pitchup = true; break;
@@ -253,27 +259,38 @@ void Alpha::keyReleaseEvent(QKeyEvent* event)
 void Alpha::mousePressEvent(QMouseEvent *event)
 {
 	lastPos = event->pos();
-	// XXX: Holding left mouse and hitting right mouse causes camera to move
-	if (event->buttons() & Qt::LeftButton) {
-		pad.leftPress = true;
-		zRot -= player.yaw * 180 / M_PI;
-	} else if (event->buttons() & Qt::RightButton) {
-		pad.rightPress = true;
-		player.yaw += (90 - zRot) * toRadians;
+	if (event->button() & Qt::LeftButton) {
+		// we want bothMouse to rotate like rightPress only
+		// so we don't bother activating if rightPress is down
+		if (!pad.rightPress){
+			zRot -= player.facing * toDegrees;
+			pad.leftPress = true;
+		}
+	}else if (event->button() & Qt::RightButton) {
+		// we want bothMouse to rotate like rightPress only
+		// so we unactivate leftPress if rightPress goes down
+		if (pad.leftPress) {
+			zRot += player.facing  * toDegrees;
+			pad.leftPress = false;
+		}
+		player.facing += (90 - zRot) * toRadians;
 		zRot = 90;
+		pad.rightPress = true;
 	}
 }
 void Alpha::mouseReleaseEvent(QMouseEvent * event)
 {
-	// ???: why do I have to use event->button() here?
-	if (event->button() & Qt::LeftButton) {
-		pad.leftPress = false;
-		zRot += player.yaw  * 180 / M_PI;
 
-	}
-	if (event->button() & Qt::RightButton) {
+	if (event->button() & Qt::LeftButton) {
+		// don't need to release it unless we consider it pressed
+		if (pad.leftPress){
+			zRot += player.facing  * toDegrees;
+			pad.leftPress = false;
+		}
+	}else if (event->button() & Qt::RightButton) {
 		pad.rightPress = false;
 	}
+
 }
 // Rotates the camera about the player
 void Alpha::mouseMoveEvent(QMouseEvent *event)
@@ -281,12 +298,13 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 	int dx = event->x() - lastPos.x();
 	int dy = event->y() - lastPos.y();
 
-	if (event->buttons() & Qt::LeftButton) {
+	// if both buttons are down we want right click behavior
+	if (event->buttons() & Qt::RightButton) {
+		setXRotation(xRot + dy * 0.5 * player.camSpeed);
+		player.facing -= dx * 0.5 * player.camSpeed * toRadians;
+	}else if (event->buttons() & Qt::LeftButton) {
 		setXRotation(xRot + dy * 0.5 * player.camSpeed);
 		setZRotation(zRot + dx * 0.5 * player.camSpeed);
-	} else if (event->buttons() & Qt::RightButton) {
-		setXRotation(xRot + dy * 0.5 * player.camSpeed);
-		player.yaw -= dx * 0.5 * player.camSpeed * M_PI / 180;
 	}
 	lastPos = event->pos();
 }
@@ -297,6 +315,7 @@ void Alpha::wheelEvent(QWheelEvent *event)
 
 	if (event->orientation() == Qt::Vertical) {
 		player.camRadius -= numSteps * player.camZoomSpeed;
+		player.limitCamRadius(player.camRadius); // XXX: this just looks silly
 	}
 	event->accept();
 }
@@ -304,6 +323,10 @@ void Alpha::wheelEvent(QWheelEvent *event)
 void Alpha::setXRotation(float angle)
 {
 	qNormalizeAngle(angle);
+	// keep us from flipping upside down
+	if ( angle < 90 ) { angle = 0; }
+	else if ( angle < 180 ) {angle = 180;}
+
 	if (angle != xRot) {
 		xRot = angle;
 		emit xRotationChanged(angle);

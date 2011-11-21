@@ -7,16 +7,21 @@
 
 struct Player // ???: understand why these are made like this
 {
-	Player() : velocity(0), yaw(0), pitch(0), roll(0),
+	Player() : velocity(0), facing(0), pitch(0), roll(0),
 	camRadius(100), camZoomSpeed(5), camSpeed(0.9){}
 	QVector3D pos;
 	float velocity;
-	float yaw;
+	float facing;
 	float pitch;
 	float roll;
 	float camRadius; // Distance from player
 	float camZoomSpeed; // A multiplier
 	float camSpeed; // a multiplier
+	void limitCamRadius(float &radius ){
+		if (radius < 0) { radius = 0;}
+		if (radius > 800) {radius = 800;}
+	}
+
 };
 
 // XXX: hardcoded keybinds
@@ -24,8 +29,10 @@ struct KeyBinds
 {
 	bool forward;
 	bool backward;
-	bool yawleft; //turn left
-	bool yawright; // turn right
+	bool turnLeft;
+	bool turnRight;
+	bool strafeLeft;
+	bool strafeRight;
 	bool up;
 	bool down;
 	bool pitchup; // aim up
@@ -37,8 +44,10 @@ struct KeyBinds
 	KeyBinds() :
 	forward(false),
 	backward(false),
-	yawleft(false),
-	yawright(false),
+	turnLeft(false),
+	turnRight(false),
+	strafeLeft(false),
+	strafeRight(false),
 	up(false),
 	down(false),
 	pitchup(false),
@@ -48,7 +57,7 @@ struct KeyBinds
 	{};
 
 };
-
+// TODO: Move xRot, yRot, zRot and related to a more camera related area
 class Alpha : public QGLWidget
 {
 	Q_OBJECT
