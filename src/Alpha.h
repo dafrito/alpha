@@ -9,7 +9,8 @@
 
 struct Player
 {
-	Player() : velocity(0), svelocity(0), facing(M_PI / 2), pitch(0), roll(0), heading(0){}
+	Player() : velocity(0), svelocity(0), facing(M_PI / 2), pitch(0), roll(0), heading(0), defaultAlpha(1),
+	alpha(defaultAlpha){}
 	QVector3D pos;
 	float velocity;
 	float svelocity; // strafing right is positive
@@ -17,6 +18,8 @@ struct Player
 	float pitch;
 	float roll;
 	float heading; // Which direction the player is moving, such as strafing
+	float defaultAlpha;
+	float alpha;
 };
 
 // XXX: hardcoded keybinds
@@ -87,13 +90,19 @@ public:
 
 	Player *target;
 
-	float targetDistance; // Distance from the target
-	void limitCamDistance(float &radius)
-	{
-		if (radius < 0) { radius = 0;}
-		if (radius > 800) {radius = 800;}
-	}
 
+
+	void setTargetDistance(float distance)
+	{
+		if (distance < 0) { distance = 0;}
+		if (distance > 800) {distance = 800;}
+		targetDistance = distance;
+		target->alpha = targetDistance / 100;
+	}
+	float getTargetDistance() {return targetDistance;}
+
+protected:
+	float targetDistance; // Distance from the target
 };
 // TODO: Move xRot, yRot, zRot and related to a more camera related area
 class Alpha : public QGLWidget
@@ -141,8 +150,10 @@ protected:
 	void NewTarget()
 	{
 		if (camera.target == &player){
+			camera.target->alpha = camera.target->defaultAlpha;
 			camera.setTarget(player2);
 		} else {
+			camera.target->alpha = camera.target->defaultAlpha;
 			camera.setTarget(player);
 		}
 	}

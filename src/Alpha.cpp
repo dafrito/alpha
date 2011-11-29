@@ -166,7 +166,7 @@ void Alpha::paintGL()
 
 
 	// originally the z-axis is near to far
-	glTranslatef( 0.0f,0.0f, - camera.targetDistance);
+	glTranslatef( 0.0f,0.0f, - camera.getTargetDistance());
 	applyRotation();
 	// keeps the player in the center of the screen
 	glTranslatef(-camera.target->pos.x(), -camera.target->pos.y(), -camera.target->pos.z());
@@ -216,36 +216,33 @@ void Alpha::paintGL()
 		glRotatef(player.facing * toDegrees, 0, 0, 1);
 		glRotatef(player.pitch * toDegrees, 0,1,0);
 
-
-
-		float pAlpha = 1;// camera.targetDistance / 100;
 		glBegin(GL_QUADS);
 		// TOP is BLACK
-		glColor4f(0.0f,0.0f,0.0f, pAlpha);
+		glColor4f(0.0f,0.0f,0.0f, player.alpha);
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Bottom Left
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Bottom Right
 			// BOTTOM is WHITE
-		glColor4f(1.0f,1.0f,1.0f, pAlpha);
+		glColor4f(1.0f,1.0f,1.0f, player.alpha);
 		glVertex3f(-4.0f, 4.0f, -4.0f); // Top Right
 		glVertex3f( 4.0f, 4.0f, -4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f, -4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f, -4.0f); // Bottom Right
 		// BACK is RED
-		glColor4f(1.0f,0.0f,0.0f, pAlpha);
+		glColor4f(1.0f,0.0f,0.0f, player.alpha);
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Right
 		// FRONT is GREEN
-		glColor4f(0.0f,1.0f,0.0f, pAlpha);
+		glColor4f(0.0f,1.0f,0.0f, player.alpha);
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Right
 		// LEFT is BLUE
-		glColor4f(0.0f,0.0f,1.0f, pAlpha);
+		glColor4f(0.0f,0.0f,1.0f, player.alpha);
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Left
@@ -269,36 +266,33 @@ void Alpha::paintGL()
 		glRotatef(player2.facing * toDegrees, 0, 0, 1);
 		glRotatef(player2.pitch * toDegrees, 0,1,0);
 
-
-
-		float p2Alpha = 1; //camera.targetDistance / 100;
 		glBegin(GL_QUADS);
 		// TOP is BLACK
-		glColor4f(0.0f,0.0f,0.0f, p2Alpha);
+		glColor4f(0.0f,0.0f,0.0f, player2.alpha);
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Bottom Left
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Bottom Right
 			// BOTTOM is WHITE
-		glColor4f(1.0f,1.0f,1.0f, p2Alpha);
+		glColor4f(1.0f,1.0f,1.0f, player2.alpha);
 		glVertex3f(-4.0f, 4.0f, -4.0f); // Top Right
 		glVertex3f( 4.0f, 4.0f, -4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f, -4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f, -4.0f); // Bottom Right
 		// BACK is RED
-		glColor4f(1.0f,0.0f,0.0f, p2Alpha);
+		glColor4f(1.0f,0.0f,0.0f, player2.alpha);
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Right
 		// FRONT is GREEN
-		glColor4f(0.0f,1.0f,0.0f, p2Alpha);
+		glColor4f(0.0f,1.0f,0.0f, player2.alpha);
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Right
 		// LEFT is BLUE
-		glColor4f(0.0f,0.0f,1.0f, p2Alpha);
+		glColor4f(0.0f,0.0f,1.0f, player2.alpha);
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Left
@@ -408,8 +402,7 @@ void Alpha::wheelEvent(QWheelEvent *event)
 	int numSteps = numDegrees / 15;
 
 	if (event->orientation() == Qt::Vertical) {
-		camera.targetDistance -= numSteps * camera.zoomSpeed;
-		camera.limitCamDistance(camera.targetDistance); // XXX: this just looks silly
+		camera.setTargetDistance ( camera.getTargetDistance() - numSteps * camera.zoomSpeed );
 	}
 	event->accept();
 }
