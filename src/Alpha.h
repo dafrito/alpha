@@ -4,17 +4,20 @@
 #include <QGLWidget>
 #include <QVector3D>
 #include "MeasuredTimer.h"
+#include <cmath>
 
-struct Player // ???: understand why these are made like this
+struct Player
 {
-	Player() : velocity(0), facing(0), pitch(0), roll(0),
+	Player() : velocity(0), svelocity(0), facing(M_PI / 2), pitch(0), roll(0), heading(0),
 	camRadius(100), camZoomSpeed(5), camSpeed(0.9),
 	camFreeSpin(false),camRotatePlayer(false), camFollowPlayer(true){}
 	QVector3D pos;
 	float velocity;
+	float svelocity; // strafing right is positive
 	float facing;
 	float pitch;
 	float roll;
+	float heading; // Which direction the player is moving, such as strafing
 	// TODO: combine all the camera stuff, including (x,y,z)Rot
 	float camRadius; // Distance from player
 	float camZoomSpeed; // A multiplier

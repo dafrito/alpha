@@ -2,13 +2,12 @@
 #include "util.h"
 #include <QKeyEvent>
 #include <QWheelEvent>
-#include <cmath>
 #include <GL/glut.h>
 
 // Config
 const float TURN_SPEED = 1;
-const float PLAYER_FWD = 50;
-const float PLAYER_BWD = 30;
+const float PLAYER_MOVESPEED = 50;
+const float PLAYER_BWD = 0.7; // how fast you move backwards compared to forwards
 const float FOV = 65;
 const float viewDistance = 800;
 
@@ -26,12 +25,11 @@ Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this)
 {
-	setFocusPolicy(Qt::ClickFocus); // allows keyMousees to passed to the rendered window
+	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
 	timer.startOnShow(this);
 	player.pos.setZ(10);
-	player.facing = M_PI / 2;
 	player.camRadius = camRadius;
 	player.camZoomSpeed = camZoomSpeed;
 	player.camSpeed = camSpeed;
@@ -40,22 +38,43 @@ Alpha::Alpha(QWidget* const parent) :
 void Alpha::tick(const float& elapsed)
 {
 	float velocity_init = player.velocity; // for position calculation purposes
+	float svelocity_init = player.svelocity;
 
-	if ((pad.leftMouse && pad.rightMouse) && !pad.backward) {
-		player.velocity = PLAYER_FWD;
-	} else if (pad.forward && !pad.backward) {
-		player.velocity = PLAYER_FWD;
-	} else if (pad.backward && !pad.forward && !(pad.leftMouse && pad.rightMouse)) {
-	 	player.velocity = -PLAYER_BWD;
-	} else {
-		player.velocity = 0;
-	}
+
 
 	if (pad.turnLeft && !pad.turnRight) {
 		player.facing += M_PI * elapsed * TURN_SPEED;
 	} else if (pad.turnRight && !pad.turnLeft) {
 		player.facing -= M_PI * elapsed * TURN_SPEED;
 	}
+
+	player.heading = player.facing;
+
+	if ( (pad.turnLeft && player.camRotatePlayer ) && !pad.turnRight ) {
+		player.velocity = PLAYER_MOVESPEED;
+		player.heading += M_PI / 2;
+	} else if ( (pad.turnRight && player.camRotatePlayer ) && !pad.turnLeft ) {
+		player.velocity = PLAYER_MOVESPEED;
+		player.heading += M_PI / 2;
+	} else if (pad.strafeLeft && !pad.strafeRight && !player.camRotatePlayer) {
+		player.velocity = PLAYER_MOVESPEED;
+		player.heading -= M_PI / 2;
+	} else if (pad.strafeRight && !pad.strafeLeft && !player.camRotatePlayer) {
+		player.velocity = PLAYER_MOVESPEED;
+		player.heading -= M_PI / 2;
+	}
+
+	if ((pad.leftMouse && pad.rightMouse) && !pad.backward) {
+		player.velocity = PLAYER_MOVESPEED;
+	} else if (pad.forward && !pad.backward) {
+		player.velocity = PLAYER_MOVESPEED;
+	} else if (pad.backward && !pad.forward && !(pad.leftMouse && pad.rightMouse)) {
+	 	player.velocity = -PLAYER_MOVESPEED;
+	} else {
+		player.velocity = 0;
+	}
+
+
 
 	// TODO: reimplement this
 	if (pad.up && !pad.down) {
@@ -78,8 +97,8 @@ void Alpha::tick(const float& elapsed)
 	else if (player.pitch <=  0 ) { player.pitch += 2 * M_PI; }	// keeps our angles within 1 revolution
 
 	// S = Sinit + (1/2) * (V + Vinit) * deltaT
-	float x = player.pos.x() + 0.5 * (player.velocity + velocity_init) * elapsed * cos(player.facing) * cos(player.pitch);
-	float y = player.pos.y() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(player.facing) * cos(player.pitch);
+	float x = player.pos.x() + 0.5 * (player.velocity + velocity_init) * elapsed * cos(player.heading) * cos(player.pitch);
+	float y = player.pos.y() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(player.heading) * cos(player.pitch);
 	float z = player.pos.z() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(-player.pitch);
 
 	player.pos.setX(x);
@@ -94,7 +113,7 @@ void Alpha::tick(const float& elapsed)
 void Alpha::initializeGL()
 {
 	glClearColor(0.4,0.6,1,0);	// background: r,g,b,a
-	setXRotation(270); // makes the camera horizontal
+	setXRotation(270); // makes the camera horizontal with Z axis positive being up
 	setYRotation(0);
 	setZRotation(90); // Lines camera up behind player
 }
@@ -122,9 +141,10 @@ void Alpha::paintGL()
 
 
 	// originally the z-axis is near to far
-	glTranslatef( 0.0f, 0.0f, -player.camRadius);
+	glTranslatef( 0.0f,0.0f, - player.camRadius);
 	applyRotation();
-
+	// keeps the player in the center of the screen
+	glTranslatef(-player.pos.x(), -player.pos.y(), -player.pos.z());
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
@@ -133,13 +153,6 @@ void Alpha::paintGL()
 	// The world
 	glPushMatrix();
 	{
-
-		if (!player.camFreeSpin )
-		{	glRotatef(-player.facing * toDegrees, 0, 0, 1);
-			glRotatef(player.pitch * toDegrees, 1,0,0);
-		}
-		// move the world around the player
-		glTranslatef(-player.pos.x(), -player.pos.y(), -player.pos.z());
 
 		glBegin(GL_QUADS);
 		glColor3f(0.1f, 0.65f, 0.1f);
@@ -171,10 +184,15 @@ void Alpha::paintGL()
 	// draw the player's cube
 	glPushMatrix();
 	{
-		if ( player.camFreeSpin )
-		{	glRotatef(player.facing * toDegrees, 0, 0, 1);
-			glRotatef(player.pitch * toDegrees, 0,1,0);
-		}
+		// mobile objects always need to be rotated and moved within the world
+		// this isn't actually rotated within the world, it's rotated within everything
+		// this is fine because the world is never moved or rotated either
+		glTranslatef(player.pos.x(), player.pos.y(), player.pos.z());
+		glRotatef(player.facing * toDegrees, 0, 0, 1);
+		glRotatef(player.pitch * toDegrees, 0,1,0);
+
+
+
 		float pAlpha = player.camRadius / 100;
 		glBegin(GL_QUADS);
 		// TOP is BLACK
@@ -231,6 +249,8 @@ void Alpha::keyPressEvent(QKeyEvent* event)
 		case Qt::Key_X: pad.down = true; break;
 		case Qt::Key_E: pad.pitchup = true; break;
 		case Qt::Key_Q: pad.pitchdown = true; break;
+		case Qt::Key_1: pad.strafeLeft = true; break;
+		case Qt::Key_2: pad.strafeRight = true; break;
 		default: // ???: have frito explain where the esc key is bound to close()
 			QGLWidget::keyPressEvent(event);
 	}
@@ -247,6 +267,8 @@ void Alpha::keyReleaseEvent(QKeyEvent* event)
 		case Qt::Key_X: pad.down = false; break;
 		case Qt::Key_E: pad.pitchup = false; break;
 		case Qt::Key_Q: pad.pitchdown = false; break;
+		case Qt::Key_1: pad.strafeLeft = false; break;
+		case Qt::Key_2: pad.strafeRight = false; break;
 		default:
 			QGLWidget::keyReleaseEvent(event);
 	}
@@ -257,56 +279,20 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 {
 	lastPos = event->pos();
 	if (event->button() & Qt::LeftButton) {
-		// we want RotatePlayer to override FreeSpin
-		if (!player.camRotatePlayer){
-			zRot -= player.facing * toDegrees;
-			// xRot += player.pitch * toDegrees;
-			player.camFreeSpin = true;
-			player.camFollowPlayer = false;
-		}
 		pad.leftMouse = true;
+		// Right click behavior overrides left click so it always fires on press
 	}else if (event->button() & Qt::RightButton) {
-		// we want bothMouse to rotate to rotate the player
-		// so we unactivate FreeSpin if rightMouse goes down
-		if (player.camFreeSpin) {
-			zRot += player.facing  * toDegrees;
-			player.camRotatePlayer = true;
-			player.camFreeSpin = false;
-			player.camFollowPlayer = false;
-		}
-		player.facing += (90 - zRot) * toRadians;
-		zRot = 90;
+		player.facing = (90 - zRot) * toRadians;
 		pad.rightMouse = true;
-		player.camFreeSpin = false;
-		player.camFollowPlayer = false;
-		player.camRotatePlayer = true;
 	}
 }
 void Alpha::mouseReleaseEvent(QMouseEvent * event)
 {
-
 	if (event->button() & Qt::LeftButton) {
-		// don't need to undo changes if its already been done by rightMouse
-		if (player.camFreeSpin){
-			zRot += player.facing  * toDegrees;
-			// xRot -= player.pitch * toDegrees;
-			player.camFreeSpin = false;
-			if( pad.rightMouse ) {
-				player.camRotatePlayer = true;
-			} else {player.camFollowPlayer = true;}
-		}
 		pad.leftMouse = false;
 	}else if (event->button() & Qt::RightButton) {
-		if (player.camRotatePlayer) {
-			player.camRotatePlayer = false;
-			if (pad.leftMouse) {
-				player.camFreeSpin = true;
-				zRot -= player.facing * toDegrees;
-			} else { player.camFollowPlayer = true;}
-		}
-	pad.rightMouse = false;
+		pad.rightMouse = false;
 	}
-
 }
 // Rotates the camera about the player
 void Alpha::mouseMoveEvent(QMouseEvent *event)
@@ -314,10 +300,11 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 	int dx = event->x() - lastPos.x();
 	int dy = event->y() - lastPos.y();
 
-	// if both buttons are down we want right click behavior
+	// Right click behavior overrides left click so it always fires on press
 	if (event->buttons() & Qt::RightButton) {
 		setXRotation(xRot + dy * 0.5 * player.camSpeed);
 		player.facing -= dx * 0.5 * player.camSpeed * toRadians;
+		setZRotation(zRot + dx * 0.5 * player.camSpeed);
 	}else if (event->buttons() & Qt::LeftButton) {
 		setXRotation(xRot + dy * 0.5 * player.camSpeed);
 		setZRotation(zRot + dx * 0.5 * player.camSpeed);
