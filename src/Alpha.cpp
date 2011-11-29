@@ -37,9 +37,10 @@ Alpha::Alpha(QWidget* const parent) :
 	player.pos.setZ(10);
 	player2.pos.setX(50);
 	player2.pos.setZ(10);
-	setXRotation(270); // makes the camera horizontal with Z axis positive being up
+	setXRotation(camera.target->xRot * toDegrees - 90); // makes the camera horizontal with Z axis positive being up
 	setYRotation(0);
-	setZRotation(90 - camera.target->facing * toDegrees); // Lines camera up behind player
+	setZRotation(0);
+;
 
 }
 
@@ -47,7 +48,6 @@ void Alpha::tick(const float& elapsed)
 {
 	float velocity_init = camera.target->velocity; // for position calculation purposes
 	float svelocity_init = camera.target->svelocity;
-
 	if (pad.F1){
 		NewTarget();
 		pad.F1 = false; // only fires once
@@ -56,19 +56,18 @@ void Alpha::tick(const float& elapsed)
 
 	float da = M_PI * elapsed * TURN_SPEED;
 	if (pad.turnLeft && !pad.turnRight) {
-		camera.target->facing += da;
+		camera.target->zRot += da;
 		if (camera.rotateWithTarget){
 			setZRotation(zRot - da * toDegrees);
 		}
 	} else if (pad.turnRight && !pad.turnLeft) {
 		da = M_PI * elapsed * TURN_SPEED;
-		camera.target->facing -= da;
+		camera.target->zRot -= da;
 		if (camera.rotateWithTarget){
 			setZRotation(zRot + da * toDegrees);
 		}
 	}
 
-	camera.target->heading = camera.target->facing;
 	// XXX: will be strafing but camera.rotateTarget is perhaps not right
 	// the behavior in an FPS camera and in a 3rd person is not necessarily the same
 	// TURNLEFT should probably turn you left in an FPS mode, even though the camera is rotating the player
@@ -78,16 +77,16 @@ void Alpha::tick(const float& elapsed)
  /*
 	if ( (pad.turnLeft && camera.rotateTarget) && !pad.turnRight ) {
 		camera.target->velocity = PLAYER_MOVESPEED;
-		camera.target->heading += M_PI / 2;
+		camera.target->zRot += M_PI / 2;
 	} else if ( (pad.turnRight && camera.rotateTarget) && !pad.turnLeft ) {
 		camera.target->velocity = PLAYER_MOVESPEED;
-		camera.target->heading += M_PI / 2;
+		camera.target->zRot += M_PI / 2;
 	} else if (pad.strafeLeft && !pad.strafeRight && !camera.rotatingTarget) {
 		camera.target->velocity = PLAYER_MOVESPEED;
-		camera.target->heading -= M_PI / 2;
+		camera.target->zRot -= M_PI / 2;
 	} else if (pad.strafeRight && !pad.strafeLeft && !camera.rotatingTarget) {
 		camera.target->velocity = PLAYER_MOVESPEED;
-		camera.target->heading -= M_PI / 2;
+		camera.target->zRot -= M_PI / 2;
 	}
 */
 	if ((pad.leftMouse && pad.rightMouse) && !pad.backward) {
@@ -108,24 +107,24 @@ void Alpha::tick(const float& elapsed)
 	} else if (pad.down && !pad.up) {
 
 	}
-	// XXX: pretty broken atm;
+
 	if (pad.pitchup && !pad.pitchdown) {
-		camera.target->pitch -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
+		camera.target->xRot -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
 
 	}else if (pad.pitchdown && !pad.pitchup)  {
-		camera.target->pitch += M_PI * elapsed * TURN_SPEED;
+		camera.target->xRot += M_PI * elapsed * TURN_SPEED;
 	}
 
-	if ( camera.target->facing >= 2 * M_PI ) { camera.target->facing -= 2 * M_PI; } // TODO: turn this into 1 normalize function
-	else if (camera.target->facing <=  0 ) { camera.target->facing += 2 * M_PI; }	// keeps our angles within 1 revolution
+	if ( camera.target->zRot >= 2 * M_PI ) { camera.target->zRot -= 2 * M_PI; } // TODO: turn this into 1 normalize function
+	else if (camera.target->zRot <=  0 ) { camera.target->zRot += 2 * M_PI; }	// keeps our angles within 1 revolution
 
-	if ( camera.target->pitch >= 2 * M_PI ) { camera.target->pitch -= 2 * M_PI; }
-	else if (camera.target->pitch <=  0 ) { camera.target->pitch += 2 * M_PI; }	// keeps our angles within 1 revolution
+	if ( camera.target->xRot >= 2 * M_PI ) { camera.target->xRot -= 2 * M_PI; }
+	else if (camera.target->xRot <=  0 ) { camera.target->xRot += 2 * M_PI; }	// keeps our angles within 1 revolution
 
 	// S = Sinit + (1/2) * (V + Vinit) * deltaT
-	float x = camera.target->pos.x() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * cos(camera.target->heading) * cos(camera.target->pitch);
-	float y = camera.target->pos.y() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(camera.target->heading) * cos(camera.target->pitch);
-	float z = camera.target->pos.z() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(-camera.target->pitch);
+	float x = camera.target->pos.x() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * cos(camera.target->zRot) * cos(camera.target->xRot);
+	float y = camera.target->pos.y() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(camera.target->zRot) * cos(camera.target->xRot);
+	float z = camera.target->pos.z() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(-camera.target->xRot);
 
 	camera.target->pos.setX(x);
 	camera.target->pos.setY(y);
@@ -140,7 +139,7 @@ void Alpha::tick(const float& elapsed)
 void Alpha::initializeGL()
 {
 	glClearColor(0.4,0.6,1,0);	// background: r,g,b,a
-	setZRotation(90-camera.target->facing * toDegrees);
+	setZRotation(90-camera.target->zRot * toDegrees);
 }
 
 void Alpha::resizeGL(int width, int height)
@@ -213,8 +212,8 @@ void Alpha::paintGL()
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
 		glTranslatef(player.pos.x(), player.pos.y(), player.pos.z());
-		glRotatef(player.facing * toDegrees, 0, 0, 1);
-		glRotatef(player.pitch * toDegrees, 0,1,0);
+		glRotatef(player.zRot * toDegrees, 0, 0, 1);
+		glRotatef(player.xRot * toDegrees, 0,1,0);
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
@@ -263,8 +262,8 @@ void Alpha::paintGL()
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
 		glTranslatef(player2.pos.x(), player2.pos.y(), player2.pos.z());
-		glRotatef(player2.facing * toDegrees, 0, 0, 1);
-		glRotatef(player2.pitch * toDegrees, 0,1,0);
+		glRotatef(player2.zRot * toDegrees, 0, 0, 1);
+		glRotatef(player2.xRot * toDegrees, 0,1,0);
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
@@ -360,8 +359,8 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 		camera.rotateWithTarget = false;
 		// Right click behavior overrides left click so it always fires on press
 	}else if (event->button() & Qt::RightButton) {
-		camera.target->facing = (90 - zRot) * toRadians;
-		camera.target->pitch = (90 + xRot) * toRadians;
+		camera.target->zRot = (90 - zRot) * toRadians;
+		camera.target->xRot = (90 + xRot) * toRadians;
 		pad.rightMouse = true;
 		camera.rotateTarget=true;
 	}
@@ -387,8 +386,8 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 		setXRotation(xRot + dy * 0.5 * camera.xSpeed);
 		setZRotation(zRot + dx * 0.5 * camera.zSpeed);
 		if (camera.rotateTarget){
-			camera.target->facing -= dx * 0.5 * camera.zSpeed * toRadians;
-			camera.target->pitch += dy * 0.5 * camera.xSpeed * toRadians;
+			camera.target->zRot -= dx * 0.5 * camera.zSpeed * toRadians;
+			camera.target->xRot += dy * 0.5 * camera.xSpeed * toRadians;
 		}
 	}else if (event->buttons() & Qt::LeftButton) {
 		setXRotation(xRot + dy * 0.5 * camera.xSpeed);
