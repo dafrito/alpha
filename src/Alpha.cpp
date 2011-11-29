@@ -33,6 +33,9 @@ Alpha::Alpha(QWidget* const parent) :
 	player.camRadius = camRadius;
 	player.camZoomSpeed = camZoomSpeed;
 	player.camSpeed = camSpeed;
+	setXRotation(270); // makes the camera horizontal with Z axis positive being up
+	setYRotation(0);
+	setZRotation(90 - player.facing * toDegrees); // Lines camera up behind player
 }
 
 void Alpha::tick(const float& elapsed)
@@ -113,9 +116,6 @@ void Alpha::tick(const float& elapsed)
 void Alpha::initializeGL()
 {
 	glClearColor(0.4,0.6,1,0);	// background: r,g,b,a
-	setXRotation(270); // makes the camera horizontal with Z axis positive being up
-	setYRotation(0);
-	setZRotation(90); // Lines camera up behind player
 }
 
 void Alpha::resizeGL(int width, int height)
