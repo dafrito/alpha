@@ -6,11 +6,10 @@
 #include "MeasuredTimer.h"
 #include <cmath>
 
+
 struct Player
 {
-	Player() : velocity(0), svelocity(0), facing(M_PI / 2), pitch(0), roll(0), heading(0),
-	camRadius(100), camZoomSpeed(5), camSpeed(0.9),
-	camFreeSpin(false),camRotatePlayer(false), camFollowPlayer(true){}
+	Player() : velocity(0), svelocity(0), facing(M_PI / 2), pitch(0), roll(0), heading(0){}
 	QVector3D pos;
 	float velocity;
 	float svelocity; // strafing right is positive
@@ -18,18 +17,6 @@ struct Player
 	float pitch;
 	float roll;
 	float heading; // Which direction the player is moving, such as strafing
-	// TODO: combine all the camera stuff, including (x,y,z)Rot
-	float camRadius; // Distance from player
-	float camZoomSpeed; // A multiplier
-	float camSpeed; // a multiplier
-	bool camFreeSpin; // Cam spins around player on mouse movements
-	bool camRotatePlayer;
-	bool camFollowPlayer;
-	void limitCamRadius(float &radius ){
-		if (radius < 0) { radius = 0;}
-		if (radius > 800) {radius = 800;}
-	}
-
 };
 
 // XXX: hardcoded keybinds
@@ -49,6 +36,7 @@ struct KeyBinds
 	bool leftMouse;	// mouse clicks
 	bool rightMouse;
 
+	bool F1;
 	KeyBinds() :
 	forward(false),
 	backward(false),
@@ -61,8 +49,50 @@ struct KeyBinds
 	pitchup(false),
 	pitchdown(false),
 	leftMouse(false),
-	rightMouse(false)
+	rightMouse(false),
+	F1(false)
 	{};
+
+};
+
+// the beginning of a camera class
+// XXX: having issues implementing updateGL() from set(XYZ)Rotation
+
+class Camera
+{
+public:
+	Camera()
+	{
+		moveWithTarget = true;
+		rotateWithTarget = true;
+		rotateTarget = false;
+		zoomSpeed = 5;
+		zSpeed = 0.9;
+		xSpeed = 0.7;
+		targetDistance = 100;
+
+	}
+	//XXX: everything is public
+	void setTarget(Player &mob)
+	{
+		target = &mob;
+	}
+	bool moveWithTarget;
+	bool rotateWithTarget;
+	bool rotateTarget;
+
+	float zoomSpeed; // A multiplier
+	float zSpeed; // a multiplier
+	float xSpeed; // a multiplier
+
+	Player *target;
+
+	float targetDistance; // Distance from the target
+	void limitCamDistance(float &radius)
+	{
+		if (radius < 0) { radius = 0;}
+		if (radius > 800) {radius = 800;}
+	}
 
 };
 // TODO: Move xRot, yRot, zRot and related to a more camera related area
@@ -72,6 +102,9 @@ class Alpha : public QGLWidget
 	MeasuredTimer timer;
 	KeyBinds pad;
 	Player player;
+	Player player2;
+	Camera camera;
+
 
 
 public:
@@ -89,7 +122,7 @@ protected:
 	void paintGL();
 	void resizeGL(int width, int height);
 	void alphaRotateCamera(float x, float y, float z);
-	void applyRotation() const; // ???: what does the const after mean?
+	void applyRotation() const;
 	void keyPressEvent(QKeyEvent* event);
 	void keyReleaseEvent(QKeyEvent* event);
 	void mousePressEvent(QMouseEvent *event);
@@ -103,6 +136,15 @@ protected:
 			angle += 360;
 		while (angle > 360)
 			angle -= 360;
+	}
+
+	void NewTarget()
+	{
+		if (camera.target == &player){
+			camera.setTarget(player2);
+		} else {
+			camera.setTarget(player);
+		}
 	}
 private:
 	float xRot;

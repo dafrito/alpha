@@ -3,17 +3,19 @@
 #include <QKeyEvent>
 #include <QWheelEvent>
 #include <GL/glut.h>
+#include <iostream>
 
 // Config
 const float TURN_SPEED = 1;
 const float PLAYER_MOVESPEED = 50;
 const float PLAYER_BWD = 0.7; // how fast you move backwards compared to forwards
 const float FOV = 65;
-const float viewDistance = 800;
 
-const float camRadius = 100; // Distance from player
+const float viewDistance = 800;
+const float camDistance = 100; // Distance from player
 const float camZoomSpeed = 5; // a multiplier
-const float camSpeed = 1; // a multiplier
+const float camxSpeed = 0.5; // a multiplier
+const float camZSpeed = 0.9; // a multiplier
 // end Config
 
 
@@ -21,60 +23,81 @@ const float camSpeed = 1; // a multiplier
 float toDegrees = 180 / M_PI;
 float toRadians = M_PI / 180;
 
+
+
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this)
 {
+	camera.setTarget(player);
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
 	timer.startOnShow(this);
 	player.pos.setZ(10);
-	player.camRadius = camRadius;
-	player.camZoomSpeed = camZoomSpeed;
-	player.camSpeed = camSpeed;
+	player2.pos.setX(50);
+	player2.pos.setZ(10);
 	setXRotation(270); // makes the camera horizontal with Z axis positive being up
 	setYRotation(0);
-	setZRotation(90 - player.facing * toDegrees); // Lines camera up behind player
+	setZRotation(90 - camera.target->facing * toDegrees); // Lines camera up behind player
+
 }
 
 void Alpha::tick(const float& elapsed)
 {
-	float velocity_init = player.velocity; // for position calculation purposes
-	float svelocity_init = player.svelocity;
+	float velocity_init = camera.target->velocity; // for position calculation purposes
+	float svelocity_init = camera.target->svelocity;
+
+	if (pad.F1){
+		NewTarget();
+		pad.F1 = false; // only fires once
+	}
 
 
-
+	float da = M_PI * elapsed * TURN_SPEED;
 	if (pad.turnLeft && !pad.turnRight) {
-		player.facing += M_PI * elapsed * TURN_SPEED;
+		camera.target->facing += da;
+		if (camera.rotateWithTarget){
+			setZRotation(zRot - da * toDegrees);
+		}
 	} else if (pad.turnRight && !pad.turnLeft) {
-		player.facing -= M_PI * elapsed * TURN_SPEED;
+		da = M_PI * elapsed * TURN_SPEED;
+		camera.target->facing -= da;
+		if (camera.rotateWithTarget){
+			setZRotation(zRot + da * toDegrees);
+		}
 	}
 
-	player.heading = player.facing;
-
-	if ( (pad.turnLeft && player.camRotatePlayer ) && !pad.turnRight ) {
-		player.velocity = PLAYER_MOVESPEED;
-		player.heading += M_PI / 2;
-	} else if ( (pad.turnRight && player.camRotatePlayer ) && !pad.turnLeft ) {
-		player.velocity = PLAYER_MOVESPEED;
-		player.heading += M_PI / 2;
-	} else if (pad.strafeLeft && !pad.strafeRight && !player.camRotatePlayer) {
-		player.velocity = PLAYER_MOVESPEED;
-		player.heading -= M_PI / 2;
-	} else if (pad.strafeRight && !pad.strafeLeft && !player.camRotatePlayer) {
-		player.velocity = PLAYER_MOVESPEED;
-		player.heading -= M_PI / 2;
+	camera.target->heading = camera.target->facing;
+	// XXX: will be strafing but camera.rotateTarget is perhaps not right
+	// the behavior in an FPS camera and in a 3rd person is not necessarily the same
+	// TURNLEFT should probably turn you left in an FPS mode, even though the camera is rotating the player
+	// in 3rd person a camera rotating the player should make the player strafe, like wow.
+	// but if you put in two different methods then a streamlined swap between the two modes is not
+	// possible -- maybe a TURNLEFT, STRAFELEFT, and SMARTLEFT?
+ /*
+	if ( (pad.turnLeft && camera.rotateTarget) && !pad.turnRight ) {
+		camera.target->velocity = PLAYER_MOVESPEED;
+		camera.target->heading += M_PI / 2;
+	} else if ( (pad.turnRight && camera.rotateTarget) && !pad.turnLeft ) {
+		camera.target->velocity = PLAYER_MOVESPEED;
+		camera.target->heading += M_PI / 2;
+	} else if (pad.strafeLeft && !pad.strafeRight && !camera.rotatingTarget) {
+		camera.target->velocity = PLAYER_MOVESPEED;
+		camera.target->heading -= M_PI / 2;
+	} else if (pad.strafeRight && !pad.strafeLeft && !camera.rotatingTarget) {
+		camera.target->velocity = PLAYER_MOVESPEED;
+		camera.target->heading -= M_PI / 2;
 	}
-
+*/
 	if ((pad.leftMouse && pad.rightMouse) && !pad.backward) {
-		player.velocity = PLAYER_MOVESPEED;
+		camera.target->velocity = PLAYER_MOVESPEED;
 	} else if (pad.forward && !pad.backward) {
-		player.velocity = PLAYER_MOVESPEED;
+		camera.target->velocity = PLAYER_MOVESPEED;
 	} else if (pad.backward && !pad.forward && !(pad.leftMouse && pad.rightMouse)) {
-	 	player.velocity = -PLAYER_MOVESPEED;
+	 	camera.target->velocity = -PLAYER_MOVESPEED;
 	} else {
-		player.velocity = 0;
+		camera.target->velocity = 0;
 	}
 
 
@@ -87,26 +110,27 @@ void Alpha::tick(const float& elapsed)
 	}
 	// XXX: pretty broken atm;
 	if (pad.pitchup && !pad.pitchdown) {
-		player.pitch -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
+		camera.target->pitch -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
 
 	}else if (pad.pitchdown && !pad.pitchup)  {
-		player.pitch += M_PI * elapsed * TURN_SPEED;
+		camera.target->pitch += M_PI * elapsed * TURN_SPEED;
 	}
 
-	if ( player.facing >= 2 * M_PI ) { player.facing -= 2 * M_PI; } // TODO: turn this into 1 normalize function
-	else if (player.facing <=  0 ) { player.facing += 2 * M_PI; }	// keeps our angles within 1 revolution
+	if ( camera.target->facing >= 2 * M_PI ) { camera.target->facing -= 2 * M_PI; } // TODO: turn this into 1 normalize function
+	else if (camera.target->facing <=  0 ) { camera.target->facing += 2 * M_PI; }	// keeps our angles within 1 revolution
 
-	if ( player.pitch >= 2 * M_PI ) { player.pitch -= 2 * M_PI; }
-	else if (player.pitch <=  0 ) { player.pitch += 2 * M_PI; }	// keeps our angles within 1 revolution
+	if ( camera.target->pitch >= 2 * M_PI ) { camera.target->pitch -= 2 * M_PI; }
+	else if (camera.target->pitch <=  0 ) { camera.target->pitch += 2 * M_PI; }	// keeps our angles within 1 revolution
 
 	// S = Sinit + (1/2) * (V + Vinit) * deltaT
-	float x = player.pos.x() + 0.5 * (player.velocity + velocity_init) * elapsed * cos(player.heading) * cos(player.pitch);
-	float y = player.pos.y() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(player.heading) * cos(player.pitch);
-	float z = player.pos.z() + 0.5 * (player.velocity + velocity_init) * elapsed * sin(-player.pitch);
+	float x = camera.target->pos.x() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * cos(camera.target->heading) * cos(camera.target->pitch);
+	float y = camera.target->pos.y() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(camera.target->heading) * cos(camera.target->pitch);
+	float z = camera.target->pos.z() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(-camera.target->pitch);
 
-	player.pos.setX(x);
-	player.pos.setY(y);
-	player.pos.setZ(z);
+	camera.target->pos.setX(x);
+	camera.target->pos.setY(y);
+	camera.target->pos.setZ(z);
+
 
 }
 
@@ -116,6 +140,7 @@ void Alpha::tick(const float& elapsed)
 void Alpha::initializeGL()
 {
 	glClearColor(0.4,0.6,1,0);	// background: r,g,b,a
+	setZRotation(90-camera.target->facing * toDegrees);
 }
 
 void Alpha::resizeGL(int width, int height)
@@ -141,10 +166,10 @@ void Alpha::paintGL()
 
 
 	// originally the z-axis is near to far
-	glTranslatef( 0.0f,0.0f, - player.camRadius);
+	glTranslatef( 0.0f,0.0f, - camera.targetDistance);
 	applyRotation();
 	// keeps the player in the center of the screen
-	glTranslatef(-player.pos.x(), -player.pos.y(), -player.pos.z());
+	glTranslatef(-camera.target->pos.x(), -camera.target->pos.y(), -camera.target->pos.z());
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
@@ -193,7 +218,7 @@ void Alpha::paintGL()
 
 
 
-		float pAlpha = player.camRadius / 100;
+		float pAlpha = 1;// camera.targetDistance / 100;
 		glBegin(GL_QUADS);
 		// TOP is BLACK
 		glColor4f(0.0f,0.0f,0.0f, pAlpha);
@@ -234,10 +259,66 @@ void Alpha::paintGL()
 	}
 	glPopMatrix();
 
+	// draw the player2
+	glPushMatrix();
+	{
+		// mobile objects always need to be rotated and moved within the world
+		// this isn't actually rotated within the world, it's rotated within everything
+		// this is fine because the world is never moved or rotated either
+		glTranslatef(player2.pos.x(), player2.pos.y(), player2.pos.z());
+		glRotatef(player2.facing * toDegrees, 0, 0, 1);
+		glRotatef(player2.pitch * toDegrees, 0,1,0);
+
+
+
+		float p2Alpha = 1; //camera.targetDistance / 100;
+		glBegin(GL_QUADS);
+		// TOP is BLACK
+		glColor4f(0.0f,0.0f,0.0f, p2Alpha);
+		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
+		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
+		glVertex3f(-4.0f,-4.0f, 4.0f); // Bottom Left
+		glVertex3f( 4.0f,-4.0f, 4.0f); // Bottom Right
+			// BOTTOM is WHITE
+		glColor4f(1.0f,1.0f,1.0f, p2Alpha);
+		glVertex3f(-4.0f, 4.0f, -4.0f); // Top Right
+		glVertex3f( 4.0f, 4.0f, -4.0f); // Top Left
+		glVertex3f( 4.0f,-4.0f, -4.0f); // Bottom Left
+		glVertex3f(-4.0f,-4.0f, -4.0f); // Bottom Right
+		// BACK is RED
+		glColor4f(1.0f,0.0f,0.0f, p2Alpha);
+		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Right
+		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
+		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Left
+		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Right
+		// FRONT is GREEN
+		glColor4f(0.0f,1.0f,0.0f, p2Alpha);
+		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
+		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Left
+		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Left
+		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Right
+		// LEFT is BLUE
+		glColor4f(0.0f,0.0f,1.0f, p2Alpha);
+		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Right
+		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Left
+		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Left
+		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Right
+		// RIGHT is BLUE
+		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Right
+		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Left
+		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Left
+		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Right
+		glEnd();
+	}
+	glPopMatrix();
+
 
 }
 
 // XXX: not set up so you can do single actions on key down
+/* XXX:
+keyPressEvent() is called whenever a key is pressed, and again when a key has been held down long enough for it to auto-repeat. The Tab and Shift+Tab keys are only passed to the widget if they are not used by the focus-change mechanisms. To force those keys to be processed by your widget, you must reimplement QWidget::event().
+*/
 void Alpha::keyPressEvent(QKeyEvent* event)
 {
 	switch (event->key()) {
@@ -251,7 +332,8 @@ void Alpha::keyPressEvent(QKeyEvent* event)
 		case Qt::Key_Q: pad.pitchdown = true; break;
 		case Qt::Key_1: pad.strafeLeft = true; break;
 		case Qt::Key_2: pad.strafeRight = true; break;
-		default: // ???: have frito explain where the esc key is bound to close()
+		case Qt::Key_F1: pad.F1 = true; break;
+		default:
 			QGLWidget::keyPressEvent(event);
 	}
 }
@@ -269,6 +351,7 @@ void Alpha::keyReleaseEvent(QKeyEvent* event)
 		case Qt::Key_Q: pad.pitchdown = false; break;
 		case Qt::Key_1: pad.strafeLeft = false; break;
 		case Qt::Key_2: pad.strafeRight = false; break;
+		case Qt::Key_F1: pad.F1 = false; break;
 		default:
 			QGLWidget::keyReleaseEvent(event);
 	}
@@ -280,18 +363,23 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 	lastPos = event->pos();
 	if (event->button() & Qt::LeftButton) {
 		pad.leftMouse = true;
+		camera.rotateWithTarget = false;
 		// Right click behavior overrides left click so it always fires on press
 	}else if (event->button() & Qt::RightButton) {
-		player.facing = (90 - zRot) * toRadians;
+		camera.target->facing = (90 - zRot) * toRadians;
+		camera.target->pitch = (90 + xRot) * toRadians;
 		pad.rightMouse = true;
+		camera.rotateTarget=true;
 	}
 }
 void Alpha::mouseReleaseEvent(QMouseEvent * event)
 {
 	if (event->button() & Qt::LeftButton) {
 		pad.leftMouse = false;
+		camera.rotateWithTarget = true;
 	}else if (event->button() & Qt::RightButton) {
 		pad.rightMouse = false;
+		camera.rotateTarget = false;
 	}
 }
 // Rotates the camera about the player
@@ -302,12 +390,15 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 
 	// Right click behavior overrides left click so it always fires on press
 	if (event->buttons() & Qt::RightButton) {
-		setXRotation(xRot + dy * 0.5 * player.camSpeed);
-		player.facing -= dx * 0.5 * player.camSpeed * toRadians;
-		setZRotation(zRot + dx * 0.5 * player.camSpeed);
+		setXRotation(xRot + dy * 0.5 * camera.xSpeed);
+		setZRotation(zRot + dx * 0.5 * camera.zSpeed);
+		if (camera.rotateTarget){
+			camera.target->facing -= dx * 0.5 * camera.zSpeed * toRadians;
+			camera.target->pitch += dy * 0.5 * camera.xSpeed * toRadians;
+		}
 	}else if (event->buttons() & Qt::LeftButton) {
-		setXRotation(xRot + dy * 0.5 * player.camSpeed);
-		setZRotation(zRot + dx * 0.5 * player.camSpeed);
+		setXRotation(xRot + dy * 0.5 * camera.xSpeed);
+		setZRotation(zRot + dx * 0.5 * camera.zSpeed);
 	}
 	lastPos = event->pos();
 }
@@ -317,8 +408,8 @@ void Alpha::wheelEvent(QWheelEvent *event)
 	int numSteps = numDegrees / 15;
 
 	if (event->orientation() == Qt::Vertical) {
-		player.camRadius -= numSteps * player.camZoomSpeed;
-		player.limitCamRadius(player.camRadius); // XXX: this just looks silly
+		camera.targetDistance -= numSteps * camera.zoomSpeed;
+		camera.limitCamDistance(camera.targetDistance); // XXX: this just looks silly
 	}
 	event->accept();
 }

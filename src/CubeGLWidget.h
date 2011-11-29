@@ -10,8 +10,8 @@
 struct Cube
 {
 	QVector3D pos;
-	const QColor color;
-	const unsigned int size;
+	QColor color;
+	unsigned int size;
 	QVector3D velocity;
 };
 
