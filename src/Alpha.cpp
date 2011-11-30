@@ -90,14 +90,12 @@ void Alpha::tick(const float& elapsed)
 	 	camera.target->velocity = -PLAYER_MOVESPEED;
 	}
 
-	/*
-	// TODO: reimplement this
-	// FIXME: What is this supposed to do?
-	if (pad.up && !pad.down) {
-
-	} else if (pad.down && !pad.up) {
-
-	}*/
+	// Move the character vertically up and down.
+	if (input.verticalUp()) {
+		velocity.addZ(1);
+	} else if (input.verticalDown()) {
+		velocity.addZ(-1);
+	}
 
  	//XXX: lol that is all
  	// ok not all, need to change the camera limits on xRot to be determined by target's pitch

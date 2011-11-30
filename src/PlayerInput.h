@@ -93,6 +93,16 @@ public:
 		return pad.pitchDown && !pad.pitchUp;
 	}
 
+	bool verticalUp()
+	{
+		return pad.verticalUp && !pad.verticalDown;
+	}
+
+	bool verticalDown()
+	{
+		return pad.verticalDown && !pad.verticalUp;
+	}
+
 	bool switchTarget()
 	{
 		return pad.switchTarget;
