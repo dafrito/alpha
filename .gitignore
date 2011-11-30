@@ -2,3 +2,4 @@
 Makefile
 demo
 build/
+run-tests
