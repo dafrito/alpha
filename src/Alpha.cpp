@@ -15,16 +15,10 @@ const float PLAYER_BWD = 0.7; // how fast you move backwards compared to forward
 const float FOV = 65;
 
 const float viewDistance = 800;
-
-
 // end Config
 
-
-
-float toDegrees = 180 / M_PI;
-float toRadians = M_PI / 180;
-
-
+const float toDegrees = 180 / M_PI;
+const float toRadians = M_PI / 180;
 
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
