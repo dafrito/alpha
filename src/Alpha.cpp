@@ -84,10 +84,8 @@ void Alpha::tick(const float& elapsed)
 */
 	if (input.moveForward()) {
 		velocity.addY(1);
-		camera.target->velocity = PLAYER_MOVESPEED;
 	} else if (input.moveBackward()) {
 		velocity.addY(-1);
-	 	camera.target->velocity = -PLAYER_MOVESPEED;
 	}
 
 	// Move the character vertically up and down.
