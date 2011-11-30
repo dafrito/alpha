@@ -49,6 +49,7 @@ protected:
 	float targetDistance; // Distance from the target
 	float maxDistance; // the maximum that you can zoom out
 private:
+	// TODO Ideally, these would be in a Vector3<float>
 	float xRot;
 	float yRot;
 	float zRot;
