@@ -50,12 +50,12 @@ void Alpha::tick(const float& elapsed)
 	if (pad.turnLeft && !pad.turnRight) {
 		camera.target->zRot += da;
 		if (camera.rotateWithTarget){
-			camera.alignWithTarget();
+			camera.setZRotation(camera.getZRotation() + da);
 		}
 	} else if (pad.turnRight && !pad.turnLeft) {
 		camera.target->zRot -= da;
 		if (camera.rotateWithTarget){
-			camera.alignWithTarget();
+			camera.setZRotation(camera.getZRotation() - da);
 		}
 	}
 
@@ -108,14 +108,14 @@ void Alpha::tick(const float& elapsed)
  	//XXX: lol that is all
  	// ok not all, need to change the camera limits on xRot to be determined by target's pitch
 	if (pad.pitchup && !pad.pitchdown) {
-		camera.target->xRot += M_PI * elapsed * TURN_SPEED;
+		camera.target->xRot += da;
 		if (camera.rotateWithTarget){
-			camera.alignWithTarget();
+			camera.setXRotation(camera.getXRotation() + da);
 		}
 	}else if (pad.pitchdown && !pad.pitchup)  {
-		camera.target->xRot -= M_PI * elapsed * TURN_SPEED;
+		camera.target->xRot -= da;
 		if (camera.rotateWithTarget){
-			camera.alignWithTarget();
+			camera.setXRotation(camera.getXRotation() - da);
 		}
 	}
 
