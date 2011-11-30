@@ -1,3 +1,3 @@
 #!/bin/sh
 qmake CONFIG+=debug -recursive
-make -j && ./demo
+make -j 4 && ./demo
