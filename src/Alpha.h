@@ -9,7 +9,7 @@
 
 struct Player
 {
-	Player() : velocity(0), svelocity(0), xRot(0), yRot(0), zRot( M_PI_2 ), defaultAlpha(1),
+	Player() : velocity(0), svelocity(0), xRot(0), yRot(0), zRot(0), defaultAlpha(1),
 	alpha(defaultAlpha){}
 	QVector3D pos;
 	float velocity;
@@ -58,7 +58,7 @@ struct KeyBinds
 };
 
 // the beginning of a camera class
-// XXX: no checking to ensure a target and most things are publicly accessable
+// XXX: most things are public
 class Camera
 {
 public:
@@ -74,10 +74,17 @@ public:
 		maxDistance = 800;
 
 	}
-
+	// XXX: needs a default target so I can set the alpha in the correct spot
+	// anytime it is changed
 	void setTarget(Player &mob)
 	{
+		//target->alpha = target->defaultAlpha;
 		target = &mob;
+		// camera faces what the target faces
+		setXRotation(target->xRot + M_PI_2);
+		setYRotation(target->yRot);
+		setZRotation(target->zRot);
+
 	}
 
 	bool moveWithTarget;
@@ -95,9 +102,9 @@ public:
 		float toDegrees = 180 / M_PI;
 		// distance the camera from the target
 		glTranslatef( 0.0f,0.0f, -targetDistance);
-		glRotatef(xRot * toDegrees, 1.0, 0.0, 0.0);
-		glRotatef(yRot * toDegrees, 0.0, 1.0, 0.0);
-		glRotatef(zRot * toDegrees, 0.0, 0.0, 1.0);
+		glRotatef(-xRot * toDegrees, 1.0, 0.0, 0.0);
+		glRotatef(-yRot * toDegrees, 0.0, 1.0, 0.0);
+		glRotatef(-zRot * toDegrees, 0.0, 0.0, 1.0);
 		// keeps the target in the center of the screen
 		glTranslatef( -target->pos.x(), -target->pos.y(), -target->pos.z() );
 
@@ -120,8 +127,8 @@ public:
 	{
 		normalizeAngle(angle);
 		// keep us from flipping upside down
-		if ( angle < M_PI_2 ) { angle = 0; }
-		else if ( angle < M_PI ) {angle = M_PI;}
+		if ( angle > 3 * M_PI_2 ) { angle = 2 * M_PI; }
+		else if ( angle > M_PI ) {angle = M_PI;}
 
 		if (angle != xRot) {
 			xRot = angle;

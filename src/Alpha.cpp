@@ -35,10 +35,10 @@ Alpha::Alpha(QWidget* const parent) :
 	player.pos.setZ(10);
 	player2.pos.setX(50);
 	player2.pos.setZ(10);
-	camera.setXRotation(camera.target->xRot-M_PI_2);
+	// camera faces whatever the player is
+	camera.setXRotation(camera.target->xRot + M_PI_2);
 	camera.setYRotation(camera.target->yRot);
-	camera.setZRotation(M_PI_2 - camera.target->zRot);
-;
+	camera.setZRotation(camera.target->zRot);
 
 }
 
@@ -56,13 +56,13 @@ void Alpha::tick(const float& elapsed)
 	if (pad.turnLeft && !pad.turnRight) {
 		camera.target->zRot += da;
 		if (camera.rotateWithTarget){
-			camera.setZRotation(camera.zRot - da);
+			camera.setZRotation(camera.zRot + da);
 		}
 	} else if (pad.turnRight && !pad.turnLeft) {
 		da = M_PI * elapsed * TURN_SPEED;
 		camera.target->zRot -= da;
 		if (camera.rotateWithTarget){
-			camera.setZRotation(camera.zRot + da);
+			camera.setZRotation(camera.zRot - da);
 		}
 	}
 
@@ -107,10 +107,10 @@ void Alpha::tick(const float& elapsed)
 	}
 
 	if (pad.pitchup && !pad.pitchdown) {
-		camera.target->xRot -= M_PI * elapsed * TURN_SPEED; // Zaxis appears to be "backwards"
+		camera.target->xRot += M_PI * elapsed * TURN_SPEED;
 
 	}else if (pad.pitchdown && !pad.pitchup)  {
-		camera.target->xRot += M_PI * elapsed * TURN_SPEED;
+		camera.target->xRot -= M_PI * elapsed * TURN_SPEED;
 	}
 
 	if ( camera.target->zRot >= 2 * M_PI ) { camera.target->zRot -= 2 * M_PI; } // TODO: turn this into 1 normalize function
@@ -120,9 +120,9 @@ void Alpha::tick(const float& elapsed)
 	else if (camera.target->xRot <=  0 ) { camera.target->xRot += 2 * M_PI; }	// keeps our angles within 1 revolution
 
 	// S = Sinit + (1/2) * (V + Vinit) * deltaT
-	float x = camera.target->pos.x() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * cos(camera.target->zRot) * cos(camera.target->xRot);
-	float y = camera.target->pos.y() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(camera.target->zRot) * cos(camera.target->xRot);
-	float z = camera.target->pos.z() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(-camera.target->xRot);
+	float x = camera.target->pos.x() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * -sin(camera.target->zRot) * cos(camera.target->xRot);
+	float y = camera.target->pos.y() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * cos(camera.target->zRot) * cos(camera.target->xRot);
+	float z = camera.target->pos.z() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(camera.target->xRot);
 
 	camera.target->pos.setX(x);
 	camera.target->pos.setY(y);
@@ -204,7 +204,7 @@ void Alpha::paintGL()
 		// this is fine because the world is never moved or rotated either
 		glTranslatef(player.pos.x(), player.pos.y(), player.pos.z());
 		glRotatef(player.zRot * toDegrees, 0, 0, 1);
-		glRotatef(player.xRot * toDegrees, 0,1,0);
+		glRotatef(player.xRot * toDegrees, 1,0,0);
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
@@ -219,25 +219,25 @@ void Alpha::paintGL()
 		glVertex3f( 4.0f, 4.0f, -4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f, -4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f, -4.0f); // Bottom Right
-		// BACK is RED
-		glColor4f(1.0f,0.0f,0.0f, player.alpha);
+		// LEFT is BLUE
+		glColor4f(0.0f,0.0f,1.0f, player.alpha);
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Right
-		// FRONT is GREEN
-		glColor4f(0.0f,1.0f,0.0f, player.alpha);
+		// RIGHT is BLUE
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Right
-		// LEFT is BLUE
-		glColor4f(0.0f,0.0f,1.0f, player.alpha);
+		// FRONT is GREEN
+		glColor4f(0.0f,1.0f,0.0f, player.alpha);
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Left
 		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Right
-		// RIGHT is BLUE
+		// BACK is RED
+		glColor4f(1.0f,0.0f,0.0f, player.alpha);
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Left
@@ -254,7 +254,7 @@ void Alpha::paintGL()
 		// this is fine because the world is never moved or rotated either
 		glTranslatef(player2.pos.x(), player2.pos.y(), player2.pos.z());
 		glRotatef(player2.zRot * toDegrees, 0, 0, 1);
-		glRotatef(player2.xRot * toDegrees, 0,1,0);
+		glRotatef(player2.xRot * toDegrees, 1,0,0);
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
@@ -269,25 +269,25 @@ void Alpha::paintGL()
 		glVertex3f( 4.0f, 4.0f, -4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f, -4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f, -4.0f); // Bottom Right
-		// BACK is RED
-		glColor4f(1.0f,0.0f,0.0f, player2.alpha);
+		// LEFT is BLUE
+		glColor4f(0.0f,0.0f,1.0f, player2.alpha);
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Left
 		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Right
-		// FRONT is GREEN
-		glColor4f(0.0f,1.0f,0.0f, player2.alpha);
+		// RIGHT is BLUE
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Right
-		// LEFT is BLUE
-		glColor4f(0.0f,0.0f,1.0f, player2.alpha);
+		// FRONT is GREEN
+		glColor4f(0.0f,1.0f,0.0f, player2.alpha);
 		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Right
 		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Left
 		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Left
 		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Right
-		// RIGHT is BLUE
+		// BACK is RED
+		glColor4f(1.0f,0.0f,0.0f, player2.alpha);
 		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Right
 		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Left
 		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Left
@@ -350,8 +350,8 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 		camera.rotateWithTarget = false;
 		// Right click behavior overrides left click so it always fires on press
 	}else if (event->button() & Qt::RightButton) {
-		camera.target->zRot = (M_PI_2 - camera.zRot);
-		camera.target->xRot = (M_PI_2 + camera.xRot);
+		camera.target->zRot = (camera.zRot);
+		camera.target->xRot = (camera.xRot - M_PI_2);
 		pad.rightMouse = true;
 		camera.rotateTarget=true;
 	}
@@ -375,15 +375,15 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 
 	// Right click behavior overrides left click so it always fires on press
 	if (event->buttons() & Qt::RightButton) {
-		camera.setXRotation(camera.xRot + dy * camera.xSpeed);
-		camera.setZRotation(camera.zRot + dx * camera.zSpeed);
+		camera.setXRotation(camera.xRot - dy * camera.xSpeed);
+		camera.setZRotation(camera.zRot - dx * camera.zSpeed);
 		if (camera.rotateTarget){
 			camera.target->zRot -= dx *  camera.zSpeed;
-			camera.target->xRot += dy *  camera.xSpeed;
+			camera.target->xRot -= dy *  camera.xSpeed;
 		}
 	}else if (event->buttons() & Qt::LeftButton) {
-		camera.setXRotation(camera.xRot + dy *  camera.xSpeed);
-		camera.setZRotation(camera.zRot + dx *  camera.zSpeed);
+		camera.setXRotation(camera.xRot - dy *  camera.xSpeed);
+		camera.setZRotation(camera.zRot - dx *  camera.zSpeed);
 	}
 	lastPos = event->pos();
 }
