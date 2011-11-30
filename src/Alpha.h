@@ -9,7 +9,7 @@
 
 struct Player
 {
-	Player() : velocity(0), svelocity(0), xRot(0), yRot(0), zRot( M_PI / 2 ), defaultAlpha(1),
+	Player() : velocity(0), svelocity(0), xRot(0), yRot(0), zRot( M_PI_2 ), defaultAlpha(1),
 	alpha(defaultAlpha){}
 	QVector3D pos;
 	float velocity;
@@ -58,8 +58,7 @@ struct KeyBinds
 };
 
 // the beginning of a camera class
-// XXX: having issues implementing updateGL() from set(XYZ)Rotation
-
+// XXX: no checking to ensure a target and most things are publicly accessable
 class Camera
 {
 public:
@@ -69,16 +68,18 @@ public:
 		rotateWithTarget = true;
 		rotateTarget = false;
 		zoomSpeed = 5;
-		zSpeed = 0.9;
-		xSpeed = 0.7;
+		zSpeed = 0.009;
+		xSpeed = 0.007;
 		targetDistance = 100;
+		maxDistance = 800;
 
 	}
-	//XXX: everything is public
+
 	void setTarget(Player &mob)
 	{
 		target = &mob;
 	}
+
 	bool moveWithTarget;
 	bool rotateWithTarget;
 	bool rotateTarget;
@@ -89,21 +90,80 @@ public:
 
 	Player *target;
 
+	void applySettings() const
+	{
+		float toDegrees = 180 / M_PI;
+		// distance the camera from the target
+		glTranslatef( 0.0f,0.0f, -targetDistance);
+		glRotatef(xRot * toDegrees, 1.0, 0.0, 0.0);
+		glRotatef(yRot * toDegrees, 0.0, 1.0, 0.0);
+		glRotatef(zRot * toDegrees, 0.0, 0.0, 1.0);
+		// keeps the target in the center of the screen
+		glTranslatef( -target->pos.x(), -target->pos.y(), -target->pos.z() );
 
+	}
 
+	void setMaxDistance(float distance)
+	{
+		maxDistance = distance >= 0 ? distance : 0;
+	}
 	void setTargetDistance(float distance)
 	{
 		if (distance < 0) { distance = 0;}
-		if (distance > 800) {distance = 800;}
+		if (distance > maxDistance) {distance = maxDistance;}
 		targetDistance = distance;
 		target->alpha = targetDistance / 100;
 	}
 	float getTargetDistance() {return targetDistance;}
 
+	void setXRotation(float angle)
+	{
+		normalizeAngle(angle);
+		// keep us from flipping upside down
+		if ( angle < M_PI_2 ) { angle = 0; }
+		else if ( angle < M_PI ) {angle = M_PI;}
+
+		if (angle != xRot) {
+			xRot = angle;
+		}
+	}
+
+	void setYRotation(float angle)
+	{
+		normalizeAngle(angle);
+		if (angle != yRot) {
+			yRot = angle;
+		}
+	}
+
+	void setZRotation(float angle)
+	{
+		normalizeAngle(angle);
+		if (angle != zRot) {
+			zRot = angle;
+
+		}
+	}
+	float xRot;
+	float yRot;
+	float zRot;
 protected:
 	float targetDistance; // Distance from the target
+	float maxDistance; // the maximum that you can zoom out
+	void normalizeAngle(float &angle) const
+	{
+		while (angle < 0)
+			angle += 2 * M_PI;
+		while (angle > 2 * M_PI )
+			angle -= 2 * M_PI;
+	}
+private:
+
+
 };
-// TODO: Move xRot, yRot, zRot and related to a more camera related area
+
+
+
 class Alpha : public QGLWidget
 {
 	Q_OBJECT
@@ -117,20 +177,10 @@ class Alpha : public QGLWidget
 
 public:
 	Alpha(QWidget* const parent = 0);
-public slots:
-	void setXRotation(float angle);
-	void setYRotation(float angle);
-	void setZRotation(float angle);
-signals:
-	void xRotationChanged(float angle);
-	void yRotationChanged(float angle);
-	void zRotationChanged(float angle);
 protected:
 	void initializeGL();
 	void paintGL();
 	void resizeGL(int width, int height);
-	void alphaRotateCamera(float x, float y, float z);
-	void applyRotation() const;
 	void keyPressEvent(QKeyEvent* event);
 	void keyReleaseEvent(QKeyEvent* event);
 	void mousePressEvent(QMouseEvent *event);
@@ -138,13 +188,6 @@ protected:
 	void mouseMoveEvent(QMouseEvent *event);
 	void wheelEvent(QWheelEvent *event);
 
-	void qNormalizeAngle(float &angle) const
-	{
-		while (angle < 0)
-			angle += 360;
-		while (angle > 360)
-			angle -= 360;
-	}
 
 	void NewTarget()
 	{
@@ -157,9 +200,6 @@ protected:
 		}
 	}
 private:
-	float xRot;
-	float yRot;
-	float zRot;
 	QPoint lastPos;
 private slots:
 	void tick(const float& elapsed);

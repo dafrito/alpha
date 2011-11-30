@@ -12,10 +12,8 @@ const float PLAYER_BWD = 0.7; // how fast you move backwards compared to forward
 const float FOV = 65;
 
 const float viewDistance = 800;
-const float camDistance = 100; // Distance from player
-const float camZoomSpeed = 5; // a multiplier
-const float camxSpeed = 0.5; // a multiplier
-const float camZSpeed = 0.9; // a multiplier
+
+
 // end Config
 
 
@@ -37,9 +35,9 @@ Alpha::Alpha(QWidget* const parent) :
 	player.pos.setZ(10);
 	player2.pos.setX(50);
 	player2.pos.setZ(10);
-	setXRotation(camera.target->xRot * toDegrees - 90); // makes the camera horizontal with Z axis positive being up
-	setYRotation(0);
-	setZRotation(0);
+	camera.setXRotation(camera.target->xRot-M_PI_2);
+	camera.setYRotation(camera.target->yRot);
+	camera.setZRotation(M_PI_2 - camera.target->zRot);
 ;
 
 }
@@ -58,13 +56,13 @@ void Alpha::tick(const float& elapsed)
 	if (pad.turnLeft && !pad.turnRight) {
 		camera.target->zRot += da;
 		if (camera.rotateWithTarget){
-			setZRotation(zRot - da * toDegrees);
+			camera.setZRotation(camera.zRot - da);
 		}
 	} else if (pad.turnRight && !pad.turnLeft) {
 		da = M_PI * elapsed * TURN_SPEED;
 		camera.target->zRot -= da;
 		if (camera.rotateWithTarget){
-			setZRotation(zRot + da * toDegrees);
+			camera.setZRotation(camera.zRot + da);
 		}
 	}
 
@@ -139,7 +137,6 @@ void Alpha::tick(const float& elapsed)
 void Alpha::initializeGL()
 {
 	glClearColor(0.4,0.6,1,0);	// background: r,g,b,a
-	setZRotation(90-camera.target->zRot * toDegrees);
 }
 
 void Alpha::resizeGL(int width, int height)
@@ -162,17 +159,11 @@ void Alpha::paintGL()
 	glLoadIdentity();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
-	// originally the z-axis is near to far
-	glTranslatef( 0.0f,0.0f, - camera.getTargetDistance());
-	applyRotation();
-	// keeps the player in the center of the screen
-	glTranslatef(-camera.target->pos.x(), -camera.target->pos.y(), -camera.target->pos.z());
-
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 	glEnable(GL_CULL_FACE);
+
+	camera.applySettings();
 
 	// The world
 	glPushMatrix();
@@ -359,8 +350,8 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 		camera.rotateWithTarget = false;
 		// Right click behavior overrides left click so it always fires on press
 	}else if (event->button() & Qt::RightButton) {
-		camera.target->zRot = (90 - zRot) * toRadians;
-		camera.target->xRot = (90 + xRot) * toRadians;
+		camera.target->zRot = (M_PI_2 - camera.zRot);
+		camera.target->xRot = (M_PI_2 + camera.xRot);
 		pad.rightMouse = true;
 		camera.rotateTarget=true;
 	}
@@ -376,6 +367,7 @@ void Alpha::mouseReleaseEvent(QMouseEvent * event)
 	}
 }
 // Rotates the camera about the player
+// XXX: camera doesn't stay snapped behind player during keyboard turn while holding right click
 void Alpha::mouseMoveEvent(QMouseEvent *event)
 {
 	int dx = event->x() - lastPos.x();
@@ -383,15 +375,15 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 
 	// Right click behavior overrides left click so it always fires on press
 	if (event->buttons() & Qt::RightButton) {
-		setXRotation(xRot + dy * 0.5 * camera.xSpeed);
-		setZRotation(zRot + dx * 0.5 * camera.zSpeed);
+		camera.setXRotation(camera.xRot + dy * camera.xSpeed);
+		camera.setZRotation(camera.zRot + dx * camera.zSpeed);
 		if (camera.rotateTarget){
-			camera.target->zRot -= dx * 0.5 * camera.zSpeed * toRadians;
-			camera.target->xRot += dy * 0.5 * camera.xSpeed * toRadians;
+			camera.target->zRot -= dx *  camera.zSpeed;
+			camera.target->xRot += dy *  camera.xSpeed;
 		}
 	}else if (event->buttons() & Qt::LeftButton) {
-		setXRotation(xRot + dy * 0.5 * camera.xSpeed);
-		setZRotation(zRot + dx * 0.5 * camera.zSpeed);
+		camera.setXRotation(camera.xRot + dy *  camera.xSpeed);
+		camera.setZRotation(camera.zRot + dx *  camera.zSpeed);
 	}
 	lastPos = event->pos();
 }
@@ -406,44 +398,3 @@ void Alpha::wheelEvent(QWheelEvent *event)
 	event->accept();
 }
 
-void Alpha::setXRotation(float angle)
-{
-	qNormalizeAngle(angle);
-	// keep us from flipping upside down
-	if ( angle < 90 ) { angle = 0; }
-	else if ( angle < 180 ) {angle = 180;}
-
-	if (angle != xRot) {
-		xRot = angle;
-		emit xRotationChanged(angle);
-		updateGL();
-	}
-}
-
-void Alpha::setYRotation(float angle)
-{
-	qNormalizeAngle(angle);
-	if (angle != yRot) {
-		yRot = angle;
-		emit yRotationChanged(angle);
-		updateGL();
-	}
-}
-
-void Alpha::setZRotation(float angle)
-{
-	qNormalizeAngle(angle);
-	if (angle != zRot) {
-		zRot = angle;
-		emit zRotationChanged(angle);
-		updateGL();
-	}
-}
-
-
-void Alpha::applyRotation() const
-{
-	glRotatef(xRot, 1.0, 0.0, 0.0);
-	glRotatef(yRot, 0.0, 1.0, 0.0);
-	glRotatef(zRot, 0.0, 0.0, 1.0);
-}
