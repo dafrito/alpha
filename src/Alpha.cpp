@@ -36,7 +36,7 @@ Alpha::Alpha(QWidget* const parent) :
 	player2.pos.setX(50);
 	player2.pos.setZ(10);
 	// camera faces whatever the player is
-	camera.setXRotation(camera.target->xRot + M_PI_2);
+	camera.setXRotation(camera.target->xRot);
 	camera.setYRotation(camera.target->yRot);
 	camera.setZRotation(camera.target->zRot);
 
@@ -56,13 +56,13 @@ void Alpha::tick(const float& elapsed)
 	if (pad.turnLeft && !pad.turnRight) {
 		camera.target->zRot += da;
 		if (camera.rotateWithTarget){
-			camera.setZRotation(camera.zRot + da);
+			camera.setZRotation(camera.getZRotation() + da);
 		}
 	} else if (pad.turnRight && !pad.turnLeft) {
 		da = M_PI * elapsed * TURN_SPEED;
 		camera.target->zRot -= da;
 		if (camera.rotateWithTarget){
-			camera.setZRotation(camera.zRot - da);
+			camera.setZRotation(camera.getZRotation() - da);
 		}
 	}
 
@@ -350,8 +350,8 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 		camera.rotateWithTarget = false;
 		// Right click behavior overrides left click so it always fires on press
 	}else if (event->button() & Qt::RightButton) {
-		camera.target->zRot = (camera.zRot);
-		camera.target->xRot = (camera.xRot - M_PI_2);
+		camera.target->zRot = camera.getZRotation();
+		camera.target->xRot = camera.getXRotation();
 		pad.rightMouse = true;
 		camera.rotateTarget=true;
 	}
@@ -375,15 +375,15 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 
 	// Right click behavior overrides left click so it always fires on press
 	if (event->buttons() & Qt::RightButton) {
-		camera.setXRotation(camera.xRot - dy * camera.xSpeed);
-		camera.setZRotation(camera.zRot - dx * camera.zSpeed);
+		camera.setXRotation(camera.getXRotation() - dy * camera.xSpeed);
+		camera.setZRotation(camera.getZRotation() - dx * camera.zSpeed);
 		if (camera.rotateTarget){
 			camera.target->zRot -= dx *  camera.zSpeed;
 			camera.target->xRot -= dy *  camera.xSpeed;
 		}
 	}else if (event->buttons() & Qt::LeftButton) {
-		camera.setXRotation(camera.xRot - dy *  camera.xSpeed);
-		camera.setZRotation(camera.zRot - dx *  camera.zSpeed);
+		camera.setXRotation(camera.getXRotation() - dy *  camera.xSpeed);
+		camera.setZRotation(camera.getZRotation() - dx *  camera.zSpeed);
 	}
 	lastPos = event->pos();
 }

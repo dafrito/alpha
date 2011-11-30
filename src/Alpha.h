@@ -81,7 +81,7 @@ public:
 		//target->alpha = target->defaultAlpha;
 		target = &mob;
 		// camera faces what the target faces
-		setXRotation(target->xRot + M_PI_2);
+		setXRotation(target->xRot);
 		setYRotation(target->yRot);
 		setZRotation(target->zRot);
 
@@ -125,6 +125,7 @@ public:
 
 	void setXRotation(float angle)
 	{
+		angle += M_PI_2;
 		normalizeAngle(angle);
 		// keep us from flipping upside down
 		if ( angle > 3 * M_PI_2 ) { angle = 2 * M_PI; }
@@ -151,9 +152,13 @@ public:
 
 		}
 	}
-	float xRot;
-	float yRot;
-	float zRot;
+
+	float getXRotation()
+	{
+		return xRot - M_PI_2;
+	}
+	float getYRotation() {return yRot;}
+	float getZRotation() {return zRot;}
 protected:
 	float targetDistance; // Distance from the target
 	float maxDistance; // the maximum that you can zoom out
@@ -165,6 +170,9 @@ protected:
 			angle -= 2 * M_PI;
 	}
 private:
+	float xRot;
+	float yRot;
+	float zRot;
 
 
 };
