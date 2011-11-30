@@ -40,13 +40,11 @@ Alpha::Alpha(QWidget* const parent) :
 void Alpha::tick(const float& elapsed)
 {
 	Vector3<double> velocity;
-	float velocity_init = camera.target->velocity; // for position calculation purposes
-	float svelocity_init = camera.target->svelocity;
+
 	if (pad.F1){
 		NewTarget();
 		pad.F1 = false; // only fires once
 	}
-
 
 	float da = M_PI * elapsed * TURN_SPEED;
 	if (pad.turnLeft && !pad.turnRight) {
