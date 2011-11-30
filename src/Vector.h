@@ -31,9 +31,10 @@ public:
 	void addX(const T& x) { setX(_x + x); }
 	void rotateX(const T& radians)
 	{
-		// TODO The math here is very likely incorrect.
-		setY(yzLength() * cos(radians));
-		setZ(yzLength() * sin(radians));
+		set(
+			_x,
+			_y * cos(radians) - _z * sin(radians),
+			_y * sin(radians) + _z * cos(radians));
 	}
 
 	T y() const { return _y; };
@@ -41,9 +42,10 @@ public:
 	void addY(const T& y) { setY(_y + y); }
 	void rotateY(const T& radians)
 	{
-		// TODO The math here is very likely incorrect.
-		setX(xzLength() * cos(radians));
-		setZ(xzLength() * sin(radians));
+		set(
+			_x * cos(radians) + _z * sin(radians),
+			_y,
+			_z * cos(radians) - _x * sin(radians));
 	}
 
 	T z() const { return _z; };
@@ -51,9 +53,9 @@ public:
 	void addZ(const T& z) { setZ(_z + z); }
 	void rotateZ(const T& radians)
 	{
-		// TODO The math here is very likely incorrect.
-		setX(xyLength() * cos(radians));
-		setY(xyLength() * sin(radians));
+		set(
+			_x*cos(radians) - _y*sin(radians),
+			_x*sin(radians) + _y*cos(radians));
 	}
 
 	void set(const T& x, const T& y, const T& z)
@@ -63,34 +65,12 @@ public:
 		setZ(z);
 	}
 
-	T xyLength() const
-	{
-		return sqrt(
-			_x * _x +
-			_y * _y);
-	}
-
-	T xzLength() const
-	{
-		return sqrt(
-			_x * _x +
-			_z * _z);
-	}
-
-	T yzLength() const
-	{
-		return sqrt(
-			_y * _y +
-			_z * _z);
-	}
-
 	T length() const
 	{
-		return pow(
+		return sqrt(
 			_x * _x +
 			_y * _y +
-			_z * _z,
-			(T)1/3);
+			_z * _z);
 	}
 
 	void normalize()
