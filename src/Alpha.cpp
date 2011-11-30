@@ -6,6 +6,8 @@
 #include <iostream>
 #include "Vector.h"
 
+using namespace nt;
+
 // Config
 const float TURN_SPEED = 1;
 const float PLAYER_MOVESPEED = 50;
@@ -119,11 +121,8 @@ void Alpha::tick(const float& elapsed)
 		}
 	}
 
-	if ( camera.target->zRot >= 2 * M_PI ) { camera.target->zRot -= 2 * M_PI; } // TODO: turn this into 1 normalize function
-	else if (camera.target->zRot <=  0 ) { camera.target->zRot += 2 * M_PI; }	// keeps our angles within 1 revolution
-
-	if ( camera.target->xRot >= 2 * M_PI ) { camera.target->xRot -= 2 * M_PI; }
-	else if (camera.target->xRot <=  0 ) { camera.target->xRot += 2 * M_PI; }	// keeps our angles within 1 revolution
+	normalizeAngle(camera.target->zRot);
+	normalizeAngle(camera.target->xRot);
 
 	velocity.normalize();
 	velocity.rotateX(camera.target->xRot);
