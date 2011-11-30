@@ -125,7 +125,6 @@ void Alpha::tick(const float& elapsed)
 	if ( camera.target->xRot >= 2 * M_PI ) { camera.target->xRot -= 2 * M_PI; }
 	else if (camera.target->xRot <=  0 ) { camera.target->xRot += 2 * M_PI; }	// keeps our angles within 1 revolution
 
-	velocity.rotateZ(M_PI_2);
 	velocity.normalize();
 	velocity.rotateX(camera.target->xRot);
 	velocity.rotateZ(camera.target->zRot);
