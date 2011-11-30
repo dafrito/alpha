@@ -58,6 +58,11 @@ public:
 			_x*sin(radians) + _y*cos(radians));
 	}
 
+	void set(const T& x, const T& y)
+	{
+		set(x, y, _z);
+	}
+
 	void set(const T& x, const T& y, const T& z)
 	{
 		setX(x);
