@@ -1,27 +1,49 @@
 #include "Camera.h"
 #include "util.h"
+#include <cassert>
 
 using namespace nt;
 
-Camera::Camera() :
+Camera::Camera(Player* t) :
 	moveWithTarget(true),
 	rotateWithTarget(true),
 	rotateTarget(false),
 	zoomSpeed(5),
 	zSpeed(0.009),
 	xSpeed(0.007),
+	target(t),
 	targetDistance(100),
 	maxDistance(800)
-{}
+{
+	setXRotation(0);
+	setYRotation(0);
+	setZRotation(0);
+	setTarget(target);
+
+}
 
 void Camera::setTarget(Player* mob)
 {
-	//target->alpha = target->defaultAlpha;
+	assert(target != 0);
+	mob->alpha = target->alpha;
+	target->alpha = target->defaultAlpha;
 	target = mob;
-	// camera faces what the target faces
+	alignWithTarget();
+}
+// target rotates to face away from camera
+void Camera::alignTarget()
+{
+		target->xRot = getXRotation();
+		target->yRot = getYRotation();
+		target->zRot = getZRotation();
+}
+// camera rotates to face at back of target
+void Camera::alignWithTarget()
+{
 	setXRotation(target->xRot);
 	setYRotation(target->yRot);
 	setZRotation(target->zRot);
+
 }
 
 void Camera::setTargetDistance(float distance)

@@ -25,9 +25,8 @@ float toRadians = M_PI / 180;
 
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-		timer(this)
+		timer(this),camera(&player)
 {
-	camera.setTarget(&player);
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
@@ -35,11 +34,6 @@ Alpha::Alpha(QWidget* const parent) :
 	player.pos.setZ(10);
 	player2.pos.setX(50);
 	player2.pos.setZ(10);
-	// camera faces whatever the player is
-	camera.setXRotation(camera.target->xRot);
-	camera.setYRotation(camera.target->yRot);
-	camera.setZRotation(camera.target->zRot);
-
 }
 
 void Alpha::tick(const float& elapsed)
@@ -56,13 +50,13 @@ void Alpha::tick(const float& elapsed)
 	if (pad.turnLeft && !pad.turnRight) {
 		camera.target->zRot += da;
 		if (camera.rotateWithTarget){
-			camera.setZRotation(camera.getZRotation() + da);
+			camera.alignWithTarget();
 		}
 	} else if (pad.turnRight && !pad.turnLeft) {
 		da = M_PI * elapsed * TURN_SPEED;
 		camera.target->zRot -= da;
 		if (camera.rotateWithTarget){
-			camera.setZRotation(camera.getZRotation() - da);
+			camera.alignWithTarget();
 		}
 	}
 
@@ -105,12 +99,18 @@ void Alpha::tick(const float& elapsed)
 	} else if (pad.down && !pad.up) {
 
 	}
-
+ 	//XXX: lol that is all
+ 	// ok not all, need to change the camera limits on xRot to be determined by target's pitch
 	if (pad.pitchup && !pad.pitchdown) {
 		camera.target->xRot += M_PI * elapsed * TURN_SPEED;
-
+		if (camera.rotateWithTarget){
+			camera.alignWithTarget();
+		}
 	}else if (pad.pitchdown && !pad.pitchup)  {
 		camera.target->xRot -= M_PI * elapsed * TURN_SPEED;
+		if (camera.rotateWithTarget){
+			camera.alignWithTarget();
+		}
 	}
 
 	if ( camera.target->zRot >= 2 * M_PI ) { camera.target->zRot -= 2 * M_PI; } // TODO: turn this into 1 normalize function
@@ -350,8 +350,7 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 		camera.rotateWithTarget = false;
 		// Right click behavior overrides left click so it always fires on press
 	}else if (event->button() & Qt::RightButton) {
-		camera.target->zRot = camera.getZRotation();
-		camera.target->xRot = camera.getXRotation();
+		camera.alignTarget();
 		pad.rightMouse = true;
 		camera.rotateTarget=true;
 	}
@@ -378,8 +377,7 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 		camera.setXRotation(camera.getXRotation() - dy * camera.xSpeed);
 		camera.setZRotation(camera.getZRotation() - dx * camera.zSpeed);
 		if (camera.rotateTarget){
-			camera.target->zRot -= dx *  camera.zSpeed;
-			camera.target->xRot -= dy *  camera.xSpeed;
+			camera.alignTarget();
 		}
 	}else if (event->buttons() & Qt::LeftButton) {
 		camera.setXRotation(camera.getXRotation() - dy *  camera.xSpeed);

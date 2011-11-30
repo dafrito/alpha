@@ -72,10 +72,8 @@ protected:
 	void NewTarget()
 	{
 		if (camera.target == &player){
-			camera.target->alpha = camera.target->defaultAlpha;
 			camera.setTarget(&player2);
 		} else {
-			camera.target->alpha = camera.target->defaultAlpha;
 			camera.setTarget(&player);
 		}
 	}

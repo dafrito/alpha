@@ -2,16 +2,19 @@
 #define CAMERA_H
 
 #include "Player.h"
+#include <cmath>
 
 // the beginning of a camera class
 // XXX: most things are public
 class Camera
 {
 public:
-	Camera();
+	Camera(Player* t);
 	// XXX: needs a default target so I can set the alpha in the correct spot
 	// anytime it is changed
 	void setTarget(Player* mob);
+	void alignTarget();
+	void alignWithTarget();
 
 	bool moveWithTarget;
 	bool rotateWithTarget;
