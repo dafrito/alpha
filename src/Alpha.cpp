@@ -4,6 +4,7 @@
 #include <QWheelEvent>
 #include <GL/glut.h>
 #include <iostream>
+#include "Vector.h"
 
 // Config
 const float TURN_SPEED = 1;
@@ -38,6 +39,7 @@ Alpha::Alpha(QWidget* const parent) :
 
 void Alpha::tick(const float& elapsed)
 {
+	Vector3<double> velocity;
 	float velocity_init = camera.target->velocity; // for position calculation purposes
 	float svelocity_init = camera.target->svelocity;
 	if (pad.F1){
@@ -58,6 +60,12 @@ void Alpha::tick(const float& elapsed)
 		if (camera.rotateWithTarget){
 			camera.alignWithTarget();
 		}
+	}
+
+	if (pad.strafeLeft && !pad.strafeRight) {
+		velocity.addX(-1);
+	} else if(pad.strafeRight && !pad.strafeLeft) {
+		velocity.addX(1);
 	}
 
 	// XXX: will be strafing but camera.rotateTarget is perhaps not right
@@ -82,16 +90,17 @@ void Alpha::tick(const float& elapsed)
 	}
 */
 	if ((pad.leftMouse && pad.rightMouse) && !pad.backward) {
+		velocity.addY(1);
 		camera.target->velocity = PLAYER_MOVESPEED;
 	} else if (pad.forward && !pad.backward) {
+		velocity.addY(1);
 		camera.target->velocity = PLAYER_MOVESPEED;
 	} else if (pad.backward && !pad.forward && !(pad.leftMouse && pad.rightMouse)) {
+		velocity.addY(-1);
 	 	camera.target->velocity = -PLAYER_MOVESPEED;
 	} else {
 		camera.target->velocity = 0;
 	}
-
-
 
 	// TODO: reimplement this
 	if (pad.up && !pad.down) {
@@ -119,10 +128,19 @@ void Alpha::tick(const float& elapsed)
 	if ( camera.target->xRot >= 2 * M_PI ) { camera.target->xRot -= 2 * M_PI; }
 	else if (camera.target->xRot <=  0 ) { camera.target->xRot += 2 * M_PI; }	// keeps our angles within 1 revolution
 
+	velocity.rotateZ(M_PI_2);
+	velocity.normalize();
+	velocity.rotateX(camera.target->xRot);
+	velocity.rotateZ(camera.target->zRot);
+	velocity.scale(0.5 * PLAYER_MOVESPEED * elapsed);
+
 	// S = Sinit + (1/2) * (V + Vinit) * deltaT
-	float x = camera.target->pos.x() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * -sin(camera.target->zRot) * cos(camera.target->xRot);
-	float y = camera.target->pos.y() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * cos(camera.target->zRot) * cos(camera.target->xRot);
-	float z = camera.target->pos.z() + 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(camera.target->xRot);
+	float x = camera.target->pos.x() + velocity.x();
+	//x += 0.5 * (camera.target->velocity + velocity_init) * elapsed * -sin(camera.target->zRot) * cos(camera.target->xRot);
+	float y = camera.target->pos.y() + velocity.y();
+	//y += 0.5 * (camera.target->velocity + velocity_init) * elapsed * cos(camera.target->zRot) * cos(camera.target->xRot);
+	float z = camera.target->pos.z() + velocity.z();
+	//z += 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(camera.target->xRot);
 
 	camera.target->pos.setX(x);
 	camera.target->pos.setY(y);
