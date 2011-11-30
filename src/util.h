@@ -2,6 +2,7 @@
 #define UTIL_H
 
 #include <QGLWidget>
+#include <cmath>
 
 namespace nt
 {

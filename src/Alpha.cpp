@@ -36,14 +36,25 @@ Alpha::Alpha(QWidget* const parent) :
 void Alpha::tick(const float& elapsed)
 {
 	Vector3<double> velocity;
+	float da = M_PI * elapsed * TURN_SPEED;
 
 	if (input.switchTarget()) {
 		NewTarget();
 		input.clear();
 	}
+	// XXX: will be strafing but camera.rotateTarget is perhaps not right
+	// the behavior in an FPS camera and in a 3rd person is not necessarily the same
+	// TURNLEFT should probably turn you left in an FPS mode, even though the camera is rotating the player
+	// in 3rd person a camera rotating the player should make the player strafe, like wow.
+	// but if you put in two different methods then a streamlined swap between the two modes is not
+	// possible -- maybe a TURNLEFT, STRAFELEFT, and SMARTLEFT?
 
-	float da = M_PI * elapsed * TURN_SPEED;
-	if (input.turnLeft()) {
+
+	if ( (input.turnLeft() && camera.rotateTarget) && !input.turnRight() ) {
+		velocity.addX(-1);
+	} else if ( (input.turnRight() && camera.rotateTarget) && !input.turnLeft() ) {
+		velocity.addX(1);
+	} else if (input.turnLeft()) {
 		camera.target->zRot += da;
 		if (camera.rotateWithTarget){
 			camera.setZRotation(camera.getZRotation() + da);
@@ -55,33 +66,12 @@ void Alpha::tick(const float& elapsed)
 		}
 	}
 
-	if (input.strafeLeft()) {
+	if (input.strafeLeft() && !input.strafeRight() ) {
 		velocity.addX(-1);
-	} else if (input.strafeRight()) {
+	} else if (input.strafeRight() && !input.strafeLeft() ) {
 		velocity.addX(1);
 	}
 
-	// XXX: will be strafing but camera.rotateTarget is perhaps not right
-	// the behavior in an FPS camera and in a 3rd person is not necessarily the same
-	// TURNLEFT should probably turn you left in an FPS mode, even though the camera is rotating the player
-	// in 3rd person a camera rotating the player should make the player strafe, like wow.
-	// but if you put in two different methods then a streamlined swap between the two modes is not
-	// possible -- maybe a TURNLEFT, STRAFELEFT, and SMARTLEFT?
- /*
-	if ( (pad.turnLeft && camera.rotateTarget) && !pad.turnRight ) {
-		camera.target->velocity = PLAYER_MOVESPEED;
-		camera.target->zRot += M_PI / 2;
-	} else if ( (pad.turnRight && camera.rotateTarget) && !pad.turnLeft ) {
-		camera.target->velocity = PLAYER_MOVESPEED;
-		camera.target->zRot += M_PI / 2;
-	} else if (pad.strafeLeft && !pad.strafeRight && !camera.rotatingTarget) {
-		camera.target->velocity = PLAYER_MOVESPEED;
-		camera.target->zRot -= M_PI / 2;
-	} else if (pad.strafeRight && !pad.strafeLeft && !camera.rotatingTarget) {
-		camera.target->velocity = PLAYER_MOVESPEED;
-		camera.target->zRot -= M_PI / 2;
-	}
-*/
 	if (input.moveForward()) {
 		velocity.addY(1);
 	} else if (input.moveBackward()) {
@@ -117,13 +107,10 @@ void Alpha::tick(const float& elapsed)
 	velocity.rotateZ(camera.target->zRot);
 	velocity.scale(0.5 * PLAYER_MOVESPEED * elapsed);
 
-	// S = Sinit + (1/2) * (V + Vinit) * deltaT
 	float x = camera.target->pos.x() + velocity.x();
-	//x += 0.5 * (camera.target->velocity + velocity_init) * elapsed * -sin(camera.target->zRot) * cos(camera.target->xRot);
 	float y = camera.target->pos.y() + velocity.y();
-	//y += 0.5 * (camera.target->velocity + velocity_init) * elapsed * cos(camera.target->zRot) * cos(camera.target->xRot);
 	float z = camera.target->pos.z() + velocity.z();
-	//z += 0.5 * (camera.target->velocity + velocity_init) * elapsed * sin(camera.target->xRot);
+
 
 	camera.target->pos.setX(x);
 	camera.target->pos.setY(y);
