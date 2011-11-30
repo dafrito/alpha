@@ -27,7 +27,7 @@ Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this)
 {
-	camera.setTarget(player);
+	camera.setTarget(&player);
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
