@@ -1,7 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <QVector3D>
 #include "Vector.h"
 #include "util.h"
 
@@ -12,7 +11,7 @@ struct Player
 	Player() : velocity(0,0,0), xRot(0), yRot(0), zRot(0), defaultAlpha(1),
 	alpha(defaultAlpha){}
 	// TODO Convert this to use Vector3<double>
-	QVector3D pos;
+	Vector3<double> pos;
 	Vector3<double> velocity;
 	void setVelocity(double x, double y, double z)
 	{
