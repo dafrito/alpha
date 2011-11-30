@@ -53,7 +53,6 @@ void Alpha::tick(const float& elapsed)
 			camera.alignWithTarget();
 		}
 	} else if (pad.turnRight && !pad.turnLeft) {
-		da = M_PI * elapsed * TURN_SPEED;
 		camera.target->zRot -= da;
 		if (camera.rotateWithTarget){
 			camera.alignWithTarget();
