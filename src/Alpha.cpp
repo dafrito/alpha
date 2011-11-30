@@ -37,27 +37,27 @@ void Alpha::tick(const float& elapsed)
 {
 	Vector3<double> velocity;
 
-	if (pad.F1){
+	if (input.switchTarget()) {
 		NewTarget();
-		pad.F1 = false; // only fires once
+		input.clear();
 	}
 
 	float da = M_PI * elapsed * TURN_SPEED;
-	if (pad.turnLeft && !pad.turnRight) {
+	if (input.turnLeft()) {
 		camera.target->zRot += da;
 		if (camera.rotateWithTarget){
 			camera.setZRotation(camera.getZRotation() + da);
 		}
-	} else if (pad.turnRight && !pad.turnLeft) {
+	} else if (input.turnRight()) {
 		camera.target->zRot -= da;
 		if (camera.rotateWithTarget){
 			camera.setZRotation(camera.getZRotation() - da);
 		}
 	}
 
-	if (pad.strafeLeft && !pad.strafeRight) {
+	if (input.strafeLeft()) {
 		velocity.addX(-1);
-	} else if(pad.strafeRight && !pad.strafeLeft) {
+	} else if (input.strafeRight()) {
 		velocity.addX(1);
 	}
 
@@ -82,33 +82,31 @@ void Alpha::tick(const float& elapsed)
 		camera.target->zRot -= M_PI / 2;
 	}
 */
-	if ((pad.leftMouse && pad.rightMouse) && !pad.backward) {
+	if (input.moveForward()) {
 		velocity.addY(1);
 		camera.target->velocity = PLAYER_MOVESPEED;
-	} else if (pad.forward && !pad.backward) {
-		velocity.addY(1);
-		camera.target->velocity = PLAYER_MOVESPEED;
-	} else if (pad.backward && !pad.forward && !(pad.leftMouse && pad.rightMouse)) {
+	} else if (input.moveBackward()) {
 		velocity.addY(-1);
 	 	camera.target->velocity = -PLAYER_MOVESPEED;
-	} else {
-		camera.target->velocity = 0;
 	}
 
+	/*
 	// TODO: reimplement this
+	// FIXME: What is this supposed to do?
 	if (pad.up && !pad.down) {
 
 	} else if (pad.down && !pad.up) {
 
-	}
+	}*/
+
  	//XXX: lol that is all
  	// ok not all, need to change the camera limits on xRot to be determined by target's pitch
-	if (pad.pitchup && !pad.pitchdown) {
+	if (input.pitchUp()) {
 		camera.target->xRot += da;
 		if (camera.rotateWithTarget){
 			camera.setXRotation(camera.getXRotation() + da);
 		}
-	}else if (pad.pitchdown && !pad.pitchup)  {
+	} else if (input.pitchDown()) {
 		camera.target->xRot -= da;
 		if (camera.rotateWithTarget){
 			camera.setXRotation(camera.getXRotation() - da);
@@ -307,63 +305,37 @@ keyPressEvent() is called whenever a key is pressed, and again when a key has be
 */
 void Alpha::keyPressEvent(QKeyEvent* event)
 {
-	switch (event->key()) {
-		case Qt::Key_W: pad.forward = true; break;
-		case Qt::Key_S: pad.backward = true; break;
-		case Qt::Key_A: pad.turnLeft = true; break;
-		case Qt::Key_D: pad.turnRight = true; break;
-		case Qt::Key_Space: pad.up = true; break;
-		case Qt::Key_X: pad.down = true; break;
-		case Qt::Key_E: pad.pitchup = true; break;
-		case Qt::Key_Q: pad.pitchdown = true; break;
-		case Qt::Key_1: pad.strafeLeft = true; break;
-		case Qt::Key_2: pad.strafeRight = true; break;
-		case Qt::Key_F1: pad.F1 = true; break;
-		default:
-			QGLWidget::keyPressEvent(event);
+	if(!input.handleKeyPress(event)) {
+		QGLWidget::keyPressEvent(event);
 	}
 }
 
 void Alpha::keyReleaseEvent(QKeyEvent* event)
 {
-	switch (event->key()) {
-		case Qt::Key_W: pad.forward = false; break;
-		case Qt::Key_S: pad.backward = false; break;
-		case Qt::Key_A: pad.turnLeft = false; break;
-		case Qt::Key_D: pad.turnRight = false; break;
-		case Qt::Key_Space: pad.up = false; break;
-		case Qt::Key_X: pad.down = false; break;
-		case Qt::Key_E: pad.pitchup = false; break;
-		case Qt::Key_Q: pad.pitchdown = false; break;
-		case Qt::Key_1: pad.strafeLeft = false; break;
-		case Qt::Key_2: pad.strafeRight = false; break;
-		case Qt::Key_F1: pad.F1 = false; break;
-		default:
-			QGLWidget::keyReleaseEvent(event);
+	if(!input.handleKeyRelease(event)) {
+		QGLWidget::keyReleaseEvent(event);
 	}
 }
 
 // TODO: prevent the mouse cursor from moving during a Mouse, similar to wow
 void Alpha::mousePressEvent(QMouseEvent *event)
 {
+	input.handleMousePress(event);
 	lastPos = event->pos();
 	if (event->button() & Qt::LeftButton) {
-		pad.leftMouse = true;
 		camera.rotateWithTarget = false;
 		// Right click behavior overrides left click so it always fires on press
 	}else if (event->button() & Qt::RightButton) {
 		camera.alignTarget();
-		pad.rightMouse = true;
 		camera.rotateTarget=true;
 	}
 }
 void Alpha::mouseReleaseEvent(QMouseEvent * event)
 {
+	input.handleMouseRelease(event);
 	if (event->button() & Qt::LeftButton) {
-		pad.leftMouse = false;
 		camera.rotateWithTarget = true;
 	}else if (event->button() & Qt::RightButton) {
-		pad.rightMouse = false;
 		camera.rotateTarget = false;
 	}
 }

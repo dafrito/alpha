@@ -7,48 +7,13 @@
 #include <cmath>
 #include "Player.h"
 #include "Camera.h"
-
-// XXX: hardcoded keybinds
-struct KeyBinds
-{
-	bool forward;
-	bool backward;
-	bool turnLeft;
-	bool turnRight;
-	bool strafeLeft;
-	bool strafeRight;
-	bool up;
-	bool down;
-	bool pitchup; // aim up
-	bool pitchdown; // aim down
-
-	bool leftMouse;	// mouse clicks
-	bool rightMouse;
-
-	bool F1;
-	KeyBinds() :
-	forward(false),
-	backward(false),
-	turnLeft(false),
-	turnRight(false),
-	strafeLeft(false),
-	strafeRight(false),
-	up(false),
-	down(false),
-	pitchup(false),
-	pitchdown(false),
-	leftMouse(false),
-	rightMouse(false),
-	F1(false)
-	{};
-
-};
+#include "PlayerInput.h"
 
 class Alpha : public QGLWidget
 {
 	Q_OBJECT
 	MeasuredTimer timer;
-	KeyBinds pad;
+	PlayerInput input;
 	Player player;
 	Player player2;
 	Camera camera;

@@ -47,6 +47,7 @@ HEADERS *= util.h
 HEADERS *= Player.h
 HEADERS *= Camera.h
 HEADERS *= Vector.h
+HEADERS *= PlayerInput.h
 
 SOURCES *= GLWidget.cpp
 SOURCES *= demos.cpp
@@ -67,3 +68,4 @@ SOURCES *= LuaGLWidget.cpp
 SOURCES *= Alpha.cpp
 SOURCES *= util.cpp
 SOURCES *= Camera.cpp
+SOURCES *= PlayerInput.cpp
