@@ -86,5 +86,4 @@ private slots:
 
 };
 
-
 #endif // ALPHA_H
