@@ -46,6 +46,7 @@ HEADERS *= Alpha.h
 HEADERS *= util.h
 HEADERS *= Player.h
 HEADERS *= Camera.h
+HEADERS *= Vector.h
 
 SOURCES *= GLWidget.cpp
 SOURCES *= demos.cpp
