@@ -30,13 +30,15 @@ void Camera::setTarget(Player* mob)
 	target = mob;
 	alignWithTarget();
 }
+
 // target rotates to face away from camera
 void Camera::alignTarget()
 {
-		target->xRot = getXRotation();
-		target->yRot = getYRotation();
-		target->zRot = getZRotation();
+	target->xRot = getXRotation();
+	target->yRot = getYRotation();
+	target->zRot = getZRotation();
 }
+
 // camera rotates to face at back of target
 void Camera::alignWithTarget()
 {
