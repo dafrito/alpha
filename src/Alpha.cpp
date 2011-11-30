@@ -141,12 +141,7 @@ void Alpha::tick(const float& elapsed)
 	camera.target->pos.setX(x);
 	camera.target->pos.setY(y);
 	camera.target->pos.setZ(z);
-
-
 }
-
-
-
 
 void Alpha::initializeGL()
 {
