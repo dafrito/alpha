@@ -73,25 +73,17 @@ void Camera::setXRotation(float angle)
 	// keep us from flipping upside down
 	if ( angle > 3 * M_PI_2 ) { angle = 2 * M_PI; }
 	else if ( angle > M_PI ) {angle = M_PI;}
-
-	if (angle != xRot) {
-		xRot = angle;
-	}
+	xRot = angle;
 }
 
 void Camera::setYRotation(float angle)
 {
 	normalizeAngle(angle);
-	if (angle != yRot) {
-		yRot = angle;
-	}
+	yRot = angle;
 }
 
 void Camera::setZRotation(float angle)
 {
 	normalizeAngle(angle);
-	if (angle != zRot) {
-		zRot = angle;
-
-	}
+	zRot = angle;
 }
