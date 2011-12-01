@@ -11,7 +11,7 @@ struct NoWrapping
 	static void wrap(T&) {}
 };
 
-struct NormalizeWrap
+struct WrapRadians
 {
 	template <class T>
 	static void wrap(T& value)
