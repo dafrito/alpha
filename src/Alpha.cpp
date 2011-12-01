@@ -36,6 +36,7 @@ Alpha::Alpha(QWidget* const parent) :
 void Alpha::tick(const float& elapsed)
 {
 	Vector3<double> velocity;
+
 	float da = M_PI * elapsed * TURN_SPEED;
 
 	if (input.switchTarget()) {
@@ -50,20 +51,14 @@ void Alpha::tick(const float& elapsed)
 	// possible -- maybe a TURNLEFT, STRAFELEFT, and SMARTLEFT?
 
 
-	if ( (input.turnLeft() && camera.rotateTarget) && !input.turnRight() ) {
+	if ( (input.turnLeft() && camera.rotateTarget ) && !input.turnRight() ) {
 		velocity.addX(-1);
-	} else if ( (input.turnRight() && camera.rotateTarget) && !input.turnLeft() ) {
+	} else if ( (input.turnRight() && camera.rotateTarget ) && !input.turnLeft() ) {
 		velocity.addX(1);
 	} else if (input.turnLeft()) {
-		camera.target->zRot += da;
-		if (camera.rotateWithTarget){
-			camera.setZRotation(camera.getZRotation() + da);
-		}
+		camera.addTargetZRotation(da);
 	} else if (input.turnRight()) {
-		camera.target->zRot -= da;
-		if (camera.rotateWithTarget){
-			camera.setZRotation(camera.getZRotation() - da);
-		}
+		camera.addTargetZRotation(-da);
 	}
 
 	if (input.strafeLeft() && !input.strafeRight() ) {
@@ -88,23 +83,16 @@ void Alpha::tick(const float& elapsed)
  	//XXX: lol that is all
  	// ok not all, need to change the camera limits on xRot to be determined by target's pitch
 	if (input.pitchUp()) {
-		camera.target->xRot += da;
-		if (camera.rotateWithTarget){
-			camera.setXRotation(camera.getXRotation() + da);
-		}
+		camera.addTargetXRotation(da);
 	} else if (input.pitchDown()) {
-		camera.target->xRot -= da;
-		if (camera.rotateWithTarget){
-			camera.setXRotation(camera.getXRotation() - da);
-		}
+		camera.addTargetXRotation(-da);
 	}
 
-	normalizeAngle(camera.target->zRot);
-	normalizeAngle(camera.target->xRot);
+
 
 	velocity.normalize();
-	velocity.rotateX(camera.target->xRot);
-	velocity.rotateZ(camera.target->zRot);
+	velocity.rotateX( camera.target->getXRotation() );
+	velocity.rotateZ( camera.target->getZRotation() );
 	velocity.scale(0.5 * PLAYER_MOVESPEED * elapsed);
 
 	float x = camera.target->pos.x() + velocity.x();
@@ -134,7 +122,46 @@ void Alpha::resizeGL(int width, int height)
 	glLoadIdentity(); // set the matrix to an unmodified state
 }
 
+// TODO: figure out colors
+void drawCube(float size )
+{
+	size = size / 2;
+	// the locations of all the vertices
+	GLfloat vertices[] = {
+	 size, size, size, // 0 Top Back Right
+	-size, size, size, // 1 Top Back Left
+	-size,-size, size, // 2 Top Front Left
+	 size,-size, size, // 3 Top Front Right
 
+	 size, size,-size, // 4 Bottom Back Right
+	-size, size,-size, // 5 Bottom Back Left
+	-size,-size,-size, // 6 Bottom Front Left
+	 size,-size,-size  // 7 Bottom Front Right
+	};
+
+	// which ones to draw in sequential order
+	GLubyte indices[] = {
+		0,1,2,3,  // Top
+		7,6,5,4,  // Bottom
+		3,2,6,7,  // Front
+		4,5,1,0,  // Back
+		0,3,7,4,  // Right
+		2,1,5,6}; // Left
+
+	// activate and specify pointer to vertex array
+	glEnableClientState(GL_VERTEX_ARRAY);
+	//glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	//glColorPointer(4, GL_FLOAT, 0, colors);
+
+
+	glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, indices);
+
+	// deactivate vertex arrays after drawing
+	glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_COLOR_ARRAY);
+
+}
 void Alpha::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clears the view
@@ -176,10 +203,19 @@ void Alpha::paintGL()
 			glutWireSphere(10, 15, 15);
 		}
 		glPopMatrix();
+		glPushMatrix();
+		{
+			glTranslatef(0.0f,-90.0f,10.0f);
+			glColor3f(0.0f,0.0f,0.0f);
+			drawCube(2);
+		}
+		glPopMatrix();
 	}
 	glPopMatrix();
 
 	// draw the player's cube
+	// FIXME: this cube cannot see player2's cube through it when transparent
+	// possibly because of the order drawn, if thats the case then ghosts are out
 	glPushMatrix();
 	{
 		// mobile objects always need to be rotated and moved within the world
@@ -307,7 +343,6 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 	lastPos = event->pos();
 	if (event->button() & Qt::LeftButton) {
 		camera.rotateWithTarget = false;
-		// Right click behavior overrides left click so it always fires on press
 	}else if (event->button() & Qt::RightButton) {
 		camera.alignTarget();
 		camera.rotateTarget=true;
@@ -326,19 +361,18 @@ void Alpha::mouseReleaseEvent(QMouseEvent * event)
 // XXX: camera doesn't stay snapped behind player during keyboard turn while holding right click
 void Alpha::mouseMoveEvent(QMouseEvent *event)
 {
-	int dx = event->x() - lastPos.x();
-	int dy = event->y() - lastPos.y();
-
+	float dx = event->x() - lastPos.x();
+	float dy = event->y() - lastPos.y();
+	dx *= camera.zSpeed; // horizontal rotation
+	dy *= camera.xSpeed; // vertical rotation
 	// Right click behavior overrides left click so it always fires on press
+	// cameras rotate opposite the direction you move, in order to look that way
 	if (event->buttons() & Qt::RightButton) {
-		camera.setXRotation(camera.getXRotation() - dy * camera.xSpeed);
-		camera.setZRotation(camera.getZRotation() - dx * camera.zSpeed);
-		if (camera.rotateTarget){
-			camera.alignTarget();
-		}
+		camera.addXRotation(-dy );
+		camera.addZRotation(-dx );
 	}else if (event->buttons() & Qt::LeftButton) {
-		camera.setXRotation(camera.getXRotation() - dy *  camera.xSpeed);
-		camera.setZRotation(camera.getZRotation() - dx *  camera.zSpeed);
+		camera.addXRotation(-dy );
+		camera.addZRotation(-dx );
 	}
 	lastPos = event->pos();
 }
@@ -348,7 +382,7 @@ void Alpha::wheelEvent(QWheelEvent *event)
 	int numSteps = numDegrees / 15;
 
 	if (event->orientation() == Qt::Vertical) {
-		camera.setTargetDistance ( camera.getTargetDistance() - numSteps * camera.zoomSpeed );
+		camera.addTargetDistance(-numSteps * camera.zoomSpeed );
 	}
 	event->accept();
 }

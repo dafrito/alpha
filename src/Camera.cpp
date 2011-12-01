@@ -5,13 +5,13 @@
 using namespace nt;
 
 Camera::Camera(Player* t) :
-	moveWithTarget(true),
-	rotateWithTarget(true),
-	rotateTarget(false),
+	target(t),
 	zoomSpeed(5),
 	zSpeed(0.009),
 	xSpeed(0.007),
-	target(t),
+	moveWithTarget(true),
+	rotateWithTarget(true),
+	rotateTarget(false),
 	targetDistance(100),
 	maxDistance(800)
 {
@@ -34,19 +34,50 @@ void Camera::setTarget(Player* mob)
 // target rotates to face away from camera
 void Camera::alignTarget()
 {
-	target->xRot = getXRotation();
-	target->yRot = getYRotation();
-	target->zRot = getZRotation();
+	// camera and object xRots are off by 1/4 turn
+	target->setXRotation( getXRotation() - M_PI_2 );
+	target->setYRotation( getYRotation() );
+	target->setZRotation( getZRotation() );
 }
 
 // camera rotates to face at back of target
 void Camera::alignWithTarget()
 {
-	setXRotation(target->xRot);
-	setYRotation(target->yRot);
-	setZRotation(target->zRot);
+	// camera and object xRots are off by 1/4 turn
+	setXRotation( target->getXRotation() + M_PI_2);
+	setYRotation( target->getYRotation() );
+	setZRotation( target->getZRotation() );
 
 }
+
+void Camera::addTargetXRotation(float x)
+{
+
+	target->addXRotation(x);
+	if (rotateWithTarget)
+	{
+		setXRotation(xRot + x);
+	}
+}
+void Camera::addTargetYRotation(float y)
+{
+	target->addYRotation(y);
+	if (rotateWithTarget)
+	{
+		setYRotation(yRot + y);
+	}
+
+}
+
+void Camera::addTargetZRotation(float z)
+{
+	target->addZRotation(z);
+	if (rotateWithTarget)
+	{
+		setZRotation(zRot + z);
+	}
+}
+
 
 void Camera::setTargetDistance(float distance)
 {
@@ -54,6 +85,10 @@ void Camera::setTargetDistance(float distance)
 	if (distance > maxDistance) {distance = maxDistance;}
 	targetDistance = distance;
 	target->alpha = targetDistance / 100;
+}
+void Camera::addTargetDistance(float distance)
+{
+	setTargetDistance(targetDistance + distance);
 }
 
 void Camera::applySettings() const
@@ -70,7 +105,6 @@ void Camera::applySettings() const
 
 void Camera::setXRotation(float angle)
 {
-	angle += M_PI_2;
 	normalizeAngle(angle);
 	// keep us from flipping upside down
 	if ( angle > 3 * M_PI_2 ) { angle = 2 * M_PI; }
@@ -88,4 +122,31 @@ void Camera::setZRotation(float angle)
 {
 	normalizeAngle(angle);
 	zRot = angle;
+}
+
+void Camera::addXRotation(float angle)
+{
+	setXRotation(getXRotation() + angle);
+
+	if (rotateTarget)
+	{
+		alignTarget();
+	}
+}
+void Camera::addYRotation(float angle)
+{
+	setXRotation(getXRotation() + angle);
+
+	if (rotateTarget)
+	{
+		alignTarget();
+	}
+}
+void Camera::addZRotation(float angle)
+{
+	setZRotation( getZRotation() + angle );
+	if (rotateTarget)
+	{
+		alignTarget();
+	}
 }

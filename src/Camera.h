@@ -10,19 +10,17 @@ class Camera
 {
 public:
 	Camera(Player* t);
-	// XXX: needs a default target so I can set the alpha in the correct spot
-	// anytime it is changed
 	void setTarget(Player* mob);
 	void alignTarget();
 	void alignWithTarget();
+	void addTargetXRotation(float x);
+	void addTargetYRotation(float y);
+	void addTargetZRotation(float z);
 
-	bool moveWithTarget;
-	bool rotateWithTarget;
-	bool rotateTarget;
 
-	float zoomSpeed; // A multiplier
-	float zSpeed; // a multiplier
-	float xSpeed; // a multiplier
+
+
+
 
 	Player *target;
 
@@ -33,26 +31,41 @@ public:
 		maxDistance = distance >= 0 ? distance : 0;
 	}
 	void setTargetDistance(float distance);
+	void addTargetDistance(float distance);
+
 	float getTargetDistance() {return targetDistance;}
+
+
 
 	void setXRotation(float angle);
 	void setYRotation(float angle);
 	void setZRotation(float angle);
 
-	float getXRotation()
-	{
-		return xRot - M_PI_2;
-	}
-	float getYRotation() {return yRot;}
-	float getZRotation() {return zRot;}
+	void addXRotation(float angle);
+	void addYRotation(float angle);
+	void addZRotation(float angle);
+
+	float getXRotation() { return xRot; }
+	float getYRotation() { return yRot; }
+	float getZRotation() { return zRot; }
+
+	float zoomSpeed; // A multiplier
+	float zSpeed; // a multiplier
+	float xSpeed; // a multiplier
+	bool moveWithTarget;
+	bool rotateWithTarget;
+	bool rotateTarget;
 protected:
+
 	float targetDistance; // Distance from the target
 	float maxDistance; // the maximum that you can zoom out
+
 private:
 	// TODO Ideally, these would be in a Vector3<float>
 	float xRot;
 	float yRot;
 	float zRot;
+
 };
 
 #endif // CAMERA_H
