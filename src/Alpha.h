@@ -12,14 +12,13 @@
 class Alpha : public QGLWidget
 {
 	Q_OBJECT
+
 	MeasuredTimer timer;
 	PlayerInput input;
 	Player player;
 	Player player2;
 	Camera camera;
-
-
-
+	QPoint lastPos;
 public:
 	Alpha(QWidget* const parent = 0);
 protected:
@@ -33,7 +32,6 @@ protected:
 	void mouseMoveEvent(QMouseEvent *event);
 	void wheelEvent(QWheelEvent *event);
 
-
 	void NewTarget()
 	{
 		if (camera.target == &player){
@@ -42,11 +40,8 @@ protected:
 			camera.setTarget(&player);
 		}
 	}
-private:
-	QPoint lastPos;
 private slots:
 	void tick(const float& elapsed);
-
 };
 
 #endif // ALPHA_H
