@@ -126,7 +126,7 @@ void Camera::setZRotation(float angle)
 
 void Camera::addXRotation(float angle)
 {
-	setXRotation(getXRotation() + angle);
+	setXRotation(xRot + angle);
 
 	if (rotateTarget)
 	{
@@ -135,7 +135,7 @@ void Camera::addXRotation(float angle)
 }
 void Camera::addYRotation(float angle)
 {
-	setXRotation(getXRotation() + angle);
+	setYRotation(yRot + angle);
 
 	if (rotateTarget)
 	{
@@ -144,7 +144,7 @@ void Camera::addYRotation(float angle)
 }
 void Camera::addZRotation(float angle)
 {
-	setZRotation( getZRotation() + angle );
+	setZRotation( yRot + angle );
 	if (rotateTarget)
 	{
 		alignTarget();
