@@ -35,25 +35,27 @@ void Camera::setTarget(Player* mob)
 void Camera::alignTarget()
 {
 	// camera and object xRots are off by 1/4 turn
-	target->setXRotation( getXRotation() - M_PI_2 );
-	target->setYRotation( getYRotation() );
-	target->setZRotation( getZRotation() );
+	target->rotation().set(
+		getXRotation() - M_PI_2,
+		getYRotation(),
+		getZRotation()
+	);
 }
 
 // camera rotates to face at back of target
 void Camera::alignWithTarget()
 {
 	// camera and object xRots are off by 1/4 turn
-	setXRotation( target->getXRotation() + M_PI_2);
-	setYRotation( target->getYRotation() );
-	setZRotation( target->getZRotation() );
+	setXRotation( target->rotation().x() + M_PI_2);
+	setYRotation( target->rotation().y() );
+	setZRotation( target->rotation().z() );
 
 }
 
 void Camera::addTargetXRotation(float x)
 {
 
-	target->addXRotation(x);
+	target->rotation().addX(x);
 	if (rotateWithTarget)
 	{
 		setXRotation(xRot + x);
@@ -61,7 +63,7 @@ void Camera::addTargetXRotation(float x)
 }
 void Camera::addTargetYRotation(float y)
 {
-	target->addYRotation(y);
+	target->rotation().addY(y);
 	if (rotateWithTarget)
 	{
 		setYRotation(yRot + y);
@@ -71,7 +73,7 @@ void Camera::addTargetYRotation(float y)
 
 void Camera::addTargetZRotation(float z)
 {
-	target->addZRotation(z);
+	target->rotation().addZ(z);
 	if (rotateWithTarget)
 	{
 		setZRotation(zRot + z);
@@ -99,7 +101,11 @@ void Camera::applySettings() const
 	glRotatef(-yRot * TO_DEGREES, 0.0, 1.0, 0.0);
 	glRotatef(-zRot * TO_DEGREES, 0.0, 0.0, 1.0);
 	// keeps the target in the center of the screen
-	glTranslatef( -target->pos.x(), -target->pos.y(), -target->pos.z() );
+	glTranslatef(
+		-target->position().x(),
+		-target->position().y(),
+		-target->position().z()
+	);
 }
 
 void Camera::setXRotation(float angle)

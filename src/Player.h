@@ -6,48 +6,33 @@
 
 using namespace nt;
 
-struct Player
+class Player
 {
-	Player() : velocity(0,0,0), xRot(0), yRot(0), zRot(0), defaultAlpha(1),
-	alpha(defaultAlpha){}
-	Vector3<double> pos;
-	Vector3<double> velocity;
-	void setVelocity(double x, double y, double z)
+	typedef Vector3<double> Position;
+	typedef Vector3<double> Velocity;
+	typedef Vector3<float, WrapRadians> Rotation;
+
+	Position _position;
+	Velocity _velocity;
+	Rotation _rotation;
+public:
+	Player() : defaultAlpha(1), alpha(defaultAlpha) {}
+
+	Position& position()
 	{
-		velocity.setX(x);
-		velocity.setY(y);
-		velocity.setZ(z);
-	}
-	// TODO Convert this to use Vector3<float>
-	void setXRotation(float angle)
-	{
-		normalizeAngle(angle);
-		xRot = angle;
+		return _position;
 	}
 
-	void setYRotation(float angle)
+	Velocity& velocity()
 	{
-		normalizeAngle(angle);
-		yRot = angle;
+		return _velocity;
 	}
 
-	void setZRotation(float angle)
+	Rotation& rotation()
 	{
-		normalizeAngle(angle);
-		zRot = angle;
+		return _rotation;
 	}
 
-	void addXRotation(float angle) { setXRotation(xRot + angle); }
-	void addYRotation(float angle) { setYRotation(yRot + angle); }
-	void addZRotation(float angle) { setZRotation(zRot + angle); }
-
-	float getXRotation() { return xRot; }
-	float getYRotation() { return yRot; }
-	float getZRotation() { return zRot; }
-
-	float xRot; // axis is left to right
-	float yRot; // axis is back to front
-	float zRot; // axis is down to up
 	float defaultAlpha;
 	float alpha;
 };

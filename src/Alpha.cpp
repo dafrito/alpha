@@ -25,9 +25,8 @@ Alpha::Alpha(QWidget* const parent) :
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
 	timer.startOnShow(this);
-	player.pos.setZ(10);
-	player2.pos.setX(50);
-	player2.pos.setZ(10);
+	player.position().setZ(10);
+	player2.position().set(50, 0, 10);
 }
 
 void Alpha::tick(const float& elapsed)
@@ -93,18 +92,10 @@ void Alpha::tick(const float& elapsed)
 
 
 	velocity.normalize();
-	velocity.rotateX( camera.target->getXRotation() );
-	velocity.rotateZ( camera.target->getZRotation() );
+	velocity.rotateX(camera.target->rotation().x());
+	velocity.rotateZ(camera.target->rotation().z());
 	velocity.scale(0.5 * PLAYER_MOVESPEED * elapsed);
-
-	float x = camera.target->pos.x() + velocity.x();
-	float y = camera.target->pos.y() + velocity.y();
-	float z = camera.target->pos.z() + velocity.z();
-
-
-	camera.target->pos.setX(x);
-	camera.target->pos.setY(y);
-	camera.target->pos.setZ(z);
+	camera.target->position().add(velocity);
 }
 
 void Alpha::initializeGL()
@@ -224,10 +215,8 @@ void Alpha::paintGL()
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
 
-		glTranslatef(player.pos.x(), player.pos.y(), player.pos.z());
-		glRotatef(player.xRot * TO_DEGREES, 1, 0, 0);
-		glRotatef(player.yRot * TO_DEGREES, 0, 1, 0);
-		glRotatef(player.zRot * TO_DEGREES, 0, 0, 1);
+		glTranslate(player.position());
+		glRotateRadians(player.rotation());
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
@@ -275,10 +264,8 @@ void Alpha::paintGL()
 		// mobile objects always need to be rotated and moved within the world
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
-		glTranslatef(player2.pos.x(), player2.pos.y(), player2.pos.z());
-		glRotatef(player2.xRot * TO_DEGREES, 1, 0, 0);
-		glRotatef(player2.yRot * TO_DEGREES, 0, 1, 0);
-		glRotatef(player2.zRot * TO_DEGREES, 0, 0, 1);
+		glTranslate(player2.position());
+		glRotateDegrees(player2.rotation());
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
