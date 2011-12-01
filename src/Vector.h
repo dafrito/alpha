@@ -3,18 +3,38 @@
 
 #include <cmath>
 #include <iostream>
+#include "util.h"
 
-template <typename T>
+struct NoWrapping
+{
+	template <class T>
+	static void wrap(T&) {}
+};
+
+struct NormalizeWrap
+{
+	template <class T>
+	static void wrap(T& value)
+	{
+		normalizeAngle(value);
+	}
+};
+
+template <
+	typename T,
+	class WrappingPolicy = NoWrapping
+>
 class Vector3
 {
+protected:
 	T _x;
 	T _y;
 	T _z;
 public:
 	Vector3() : _x(), _y(), _z() {}
 
-	template <typename U>
-	Vector3(const Vector3<U>& other) :
+	template <typename U, typename V>
+	Vector3(const Vector3<U, V>& other) :
 		_x(other.x()),
 		_y(other.y()),
 		_z(other.z())
@@ -27,7 +47,11 @@ public:
 	{}
 
 	T x() const { return _x; };
-	void setX(const T& x) { _x = x; }
+	void setX(const T& x)
+	{
+		_x = x;
+		WrappingPolicy::wrap(_x);
+	}
 	void addX(const T& x) { setX(_x + x); }
 	void rotateX(const T& radians)
 	{
@@ -38,7 +62,11 @@ public:
 	}
 
 	T y() const { return _y; };
-	void setY(const T& y) { _y = y; }
+	void setY(const T& y)
+	{
+		_y = y;
+		WrappingPolicy::wrap(_y);
+	}
 	void addY(const T& y) { setY(_y + y); }
 	void rotateY(const T& radians)
 	{
@@ -49,7 +77,11 @@ public:
 	}
 
 	T z() const { return _z; };
-	void setZ(const T& z) { _z = z; }
+	void setZ(const T& z)
+	{
+		_z = z;
+		WrappingPolicy::wrap(_z);
+	}
 	void addZ(const T& z) { setZ(_z + z); }
 	void rotateZ(const T& radians)
 	{
