@@ -17,11 +17,6 @@ public:
 	void addTargetYRotation(float y);
 	void addTargetZRotation(float z);
 
-
-
-
-
-
 	Player *target;
 
 	void applySettings() const;
