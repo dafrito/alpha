@@ -48,8 +48,8 @@ struct Player
 	float getZRotation() { return zRot; }
 
 	float xRot; // axis is left to right
-	float yRot; // axis is down to up
-	float zRot; // axis is back to front
+	float yRot; // axis is back to front
+	float zRot; // axis is down to up
 	float defaultAlpha;
 	float alpha;
 };

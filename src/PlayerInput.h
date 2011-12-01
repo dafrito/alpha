@@ -19,6 +19,8 @@ struct KeyBinds
 	bool verticalDown;
 	bool pitchUp; // aim up
 	bool pitchDown; // aim down
+	bool rollLeft;
+	bool rollRight;
 
 	bool leftMouse;	// mouse clicks
 	bool rightMouse;
@@ -35,6 +37,8 @@ struct KeyBinds
 	verticalDown(false),
 	pitchUp(false),
 	pitchDown(false),
+	rollLeft(false),
+	rollRight(false),
 	leftMouse(false),
 	rightMouse(false),
 	switchTarget(false)
@@ -92,6 +96,17 @@ public:
 	{
 		return pad.pitchDown && !pad.pitchUp;
 	}
+
+	bool rollLeft()
+	{
+		return pad.rollLeft && !pad.rollRight;
+	}
+
+	bool rollRight()
+	{
+		return pad.rollRight && !pad.rollLeft;
+	}
+
 
 	bool verticalUp()
 	{

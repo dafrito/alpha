@@ -21,6 +21,8 @@ bool PlayerInput::handleKeyPress(QKeyEvent* const event)
 		case Qt::Key_1: pad.strafeLeft = true; break;
 		case Qt::Key_2: pad.strafeRight = true; break;
 		case Qt::Key_F1: pad.switchTarget = true; break;
+		case Qt::Key_9: pad.rollLeft = true; break;
+		case Qt::Key_0: pad.rollRight = true; break;
 		default:
 			return false;
 	}
@@ -41,6 +43,8 @@ bool PlayerInput::handleKeyRelease(QKeyEvent* const event)
 		case Qt::Key_1: pad.strafeLeft = false; break;
 		case Qt::Key_2: pad.strafeRight = false; break;
 		case Qt::Key_F1: pad.switchTarget = false; break;
+		case Qt::Key_9: pad.rollLeft = false; break;
+		case Qt::Key_0: pad.rollRight = false; break;
 		default:
 			return false;
 	}

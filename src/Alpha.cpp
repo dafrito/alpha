@@ -88,6 +88,11 @@ void Alpha::tick(const float& elapsed)
 		camera.addTargetXRotation(-da);
 	}
 
+	if ( input.rollLeft() ) {
+		camera.addTargetYRotation( -da );
+	} else if ( input.rollRight() ){
+		camera.addTargetYRotation( da );
+	}
 
 
 	velocity.normalize();
@@ -221,9 +226,11 @@ void Alpha::paintGL()
 		// mobile objects always need to be rotated and moved within the world
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
+
 		glTranslatef(player.pos.x(), player.pos.y(), player.pos.z());
+		glRotatef(player.xRot * toDegrees, 1, 0, 0);
+		glRotatef(player.yRot * toDegrees, 0, 1, 0);
 		glRotatef(player.zRot * toDegrees, 0, 0, 1);
-		glRotatef(player.xRot * toDegrees, 1,0,0);
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
@@ -272,8 +279,9 @@ void Alpha::paintGL()
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
 		glTranslatef(player2.pos.x(), player2.pos.y(), player2.pos.z());
+		glRotatef(player2.xRot * toDegrees, 1, 0, 0);
+		glRotatef(player2.yRot * toDegrees, 0, 1, 0);
 		glRotatef(player2.zRot * toDegrees, 0, 0, 1);
-		glRotatef(player2.xRot * toDegrees, 1,0,0);
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
