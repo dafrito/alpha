@@ -55,6 +55,8 @@ public:
 	void addX(const T& x) { setX(_x + x); }
 	void rotateX(const T& radians)
 	{
+		if (!radians)
+			return;
 		set(
 			_x,
 			_y * cos(radians) - _z * sin(radians),
@@ -70,6 +72,8 @@ public:
 	void addY(const T& y) { setY(_y + y); }
 	void rotateY(const T& radians)
 	{
+		if (!radians)
+			return;
 		set(
 			_x * cos(radians) + _z * sin(radians),
 			_y,
@@ -85,6 +89,8 @@ public:
 	void addZ(const T& z) { setZ(_z + z); }
 	void rotateZ(const T& radians)
 	{
+		if (!radians)
+			return;
 		set(
 			_x*cos(radians) - _y*sin(radians),
 			_x*sin(radians) + _y*cos(radians));
