@@ -93,12 +93,11 @@ void Camera::addTargetDistance(float distance)
 
 void Camera::applySettings() const
 {
-	float toDegrees = 180 / M_PI;
 	// distance the camera from the target
 	glTranslatef( 0.0f,0.0f, -targetDistance);
-	glRotatef(-xRot * toDegrees, 1.0, 0.0, 0.0);
-	glRotatef(-yRot * toDegrees, 0.0, 1.0, 0.0);
-	glRotatef(-zRot * toDegrees, 0.0, 0.0, 1.0);
+	glRotatef(-xRot * TO_DEGREES, 1.0, 0.0, 0.0);
+	glRotatef(-yRot * TO_DEGREES, 0.0, 1.0, 0.0);
+	glRotatef(-zRot * TO_DEGREES, 0.0, 0.0, 1.0);
 	// keeps the target in the center of the screen
 	glTranslatef( -target->pos.x(), -target->pos.y(), -target->pos.z() );
 }

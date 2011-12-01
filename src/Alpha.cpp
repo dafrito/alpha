@@ -17,9 +17,6 @@ const float FOV = 65;
 const float viewDistance = 800;
 // end Config
 
-const float toDegrees = 180 / M_PI;
-const float toRadians = M_PI / 180;
-
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this),camera(&player)
@@ -228,9 +225,9 @@ void Alpha::paintGL()
 		// this is fine because the world is never moved or rotated either
 
 		glTranslatef(player.pos.x(), player.pos.y(), player.pos.z());
-		glRotatef(player.xRot * toDegrees, 1, 0, 0);
-		glRotatef(player.yRot * toDegrees, 0, 1, 0);
-		glRotatef(player.zRot * toDegrees, 0, 0, 1);
+		glRotatef(player.xRot * TO_DEGREES, 1, 0, 0);
+		glRotatef(player.yRot * TO_DEGREES, 0, 1, 0);
+		glRotatef(player.zRot * TO_DEGREES, 0, 0, 1);
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK
@@ -279,9 +276,9 @@ void Alpha::paintGL()
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
 		glTranslatef(player2.pos.x(), player2.pos.y(), player2.pos.z());
-		glRotatef(player2.xRot * toDegrees, 1, 0, 0);
-		glRotatef(player2.yRot * toDegrees, 0, 1, 0);
-		glRotatef(player2.zRot * toDegrees, 0, 0, 1);
+		glRotatef(player2.xRot * TO_DEGREES, 1, 0, 0);
+		glRotatef(player2.yRot * TO_DEGREES, 0, 1, 0);
+		glRotatef(player2.zRot * TO_DEGREES, 0, 0, 1);
 
 		glBegin(GL_QUADS);
 		// TOP is BLACK

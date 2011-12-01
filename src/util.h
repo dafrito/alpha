@@ -6,6 +6,9 @@
 
 namespace nt
 {
+	const float TO_DEGREES = 180 / M_PI;
+	const float TO_RADIANS = M_PI / 180;
+
 	void setGLFrustrum(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
 
 	template <typename T>
