@@ -108,6 +108,14 @@ public:
 		setZ(z);
 	}
 
+	template <class T, typename U>
+	void rotate(const Vector3<T, U>& radians)
+	{
+		rotateX(radians.x());
+		rotateY(radians.y());
+		rotateZ(radians.z());
+	}
+
 	T length() const
 	{
 		return sqrt(
