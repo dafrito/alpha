@@ -108,8 +108,16 @@ public:
 		setZ(z);
 	}
 
-	template <class T, typename U>
-	void rotate(const Vector3<T, U>& radians)
+	template <class U, class V>
+	void add(const Vector3<U, V>& other)
+	{
+		addX(other.x());
+		addY(other.y());
+		addZ(other.z());
+	}
+
+	template <class U, class V>
+	void rotate(const Vector3<U, V>& radians)
 	{
 		rotateX(radians.x());
 		rotateY(radians.y());
@@ -153,6 +161,54 @@ public:
 	{
 		std::cout << "(x: " << _x << ", y: " << _y << ", z: " << _z << ")" << std::endl;
 	}
+};
+
+namespace nt
+{
+	template <class U>
+	void glTranslate(const Vector3<float, U>& vec)
+	{
+		glTranslatef(vec.x(), vec.y(), vec.z());
+	}
+
+	template <class U>
+	void glTranslate(const Vector3<double, U>& vec)
+	{
+		glTranslated(vec.x(), vec.y(), vec.z());
+	}
+
+	template <class T, class U>
+	void glRotateRadians(const Vector3<T, U>& vec)
+	{
+		glRotated(vec.x() * TO_DEGREES, 1, 0, 0);
+		glRotated(vec.y() * TO_DEGREES, 0, 1, 0);
+		glRotated(vec.z() * TO_DEGREES, 0, 0, 1);
+	}
+
+	template <class T, class U>
+	void glRotateDegrees(const Vector3<T, U>& vec)
+	{
+		glRotated(vec.x(), 1, 0, 0);
+		glRotated(vec.y(), 0, 1, 0);
+		glRotated(vec.z(), 0, 0, 1);
+	}
+
+	template <class U>
+	void glRotateRadians(const Vector3<float, U>& vec)
+	{
+		glRotatef(vec.x() * TO_DEGREES, 1, 0, 0);
+		glRotatef(vec.y() * TO_DEGREES, 0, 1, 0);
+		glRotatef(vec.z() * TO_DEGREES, 0, 0, 1);
+	}
+
+	template <class U>
+	void glRotateDegrees(const Vector3<float, U>& vec)
+	{
+		glRotatef(vec.x(), 1, 0, 0);
+		glRotatef(vec.y(), 0, 1, 0);
+		glRotatef(vec.z(), 0, 0, 1);
+	}
+
 };
 
 #endif // VECTOR_H
