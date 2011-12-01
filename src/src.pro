@@ -48,6 +48,7 @@ HEADERS *= Player.h
 HEADERS *= Camera.h
 HEADERS *= Vector.h
 HEADERS *= PlayerInput.h
+HEADERS *= Cube.h
 
 SOURCES *= GLWidget.cpp
 SOURCES *= demos.cpp
@@ -69,3 +70,4 @@ SOURCES *= Alpha.cpp
 SOURCES *= util.cpp
 SOURCES *= Camera.cpp
 SOURCES *= PlayerInput.cpp
+SOURCES *= Cube.cpp
