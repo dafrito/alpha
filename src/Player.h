@@ -10,7 +10,6 @@ struct Player
 {
 	Player() : velocity(0,0,0), xRot(0), yRot(0), zRot(0), defaultAlpha(1),
 	alpha(defaultAlpha){}
-	// TODO Convert this to use Vector3<double>
 	Vector3<double> pos;
 	Vector3<double> velocity;
 	void setVelocity(double x, double y, double z)
