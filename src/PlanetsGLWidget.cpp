@@ -32,8 +32,8 @@ void PlanetsGLWidget::render()
 	{
 		glColor3f(1, 0, 0);		// Red
 		glRotatef(-rotation,0,0,1); 		// the space this planet exists in will rotate on its z-axis
-		glutWireSphere(20, 15, 15);  		// creates the planet, centered at the origin, so it rotates on its own z-axis											
-	}						
+		glutWireSphere(20, 15, 15);  		// creates the planet, centered at the origin, so it rotates on its own z-axis
+	}
 	glPopMatrix();							// ends object manipulation, returns to the previous state -- in this case the original state
 
 	glPushMatrix();							// another object
@@ -44,8 +44,8 @@ void PlanetsGLWidget::render()
 											// no variables are in the rotation so it will remain still
 	}
 	glPopMatrix();							// ends the second objects manipulation
-	
-							
+
+
 	glPushMatrix();
 	{
 		glColor3f(1, 0.5, 0);	// Orange
@@ -55,10 +55,10 @@ void PlanetsGLWidget::render()
 		glutWireSphere(6, 15, 15);			// places the moon at the place point, which will rotate about the origin
 	}										// this moon is tide-locked
 	glPopMatrix();
-					
 
-	
-	glPushMatrix(); 					
+
+
+	glPushMatrix();
 	{
 		glColor3f(0,1,0);		// Green
 		glRotatef(rotation, 0, 0, 1); 		// this space will rotate about its z-axis
@@ -80,7 +80,7 @@ void PlanetsGLWidget::render()
 			glColor3f(0,0,1);	// Blue
 			glRotatef(rotation*2,0,0,1);	// this mini-moon's space is rotating from its own power and that of the green moon's
 			glTranslatef(45,0,0);			// since the place point is no longer on the origin the object will not orbit the origin
-			glutSolidSphere(3,15,15);			
+			glutSolidSphere(3,15,15);
 
 		}
 		glPopMatrix();
@@ -96,7 +96,7 @@ void PlanetsGLWidget::render()
 		glPopMatrix();
 											// all of the mini-moons are tide-locked
 	}
-	glPopMatrix(); 							
+	glPopMatrix();
 
 }
 
