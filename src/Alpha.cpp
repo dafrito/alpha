@@ -206,7 +206,7 @@ void drawRectCuboid(float width, float length, float height, GLfloat colors[])
 
  	GLfloat normals[] = {
 	// Front
-	 0, 1, 0,    0, 1, 0,    0, 1, 0,    0, 1, 0,
+	 0, -1, 0,    0, -1, 0,    0, -1, 0,    0, -1, 0,
 	// Back
 	 0,-1, 0,    0,-1, 0,    0,-1, 0,    0,-1, 0,
 	// Left
@@ -221,28 +221,31 @@ void drawRectCuboid(float width, float length, float height, GLfloat colors[])
 
 	// which ones to draw in sequential order
 	GLubyte indices[] = {
-		 0, 1, 2, 3,
-		 4, 5, 6, 7,
-		 8, 9,10,11,
-		12,13,14,15,
-		16,17,18,19,
-		20,21,22,23
+		 3,2,1,0,
+		 7,6,5,4,
+		 11,10,9,8,
+		15,14,13,12,
+		19,18,17,16,
+		23,22,21,20
 		};
 
 	// activate and specify pointer to vertex array
+	//glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	//glEnableClientState(GL_NORMAL_ARRAY);
+
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
 	glColorPointer(4, GL_FLOAT, 0, colors);
-
-
+	//glNormalPointer(GL_FLOAT, 0, normals);
 	glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, indices);
 
+
+
 	// deactivate vertex arrays after drawing
+	//glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-	//glDisableClientState(GL_NORMAL_ARRAY);
+
 }
 
 
@@ -295,7 +298,7 @@ void Alpha::paintGL()
 		glPushMatrix();
 		{
 			glTranslatef(0.0f,-90.0f,10.0f);
-			glColor3f(0.0f,0.0f,0.0f);
+			//glColor3f(0.0f,0.0f,0.0f);
 			drawRectCuboid(8,8,8,colors);
 		}
 		glPopMatrix();
