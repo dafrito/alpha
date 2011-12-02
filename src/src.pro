@@ -7,12 +7,12 @@
 
 TEMPLATE = app
 DEPENDPATH += . ../lua-cxx/lib
-INCLUDEPATH += . ../lua-cxx/lib
+INCLUDEPATH += . ../lua-cxx/lib /usr/include/freetype2
 
 DESTDIR = ..
 TARGET= demo
 
-LIBS += -lglut
+LIBS += -lglut -lftgl
 QT += opengl
 
 OBJECTS_DIR = ../build
@@ -49,6 +49,7 @@ HEADERS *= Camera.h
 HEADERS *= Vector.h
 HEADERS *= PlayerInput.h
 HEADERS *= Cuboid.h
+HEADERS *= FontGLWidget.h
 
 SOURCES *= GLWidget.cpp
 SOURCES *= demos.cpp
@@ -71,3 +72,4 @@ SOURCES *= util.cpp
 SOURCES *= Camera.cpp
 SOURCES *= PlayerInput.cpp
 SOURCES *= Cuboid.cpp
+SOURCES *= FontGLWidget.cpp

@@ -20,6 +20,7 @@
 #include "VehicleGLWidget.h"
 #include "LuaGLWidget.h"
 #include "Alpha.h"
+#include "FontGLWidget.h"
 
 int main(int argc, char *argv[])
 {
@@ -65,6 +66,9 @@ int main(int argc, char *argv[])
 
 	RotatableGLDemo randomStippleDemo(new RandomStippleGLWidget);
 	demoStack.addTab(&randomStippleDemo, "Random Stipple");
+
+	RotatableGLDemo fontDemo(new FontGLWidget);
+	demoStack.addTab(&fontDemo, "Fonts");
 
 	RotatableGLDemo cubeDemo(new CubeGLWidget);
 	demoStack.addTab(&cubeDemo, "Cubes");
