@@ -93,19 +93,24 @@ void Camera::addTargetDistance(float distance)
 	setTargetDistance(targetDistance + distance);
 }
 
+	// XXX: This needs to rotate X first and then Z for the rotations to make sense
+	// This is the opposite of the way we rotate objects
 void Camera::applySettings() const
 {
 	// distance the camera from the target
 	glTranslatef( 0.0f,0.0f, -targetDistance);
+
 	glRotatef(-xRot * TO_DEGREES, 1.0, 0.0, 0.0);
-	glRotatef(-yRot * TO_DEGREES, 0.0, 1.0, 0.0);
 	glRotatef(-zRot * TO_DEGREES, 0.0, 0.0, 1.0);
+	// glRotatef(-yRot * TO_DEGREES, 0.0, 1.0, 0.0);
+
 	// keeps the target in the center of the screen
 	glTranslatef(
 		-target->position().x(),
 		-target->position().y(),
 		-target->position().z()
 	);
+
 }
 
 void Camera::setXRotation(float angle)

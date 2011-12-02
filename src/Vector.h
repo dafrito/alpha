@@ -24,6 +24,8 @@ template <
 	typename T,
 	class WrappingPolicy = NoWrapping
 >
+// XXX: Y-axis rotation is commented out until we figure out how to handle it
+// Object rotations needs to rotate Z-axis first then X, the opposite of the way we handle the camera
 class Vector3
 {
 protected:
@@ -180,33 +182,37 @@ namespace nt
 	template <class T, class U>
 	void glRotateRadians(const Vector3<T, U>& vec)
 	{
-		glRotated(vec.x() * TO_DEGREES, 1, 0, 0);
-		glRotated(vec.y() * TO_DEGREES, 0, 1, 0);
 		glRotated(vec.z() * TO_DEGREES, 0, 0, 1);
+		glRotated(vec.x() * TO_DEGREES, 1, 0, 0);
+		//glRotated(vec.y() * TO_DEGREES, 0, 1, 0);
+
 	}
 
 	template <class T, class U>
 	void glRotateDegrees(const Vector3<T, U>& vec)
 	{
-		glRotated(vec.x(), 1, 0, 0);
-		glRotated(vec.y(), 0, 1, 0);
 		glRotated(vec.z(), 0, 0, 1);
+		glRotated(vec.x(), 1, 0, 0);
+		// glRotated(vec.y(), 0, 1, 0);
+
 	}
 
 	template <class U>
 	void glRotateRadians(const Vector3<float, U>& vec)
 	{
-		glRotatef(vec.x() * TO_DEGREES, 1, 0, 0);
-		glRotatef(vec.y() * TO_DEGREES, 0, 1, 0);
 		glRotatef(vec.z() * TO_DEGREES, 0, 0, 1);
+		glRotatef(vec.x() * TO_DEGREES, 1, 0, 0);
+		//glRotatef(vec.y() * TO_DEGREES, 0, 1, 0);
+
 	}
 
 	template <class U>
 	void glRotateDegrees(const Vector3<float, U>& vec)
 	{
-		glRotatef(vec.x(), 1, 0, 0);
-		glRotatef(vec.y(), 0, 1, 0);
 		glRotatef(vec.z(), 0, 0, 1);
+		glRotatef(vec.x(), 1, 0, 0);
+		// glRotatef(vec.y(), 0, 1, 0);
+
 	}
 
 };
