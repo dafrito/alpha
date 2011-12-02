@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "PlayerInput.h"
+#include "Cuboid.h"
 
 class Alpha : public QGLWidget
 {
@@ -19,6 +20,7 @@ class Alpha : public QGLWidget
 	Player player2;
 	Camera camera;
 	QPoint lastPos;
+	Cuboid cuboid;
 public:
 	Alpha(QWidget* const parent = 0);
 protected:

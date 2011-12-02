@@ -17,9 +17,41 @@ const float FOV = 65;
 const float viewDistance = 800;
 // end Config
 
+// XXX: obviously bad
+GLfloat colors[] = {
+	1,0,0,1,
+	1,0,0,1,
+	1,0,0,1,
+	1,0,0,1,
+
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1,
+
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1,
+
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1,
+
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1,
+
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1,
+	1,1,1,1
+};
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-		timer(this),camera(&player)
+		timer(this),camera(&player), cuboid(8.0f,8.0f,8.0f, colors)
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
@@ -116,144 +148,6 @@ void Alpha::resizeGL(int width, int height)
 }
 
 
-
-/*
-	       -X ---width--- +X
-	+Z        v4-------v5
-	 |       /|       /|
-	 |      v1-------v0|     -Y
-	 height | |      | |    /
-	 |      |v7      | v6  length
-	 |      |/      |/   /
-	-Z      v2------v3   +Y
-
-*/
-
-GLfloat colors[] = {
-	1,0,0,1,
-	1,0,0,1,
-	1,0,0,1,
-	1,0,0,1,
-
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1
-};
-
-// X = width, Y = length, Z = height
-// drawn Front->Back->Left->Right->Top->Bottom
-// order your colors appropriately
-// if you are coloring per vertex then look at the indices
-void drawRectCuboid(float width, float length, float height, GLfloat colors[])
-{
-	length /= 2;
-	width /= 2;
-	height /= 2;
-
-	GLfloat vertices[] = {
-	// Front
-	 width, length, height, // v0
-	-width, length, height, // v1
-	-width, length,-height, // v2
-	 width, length,-height, // v3
-	// Back
-	-width,-length, height, // v4
-	 width,-length, height, // v5
-	 width,-length,-height, // v6
-	-width,-length,-height, // v7
-	// Left
-	-width, length, height, // v1
-	-width,-length, height, // v4
-	-width,-length,-height, // v7
-	-width, length,-height, // v2
-	// Right
-	 width,-length, height, // v5
- 	 width, length, height, // v0
- 	 width, length,-height, // v3
- 	 width,-length,-height, // v6
- 	 // Top
- 	 width,-length, height, // v5
- 	-width,-length, height, // v4
- 	-width, length, height, // v1
- 	 width, length, height, // v0
- 	 // Bottom
- 	 width, length,-height, // v3
- 	-width, length,-height, // v2
- 	-width,-length,-height, // v7
- 	 width,-length,-height, // v6
- 	};
-
- 	GLfloat normals[] = {
-	// Front
-	 0, -1, 0,    0, -1, 0,    0, -1, 0,    0, -1, 0,
-	// Back
-	 0,-1, 0,    0,-1, 0,    0,-1, 0,    0,-1, 0,
-	// Left
-	-1, 0, 0,   -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
-	// Right
-	 1, 0, 0,    1, 0, 0,    1, 0, 0,    1, 0, 0,
-	// Top
-	 0, 0, 1,    0, 0, 1,    0, 0, 1,    0, 0, 1,
-	// Bottom
-	 0, 0,-1,    0, 0,-1,    0, 0,-1,    0, 0,-1
- 	};
-
-	// which ones to draw in sequential order
-	GLubyte indices[] = {
-		 3,2,1,0,
-		 7,6,5,4,
-		 11,10,9,8,
-		15,14,13,12,
-		19,18,17,16,
-		23,22,21,20
-		};
-
-	// activate and specify pointer to vertex array
-	//glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	glColorPointer(4, GL_FLOAT, 0, colors);
-	//glNormalPointer(GL_FLOAT, 0, normals);
-	glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, indices);
-
-
-
-	// deactivate vertex arrays after drawing
-	//glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-
-}
-
-
-void drawCube(float size, GLfloat colors[])
-{
-	size = size / 2;
-	drawRectCuboid(size,size,size, colors);
-}
 void Alpha::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clears the view
@@ -298,8 +192,8 @@ void Alpha::paintGL()
 		glPushMatrix();
 		{
 			glTranslatef(0.0f,-90.0f,10.0f);
-			//glColor3f(0.0f,0.0f,0.0f);
-			drawRectCuboid(8,8,8,colors);
+			glColor3f(0.0f,0.0f,0.0f);
+			cuboid.draw();
 		}
 		glPopMatrix();
 	}
