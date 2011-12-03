@@ -51,7 +51,7 @@ GLfloat colors[] = {
 };
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-		timer(this),camera(&player), cuboid(8.0f,8.0f,8.0f, colors),
+		timer(this),player("Player 1"),player2("?"), camera(&player), cuboid(8.0f,8.0f,8.0f, colors),
 		font("DejaVuSansMono.ttf")
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
@@ -67,7 +67,8 @@ void Alpha::drawCameraOrientedText(FTFont* const font, const char* text, int zOf
 		const float width = font->BBox(text).Upper().X();
 		glTranslatef(0, 0, zOffset + 2 + font->FaceSize());
 		glRotatef(camera.rotation().z() * TO_DEGREES, 0, 0, 1);
-		glRotatef( camera.rotation().x() * TO_DEGREES, 1,0,0);
+		glRotatef(90,1,0,0);
+		// glRotatef( camera.rotation().x() * TO_DEGREES, 1,0,0);
 		glTranslatef(-width/2,0,0);
 		font->Render(text);
 		glPopMatrix();
@@ -222,7 +223,7 @@ void Alpha::paintGL()
 
 		glTranslate(player.position());
 		font.FaceSize(4);
-		drawCameraOrientedText(&font,"Player 1",4);
+		drawCameraOrientedText(&font,player.name(),4);
 		glRotateRadians(player.rotation());
 
 		glBegin(GL_QUADS);
@@ -272,7 +273,9 @@ void Alpha::paintGL()
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
 		glTranslate(player2.position());
-
+		glColor3f(1.0f,1.0f,0.0f);
+		font.FaceSize(14);
+		drawCameraOrientedText(&font,player2.name(),-10);
 		glRotateRadians(player2.rotation());
 
 

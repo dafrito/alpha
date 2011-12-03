@@ -15,8 +15,9 @@ class Player
 	Position _position;
 	Velocity _velocity;
 	Rotation _rotation;
+	char* _name;
 public:
-	Player() : defaultAlpha(1), alpha(defaultAlpha) {}
+	Player(char* name) : _name(name), defaultAlpha(1), alpha(defaultAlpha) {}
 
 	Position& position()
 	{
@@ -33,6 +34,14 @@ public:
 		return _rotation;
 	}
 
+	void name(char* name)
+	{
+	_name = name;
+	}
+	char* name()
+	{
+		return _name;
+	}
 	float defaultAlpha;
 	float alpha;
 };
