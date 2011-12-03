@@ -42,7 +42,7 @@ void LuaGLWidget::tick(const float&)
 
 void LuaGLWidget::renderScene()
 {
-	glTranslatef(0, -HALFSIZE/4, 0);
+	glTranslatef(0, -HALFSIZE/8, 0);
 	glBegin(GL_QUADS);
 	for (int y = -HALFSIZE; y < HALFSIZE-1; y++) {
 		for (int x = -HALFSIZE; x < HALFSIZE-1; x++) {
