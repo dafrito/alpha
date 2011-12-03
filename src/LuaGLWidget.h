@@ -21,6 +21,8 @@ class LuaGLWidget : public GLWidget
 
 	unsigned int sceneList;
 
+	bool requiresUpdate;
+
 	float heights[HALFSIZE*2][HALFSIZE*2];
 public:
 	LuaGLWidget(QWidget* const parent = 0);

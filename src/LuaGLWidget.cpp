@@ -14,7 +14,8 @@ static float func(const float& x, const float& z)
 }
 
 LuaGLWidget::LuaGLWidget(QWidget* const parent) :
-	GLWidget(parent)
+	GLWidget(parent),
+	requiresUpdate(false)
 {
 	update(func);
 }
@@ -71,7 +72,14 @@ void LuaGLWidget::renderScene()
 void LuaGLWidget::render()
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
-	glCallList(sceneList);
+	if (requiresUpdate) {
+		requiresUpdate = false;
+		glNewList(sceneList, GL_COMPILE_AND_EXECUTE);
+		renderScene();
+		glEndList();
+	} else {
+		glCallList(sceneList);
+	}
 }
 
 void LuaGLWidget::resizeGL(int width, int height)
