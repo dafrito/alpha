@@ -21,7 +21,7 @@ const float viewDistance = 800;
 
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-		timer(this),player("Player 1"),player2("?"), camera(&player), cuboid(8.0f,8.0f,8.0f),
+		timer(this),player("Player 1"),player2("?"), camera(&player), playerShape(8.0f,8.0f,8.0f),
 		font("DejaVuSansMono.ttf")
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
@@ -61,7 +61,7 @@ Alpha::Alpha(QWidget* const parent) :
 		1,1,1,1,
 		1,1,1,1
 	};
-	cuboid.colors(playerColors);
+	playerShape.colors(playerColors);
 }
 void Alpha::drawCameraOrientedText(FTFont* const font, const char* text, int zOffset)
 	{
@@ -208,7 +208,7 @@ void Alpha::paintGL()
 		{
 			glTranslatef(0.0f,-90.0f,10.0f);
 			glColor3f(0.0f,0.0f,0.0f);
-			cuboid.draw();
+			playerShape.draw();
 		}
 		glPopMatrix();
 	}
@@ -228,8 +228,8 @@ void Alpha::paintGL()
 		font.FaceSize(4);
 		drawCameraOrientedText(&font,player.name(),4);
 		glRotateRadians(player.rotation());
-		cuboid.setAlpha(player.alpha());
-		cuboid.draw();
+		playerShape.setAlpha(player.alpha());
+		playerShape.draw();
 
 	}
 	glPopMatrix();
@@ -245,8 +245,8 @@ void Alpha::paintGL()
 		font.FaceSize(14);
 		drawCameraOrientedText(&font,player2.name(),-10);
 		glRotateRadians(player2.rotation());
-		cuboid.setAlpha(player2.alpha());
-		cuboid.draw();
+		playerShape.setAlpha(player2.alpha());
+		playerShape.draw();
 
 	}
 	glPopMatrix();

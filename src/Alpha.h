@@ -21,7 +21,7 @@ class Alpha : public QGLWidget
 	Player player2;
 	Camera camera;
 	QPoint lastPos;
-	Cuboid cuboid;
+	Cuboid playerShape;
 	FTPolygonFont font;
 	FTSimpleLayout layout; // XXX: is this used?
 public:
