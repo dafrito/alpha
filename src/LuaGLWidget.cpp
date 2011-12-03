@@ -18,8 +18,8 @@ LuaGLWidget::LuaGLWidget(QWidget* const parent) :
 	timer(this, 1000 / 60)
 {
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
+	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
 	timer.startOnShow(this);
-	heights.update(noop);
 }
 
 void LuaGLWidget::initializeGL()
@@ -31,6 +31,11 @@ void LuaGLWidget::initializeGL()
 	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+}
+
+void LuaGLWidget::tick(const float& elapsed)
+{
+	heights.tick(elapsed);
 }
 
 void LuaGLWidget::render()

@@ -52,6 +52,8 @@ private:
 	{
 		return heights.get(x, y);
 	}
+protected slots:
+	void tick(const float& elapsed);
 protected:
 	void render();
 	void initializeGL();
