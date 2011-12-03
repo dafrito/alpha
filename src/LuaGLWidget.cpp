@@ -13,11 +13,11 @@ static float func(int x, int z)
 
 LuaGLWidget::LuaGLWidget(QWidget* const parent) :
 	GLWidget(parent),
-	timer(new MeasuredTimer(this, 1000 / 30))
+	timer(this, 1000 / 60)
 {
-	connect(timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
-	connect(timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
-	timer->startOnShow(this);
+	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
+	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
+	timer.startOnShow(this);
 	update(func);
 }
 

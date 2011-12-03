@@ -12,7 +12,7 @@ using namespace std;
 class LuaGLWidget : public GLWidget
 {
 	Q_OBJECT
-	MeasuredTimer* const timer;
+	MeasuredTimer timer;
 
 	static const int HALFSIZE=100;
 
