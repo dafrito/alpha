@@ -5,6 +5,8 @@
 
 #include "GLWidget.h"
 #include "Lua.hpp"
+#include "Heights.h"
+#include "MeasuredTimer.h"
 
 using namespace std;
 
@@ -12,37 +14,23 @@ class LuaGLWidget : public GLWidget
 {
 	Q_OBJECT
 
-	// Proportional to the total amount of vertices rendered.
-	static const int HALFSIZE=100;
+	MeasuredTimer timer;
 
 	// The vertical scaling applied to each vertex. Higher
 	// values mean higher peaks and lower troughs.
 	static const int AMPLITUDE=2;
 
-	unsigned int sceneList;
-
-	bool requiresUpdate;
-
-	float heights[HALFSIZE*2][HALFSIZE*2];
+	Heights<float> heights;
 public:
 	LuaGLWidget(QWidget* const parent = 0);
 
-	template <typename T>
-	void update(T func)
+	template <class F>
+	void update(F func)
 	{
-		// The amount of compression between values. Higher values
-		// cause a wider range of values to be shown.
-		static const float FREQUENCY=.3;
-
-		for (int y = -HALFSIZE; y < HALFSIZE; y++) {
-			for (int x = -HALFSIZE; x < HALFSIZE; x++) {
-				set(x, y, func(FREQUENCY*x, FREQUENCY*y));
-			}
-		}
+		heights.update(func);
 	}
 
 private:
-	
 	QVector3D normal(int x, int y)
 	{
 		QVector3D a(x, AMPLITUDE*get(x, y), y);
@@ -60,28 +48,11 @@ private:
 		return r;
 	}
 
-	void validate(int& x, int& y)
-	{
-		x = max(0, min(x + HALFSIZE, HALFSIZE * 2 - 1));
-		y = max(0, min(y + HALFSIZE, HALFSIZE * 2 - 1));
-	}
-	
-	void set(int x, int y, float value)
-	{
-		validate(x, y);
-		heights[y][x] = value;
-	}
-
 	float get(int x, int y)
 	{
-		validate(x, y);
-		return heights[y][x];
+		return heights.get(x, y);
 	}
-
-
-	~LuaGLWidget();
 protected:
-	void renderScene();
 	void render();
 	void initializeGL();
 	void resizeGL(int width, int height);
