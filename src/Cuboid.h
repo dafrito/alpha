@@ -40,6 +40,7 @@ public:
 	float height() { return _height*2; }
 
 	void colors(GLfloat colors[24*4]) { for (int i=0;i<24*4-1;i++) {_colors[i] = colors[i];} }
+	void setSimpleColor(float r, float g, float b, float a);
 	GLfloat colors() { return *_colors;}
 
 	void setAlpha(GLfloat alpha);

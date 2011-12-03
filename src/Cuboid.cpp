@@ -7,13 +7,25 @@ Cuboid::Cuboid( float length, float width, float height):
 
 void Cuboid::setAlpha(GLfloat alpha)
 {
-	for (int i=0;i<24*4-1;i++)
+	for (int i=0;i<24*4;i++)
 	{
 		if ( (i+1) % 4 == 0 )
 		{
 			_colors[i] = alpha;
 		}
 	}
+
+}
+void Cuboid::setSimpleColor(float r, float g, float b, float a)
+{
+	for (int i=0;i<24*4; i+=4)
+	{
+		_colors[i] = r;
+		_colors[i+1] = g;
+		_colors[i+2] = b;
+		_colors[i+3] = a;
+	}
+
 
 }
 
