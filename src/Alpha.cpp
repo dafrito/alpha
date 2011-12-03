@@ -17,41 +17,11 @@ const float FOV = 65;
 const float viewDistance = 800;
 // end Config
 
-// XXX: obviously bad
-GLfloat colors[] = {
-	1,0,0,1,
-	1,0,0,1,
-	1,0,0,1,
-	1,0,0,1,
 
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
 
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1,
-	1,1,1,1
-};
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-		timer(this),player("Player 1"),player2("?"), camera(&player), cuboid(8.0f,8.0f,8.0f, colors),
+		timer(this),player("Player 1"),player2("?"), camera(&player), cuboid(8.0f,8.0f,8.0f),
 		font("DejaVuSansMono.ttf")
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
@@ -60,6 +30,38 @@ Alpha::Alpha(QWidget* const parent) :
 	timer.startOnShow(this);
 	player.position().setZ(10);
 	player2.position().set(50, 0, 10);
+	GLfloat playerColors[] = {
+		0,1,0,1,
+		0,1,0,1,
+		0,1,0,1,
+		0,1,0,1,
+
+		1,0,0,1,
+		1,0,0,1,
+		1,0,0,1,
+		1,0,0,1,
+
+		0,0,1,1,
+		0,0,1,1,
+		0,0,1,1,
+		0,0,1,1,
+
+		0,0,1,1,
+		0,0,1,1,
+		0,0,1,1,
+		0,0,1,1,
+
+		0,0,0,1,
+		0,0,0,1,
+		0,0,0,1,
+		0,0,0,1,
+
+		1,1,1,1,
+		1,1,1,1,
+		1,1,1,1,
+		1,1,1,1
+	};
+	cuboid.colors(playerColors);
 }
 void Alpha::drawCameraOrientedText(FTFont* const font, const char* text, int zOffset)
 	{
@@ -222,47 +224,13 @@ void Alpha::paintGL()
 		// this is fine because the world is never moved or rotated either
 
 		glTranslate(player.position());
+		glColor3f(1.0f,1.0f,1.0f);
 		font.FaceSize(4);
 		drawCameraOrientedText(&font,player.name(),4);
 		glRotateRadians(player.rotation());
+		cuboid.setAlpha(player.alpha());
+		cuboid.draw();
 
-		glBegin(GL_QUADS);
-		// TOP is BLACK
-		glColor4f(0.0f,0.0f,0.0f, player.alpha);
-		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
-		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
-		glVertex3f(-4.0f,-4.0f, 4.0f); // Bottom Left
-		glVertex3f( 4.0f,-4.0f, 4.0f); // Bottom Right
-			// BOTTOM is WHITE
-		glColor4f(1.0f,1.0f,1.0f, player.alpha);
-		glVertex3f(-4.0f, 4.0f, -4.0f); // Top Right
-		glVertex3f( 4.0f, 4.0f, -4.0f); // Top Left
-		glVertex3f( 4.0f,-4.0f, -4.0f); // Bottom Left
-		glVertex3f(-4.0f,-4.0f, -4.0f); // Bottom Right
-		// LEFT is BLUE
-		glColor4f(0.0f,0.0f,1.0f, player.alpha);
-		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Right
-		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
-		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Left
-		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Right
-		// RIGHT is BLUE
-		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
-		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Left
-		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Left
-		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Right
-		// FRONT is GREEN
-		glColor4f(0.0f,1.0f,0.0f, player.alpha);
-		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Right
-		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Left
-		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Left
-		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Right
-		// BACK is RED
-		glColor4f(1.0f,0.0f,0.0f, player.alpha);
-		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Right
-		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Left
-		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Left
-		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Right
-		glEnd();
 	}
 	glPopMatrix();
 
@@ -277,45 +245,9 @@ void Alpha::paintGL()
 		font.FaceSize(14);
 		drawCameraOrientedText(&font,player2.name(),-10);
 		glRotateRadians(player2.rotation());
+		cuboid.setAlpha(player2.alpha());
+		cuboid.draw();
 
-
-		glBegin(GL_QUADS);
-		// TOP is BLACK
-		glColor4f(0.0f,0.0f,0.0f, player2.alpha);
-		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
-		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
-		glVertex3f(-4.0f,-4.0f, 4.0f); // Bottom Left
-		glVertex3f( 4.0f,-4.0f, 4.0f); // Bottom Right
-			// BOTTOM is WHITE
-		glColor4f(1.0f,1.0f,1.0f, player2.alpha);
-		glVertex3f(-4.0f, 4.0f, -4.0f); // Top Right
-		glVertex3f( 4.0f, 4.0f, -4.0f); // Top Left
-		glVertex3f( 4.0f,-4.0f, -4.0f); // Bottom Left
-		glVertex3f(-4.0f,-4.0f, -4.0f); // Bottom Right
-		// LEFT is BLUE
-		glColor4f(0.0f,0.0f,1.0f, player2.alpha);
-		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Right
-		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Left
-		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Left
-		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Right
-		// RIGHT is BLUE
-		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Right
-		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Left
-		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Left
-		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Right
-		// FRONT is GREEN
-		glColor4f(0.0f,1.0f,0.0f, player2.alpha);
-		glVertex3f(-4.0f, 4.0f, 4.0f); // Top Right
-		glVertex3f( 4.0f, 4.0f, 4.0f); // Top Left
-		glVertex3f( 4.0f, 4.0f,-4.0f); // Bottom Left
-		glVertex3f(-4.0f, 4.0f,-4.0f); // Bottom Right
-		// BACK is RED
-		glColor4f(1.0f,0.0f,0.0f, player2.alpha);
-		glVertex3f( 4.0f,-4.0f, 4.0f); // Top Right
-		glVertex3f(-4.0f,-4.0f, 4.0f); // Top Left
-		glVertex3f(-4.0f,-4.0f,-4.0f); // Bottom Left
-		glVertex3f( 4.0f,-4.0f,-4.0f); // Bottom Right
-		glEnd();
 	}
 	glPopMatrix();
 
