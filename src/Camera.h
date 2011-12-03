@@ -11,6 +11,8 @@ class Camera
 public:
 	Camera(Player* t);
 	void setTarget(Player* mob);
+	// TODO: change the aligns to take a vector and modify that vector
+	// that way we can align healthbars / text with the camera easily
 	void alignTarget();
 	void alignWithTarget();
 	void addTargetXRotation(float x);

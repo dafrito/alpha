@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "PlayerInput.h"
 #include "Cuboid.h"
+#include <FTGL/ftgl.h>
 
 class Alpha : public QGLWidget
 {
@@ -21,6 +22,8 @@ class Alpha : public QGLWidget
 	Camera camera;
 	QPoint lastPos;
 	Cuboid cuboid;
+	FTPolygonFont font;
+	FTSimpleLayout layout; // XXX: is this used?
 public:
 	Alpha(QWidget* const parent = 0);
 protected:
@@ -42,6 +45,9 @@ protected:
 			camera.setTarget(&player);
 		}
 	}
+	void drawCameraOrientedText(FTFont* const font, const char* text, int zOffset);
+
+
 private slots:
 	void tick(const float& elapsed);
 };
