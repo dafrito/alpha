@@ -214,6 +214,21 @@ namespace nt
 		// glRotatef(vec.y(), 0, 1, 0);
 
 	}
+	// these 2 functions are for the camera
+	// backwards means everything flipped!
+	// values are negative and x is rotated before z
+	template <class U>
+	void glRotateRadiansBackwards(const Vector3<float, U>& vec)
+	{
+		glRotatef(-vec.x() * TO_DEGREES, 1, 0, 0);
+		glRotatef(-vec.z() * TO_DEGREES, 0, 0, 1);
+	}
+	template <class T, class U>
+	void glRotateRadiansBackwards(const Vector3<T, U>& vec)
+	{
+		glRotated(-vec.x() * TO_DEGREES, 1, 0, 0);
+		glRotated(-vec.z() * TO_DEGREES, 0, 0, 1);
+	}
 
 };
 

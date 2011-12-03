@@ -8,6 +8,8 @@
 // XXX: most things are public
 class Camera
 {
+	typedef Vector3<float, WrapRadians> Rotation;
+
 public:
 	Camera(Player* t);
 	void setTarget(Player* mob);
@@ -21,7 +23,7 @@ public:
 
 	Player *target;
 
-	void applySettings() const;
+	void applySettings();
 
 	void setMaxDistance(float distance)
 	{
@@ -32,7 +34,10 @@ public:
 
 	float getTargetDistance() {return targetDistance;}
 
-
+	Rotation& rotation()
+	{
+		return _rotation;
+	}
 
 	void setXRotation(float angle);
 	void setYRotation(float angle);
@@ -41,10 +46,6 @@ public:
 	void addXRotation(float angle);
 	void addYRotation(float angle);
 	void addZRotation(float angle);
-
-	float getXRotation() { return xRot; }
-	float getYRotation() { return yRot; }
-	float getZRotation() { return zRot; }
 
 	float zoomSpeed; // A multiplier
 	float zSpeed; // a multiplier
@@ -58,10 +59,8 @@ protected:
 	float maxDistance; // the maximum that you can zoom out
 
 private:
-	// TODO Ideally, these would be in a Vector3<float>
-	float xRot;
-	float yRot;
-	float zRot;
+
+	Rotation _rotation;
 
 };
 

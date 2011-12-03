@@ -15,11 +15,7 @@ Camera::Camera(Player* t) :
 	targetDistance(100),
 	maxDistance(800)
 {
-	setXRotation(0);
-	setYRotation(0);
-	setZRotation(0);
 	setTarget(target);
-
 }
 
 void Camera::setTarget(Player* mob)
@@ -36,9 +32,9 @@ void Camera::alignTarget()
 {
 	// camera and object xRots are off by 1/4 turn
 	target->rotation().set(
-		getXRotation() - M_PI_2,
-		getYRotation(),
-		getZRotation()
+		rotation().x() - M_PI_2,
+		rotation().y(),
+		rotation().z()
 	);
 }
 
@@ -58,7 +54,7 @@ void Camera::addTargetXRotation(float x)
 	target->rotation().addX(x);
 	if (rotateWithTarget)
 	{
-		setXRotation(xRot + x);
+		setXRotation(rotation().x() + x);
 	}
 }
 void Camera::addTargetYRotation(float y)
@@ -66,7 +62,7 @@ void Camera::addTargetYRotation(float y)
 	target->rotation().addY(y);
 	if (rotateWithTarget)
 	{
-		setYRotation(yRot + y);
+		setYRotation(rotation().y() + y);
 	}
 
 }
@@ -76,7 +72,7 @@ void Camera::addTargetZRotation(float z)
 	target->rotation().addZ(z);
 	if (rotateWithTarget)
 	{
-		setZRotation(zRot + z);
+		setZRotation(rotation().z() + z);
 	}
 }
 
@@ -95,14 +91,12 @@ void Camera::addTargetDistance(float distance)
 
 	// XXX: This needs to rotate X first and then Z for the rotations to make sense
 	// This is the opposite of the way we rotate objects
-void Camera::applySettings() const
+void Camera::applySettings()
 {
 	// distance the camera from the target
 	glTranslatef( 0.0f,0.0f, -targetDistance);
 
-	glRotatef(-xRot * TO_DEGREES, 1.0, 0.0, 0.0);
-	glRotatef(-zRot * TO_DEGREES, 0.0, 0.0, 1.0);
-	// glRotatef(-yRot * TO_DEGREES, 0.0, 1.0, 0.0);
+	glRotateRadiansBackwards(rotation());
 
 	// keeps the target in the center of the screen
 	glTranslatef(
@@ -112,32 +106,29 @@ void Camera::applySettings() const
 	);
 
 }
-
+// XXX: don't know how to do this properly with vector3
 void Camera::setXRotation(float angle)
 {
 	normalizeAngle(angle);
 	// keep us from flipping upside down
 	if ( angle > 3 * M_PI_2 ) { angle = 2 * M_PI; }
 	else if ( angle > M_PI ) {angle = M_PI;}
-	xRot = angle;
+	rotation().setX(angle);
 }
 
 void Camera::setYRotation(float angle)
 {
-	normalizeAngle(angle);
-	yRot = angle;
+	rotation().setY(angle);
 }
 
 void Camera::setZRotation(float angle)
 {
-	normalizeAngle(angle);
-	zRot = angle;
+	rotation().setZ(angle);
 }
 
 void Camera::addXRotation(float angle)
 {
-	setXRotation(xRot + angle);
-
+	setXRotation(rotation().x() + angle);
 	if (rotateTarget)
 	{
 		alignTarget();
@@ -145,7 +136,7 @@ void Camera::addXRotation(float angle)
 }
 void Camera::addYRotation(float angle)
 {
-	setYRotation(yRot + angle);
+	rotation().addY(angle);
 	if (rotateTarget)
 	{
 		alignTarget();
@@ -153,7 +144,7 @@ void Camera::addYRotation(float angle)
 }
 void Camera::addZRotation(float angle)
 {
-	setZRotation( zRot + angle );
+	rotation().addZ(angle);
 	if (rotateTarget)
 	{
 		alignTarget();
