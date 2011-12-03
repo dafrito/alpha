@@ -15,12 +15,13 @@ class LuaGLWidget : public GLWidget
 	MeasuredTimer timer;
 
 	// Proportional to the total amount of vertices rendered.
-	// TODO Implement a display list so this value can be raised
-	static const int HALFSIZE=50;
+	static const int HALFSIZE=250;
 
 	// The vertical scaling applied to each vertex. Higher
 	// values mean higher peaks and lower troughs.
 	static const int AMPLITUDE=2;
+
+	unsigned int sceneList;
 
 	float heights[HALFSIZE*2][HALFSIZE*2];
 public:
@@ -87,7 +88,10 @@ private:
 		return heights[y][x];
 	}
 
+
+	~LuaGLWidget();
 protected:
+	void renderScene();
 	void render();
 	void initializeGL();
 	void resizeGL(int width, int height);

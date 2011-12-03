@@ -30,15 +30,18 @@ void LuaGLWidget::initializeGL()
 	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	sceneList = glGenLists(1);
+	glNewList(sceneList, GL_COMPILE);
+	renderScene();
+	glEndList();
 }
 
 void LuaGLWidget::tick(const float&)
 {
 }
 
-void LuaGLWidget::render()
+void LuaGLWidget::renderScene()
 {
-	glClear(GL_DEPTH_BUFFER_BIT);
 	glTranslatef(0, -HALFSIZE/4, 0);
 	glBegin(GL_QUADS);
 	for (int y = -HALFSIZE; y < HALFSIZE-1; y++) {
@@ -69,6 +72,12 @@ void LuaGLWidget::render()
 	glEnd();
 }
 
+void LuaGLWidget::render()
+{
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glCallList(sceneList);
+}
+
 void LuaGLWidget::resizeGL(int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -76,4 +85,9 @@ void LuaGLWidget::resizeGL(int width, int height)
 	glLoadIdentity();
 	nt::setGLFrustrum(60, (float) width / height, 1, 800);
 	glMatrixMode(GL_MODELVIEW);
+}
+
+LuaGLWidget::~LuaGLWidget()
+{
+	glDeleteLists(sceneList, 1);
 }
