@@ -8,16 +8,16 @@
 
 using namespace nt;
 
-static float func(const float& x, const float& z)
+static float noop(const float&, const float&)
 {
-	return cos(x) * log(z);
+	return 0;
 }
 
 LuaGLWidget::LuaGLWidget(QWidget* const parent) :
 	GLWidget(parent),
 	requiresUpdate(false)
 {
-	update(func);
+	update(noop);
 }
 
 void LuaGLWidget::initializeGL()
