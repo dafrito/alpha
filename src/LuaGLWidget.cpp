@@ -12,12 +12,8 @@ static float func(const float& x, const float& z)
 }
 
 LuaGLWidget::LuaGLWidget(QWidget* const parent) :
-	GLWidget(parent),
-	timer(this, 1000 / 60)
+	GLWidget(parent)
 {
-	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
-	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
-	timer.startOnShow(this);
 	update(func);
 }
 
@@ -34,10 +30,6 @@ void LuaGLWidget::initializeGL()
 	glNewList(sceneList, GL_COMPILE);
 	renderScene();
 	glEndList();
-}
-
-void LuaGLWidget::tick(const float&)
-{
 }
 
 void LuaGLWidget::renderScene()

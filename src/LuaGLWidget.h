@@ -5,14 +5,12 @@
 
 #include "GLWidget.h"
 #include "Lua.hpp"
-#include "MeasuredTimer.h"
 
 using namespace std;
 
 class LuaGLWidget : public GLWidget
 {
 	Q_OBJECT
-	MeasuredTimer timer;
 
 	// Proportional to the total amount of vertices rendered.
 	static const int HALFSIZE=250;
@@ -95,8 +93,6 @@ protected:
 	void render();
 	void initializeGL();
 	void resizeGL(int width, int height);
-private slots:
-	void tick(const float& elapsed);
 };
 
 #endif // LUAGLWIDGET_H
