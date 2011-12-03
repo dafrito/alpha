@@ -8,7 +8,7 @@
 
 static float func(const float& x, const float& z)
 {
-	return cos(x) * exp(z);
+	return cos(x) * log(z);
 }
 
 LuaGLWidget::LuaGLWidget(QWidget* const parent) :
