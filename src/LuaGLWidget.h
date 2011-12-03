@@ -58,16 +58,6 @@ private:
 		return r;
 	}
 
-	void renderVertex(const QVector3D& vec)
-	{
-		glVertex3f(vec.x(), vec.y(), vec.z());
-	}
-
-	void renderNormal(const QVector3D& vec)
-	{
-		glNormal3f(vec.x(), vec.y(), vec.z());
-	}
-
 	void validate(int& x, int& y)
 	{
 		x = max(0, min(x + HALFSIZE, HALFSIZE * 2 - 1));

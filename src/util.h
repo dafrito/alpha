@@ -2,6 +2,7 @@
 #define UTIL_H
 
 #include <QGLWidget>
+#include <QVector3D>
 #include <cmath>
 
 namespace nt
@@ -10,6 +11,9 @@ namespace nt
 	const float TO_RADIANS = M_PI / 180;
 
 	void setGLFrustrum(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
+
+	void glVertex(const QVector3D&);
+	void glNormal(const QVector3D&);
 
 	template <typename T>
 	void normalizeAngle(T& angle)

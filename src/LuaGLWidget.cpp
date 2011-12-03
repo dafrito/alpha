@@ -6,6 +6,8 @@
 
 #include <cmath>
 
+using namespace nt;
+
 static float func(const float& x, const float& z)
 {
 	return cos(x) * log(z);
@@ -53,14 +55,14 @@ void LuaGLWidget::renderScene()
 			QVector3D tnorm = average(norm, normal(x+1, y));
 			QVector3D lnorm = average(norm, normal(x, y-1));
 			QVector3D bnorm = average(norm, normal(x-1, y));
-			renderNormal(average(rnorm, bnorm));
-			renderVertex(b);
-			renderNormal(average(rnorm, tnorm));
-			renderVertex(c);
-			renderNormal(average(lnorm, tnorm));
-			renderVertex(d);
-			renderNormal(average(lnorm, bnorm));
-			renderVertex(a);
+			glNormal(average(rnorm, bnorm));
+			glVertex(b);
+			glNormal(average(rnorm, tnorm));
+			glVertex(c);
+			glNormal(average(lnorm, tnorm));
+			glVertex(d);
+			glNormal(average(lnorm, bnorm));
+			glVertex(a);
 		}
 	}
 	glEnd();
