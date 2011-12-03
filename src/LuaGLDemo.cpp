@@ -1,6 +1,9 @@
 #include <QtGui>
 
 #include "LuaGLDemo.h"
+#include "LuaGlobal.hpp"
+#include <iostream>
+#include "LuaException.hpp"
 
 LuaGLDemo::LuaGLDemo(QWidget* const parent) :
 	QWidget(parent),
@@ -13,11 +16,20 @@ LuaGLDemo::LuaGLDemo(QWidget* const parent) :
 	connect(codeLine, SIGNAL(editingFinished()), this, SLOT(updateWidget()));
 	mainLayout->addWidget(codeLine, 0);
 	mainLayout->addWidget(glWidget, 1);
+
+	codeLine->setText("function calc(x, z) return math.exp(x / 2) * math.sin(z) + math.random() / 4; end;");
+	updateWidget();
 }
 
 void LuaGLDemo::updateWidget()
 {
-	qDebug(qPrintable(codeLine->text()));
+	try {
+		Lua l;
+		l(codeLine->text());
+		glWidget->update(l["calc"]);
+	} catch (LuaException e) {
+		std::cerr << e.what() << std::endl;
+	}
 }
 
 LuaGLDemo::~LuaGLDemo()

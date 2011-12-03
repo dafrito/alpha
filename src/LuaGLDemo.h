@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLineEdit>
 #include "LuaGLWidget.h"
+#include "Lua.hpp"
 
 class LuaGLDemo : public QWidget
 {
@@ -12,6 +13,8 @@ class LuaGLDemo : public QWidget
 	LuaGLWidget* const glWidget;
 
 	QLineEdit* const codeLine;
+
+	Lua lua;
 
 public slots:
 	void updateWidget();
