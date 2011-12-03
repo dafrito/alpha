@@ -7,6 +7,7 @@
 
 class TorusGLWidget : public GLWidget
 {
+	unsigned int torusList;
 public:
 	TorusGLWidget(QWidget* parent = 0);
 	~TorusGLWidget();
@@ -24,7 +25,8 @@ void TorusGLWidget::initializeGL()
 	GLWidget::initializeGL();
 	setXRotation(90);
 
-	glNewList(1, GL_COMPILE);
+	torusList = glGenLists(1);
+	glNewList(torusList, GL_COMPILE);
 	renderTorus();
 	glEndList();
 }
@@ -84,12 +86,12 @@ void renderTorus()
 
 void TorusGLWidget::render()
 {
-	glCallList(1);
+	glCallList(torusList);
 }
 
 TorusGLWidget::~TorusGLWidget()
 {
-	glDeleteLists(1, 1);
+	glDeleteLists(torusList, 1);
 }
 
 #endif // TORUSGLWIDGET_H
