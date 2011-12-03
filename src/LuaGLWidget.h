@@ -13,7 +13,7 @@ class LuaGLWidget : public GLWidget
 	Q_OBJECT
 
 	// Proportional to the total amount of vertices rendered.
-	static const int HALFSIZE=250;
+	static const int HALFSIZE=100;
 
 	// The vertical scaling applied to each vertex. Higher
 	// values mean higher peaks and lower troughs.
