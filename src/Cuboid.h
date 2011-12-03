@@ -12,7 +12,7 @@
 	 height | |      | |    /
 	 |      |v3      | v2  length
 	 |      |/       |/   /
-	-Z      v6------v7   -Y
+	-Z      v6------v7  -Y
 
 */
 
@@ -24,10 +24,10 @@ class Cuboid
 	float _length;
 	float _width;
 	float _height;
-	GLfloat *_colors;
+	GLfloat _colors[24*4];
 
 public:
-	Cuboid( float length, float width, float height,GLfloat* colors);
+	Cuboid( float length, float width, float height);
 	void draw();
 
 	void setWidth(const float width) { _width = width; }
@@ -38,22 +38,12 @@ public:
 
 	void setHeight(const float height) { _height = height; }
 	float height() { return _height; }
+
+	void colors(GLfloat colors[24*4]) { for (int i=0;i<24*4-1;i++) {_colors[i] = colors[i];} }
+	GLfloat colors() { return *_colors;}
+
+	void setAlpha(GLfloat alpha);
 };
 
-/*
-class Cube
-{
-	float _size;
-	float _alpha;
-public:
-	Cube(const float& size) : _size(size), _alpha(1) {}
-	void draw();
 
-	void setAlpha(const float& alpha) { _alpha = alpha; }
-	float alpha() { return _alpha; }
-
-	void setSize(const float& size) { _size = size; }
-	float size() { return _size; }
-};
-*/
 #endif // CUBOID_H

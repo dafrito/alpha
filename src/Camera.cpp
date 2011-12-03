@@ -21,8 +21,8 @@ Camera::Camera(Player* t) :
 void Camera::setTarget(Player* mob)
 {
 	assert(target != 0);
-	mob->alpha = target->alpha;
-	target->alpha = target->defaultAlpha;
+	mob->alpha(target->alpha());
+	target->alpha(target->baseAlpha());
 	target = mob;
 	alignWithTarget();
 }
@@ -82,7 +82,7 @@ void Camera::setTargetDistance(float distance)
 	if (distance < 0) { distance = 0;}
 	if (distance > maxDistance) {distance = maxDistance;}
 	targetDistance = distance;
-	target->alpha = targetDistance / 100;
+	target->alpha(targetDistance / 100);
 }
 void Camera::addTargetDistance(float distance)
 {
