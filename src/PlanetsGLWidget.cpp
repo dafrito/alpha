@@ -112,7 +112,7 @@ void PlanetsGLWidget::render()
 			glTranslatef(35,0,0);			// making it appear that its actually orbiting the main planet
 			font.FaceSize(5);
 			drawText(&font, "Charon", 5);
-			glutWireSphere(3,15,15);
+			glutWireSphere(5,15,15);
 		}
 		glPopMatrix();
 											// all of the mini-moons are tide-locked
