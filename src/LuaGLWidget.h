@@ -16,7 +16,9 @@ class LuaGLWidget : public GLWidget
 
 	static const int HALFSIZE=100;
 
-	static const int SCALE=8;
+	// The vertical scaling applied to each vertex. Higher
+	// values mean higher peaks and lower troughs.
+	static const int AMPLITUDE=2;
 
 	float heights[HALFSIZE*2][HALFSIZE*2];
 public:
@@ -36,9 +38,9 @@ private:
 	
 	QVector3D normal(int x, int y)
 	{
-		QVector3D a(x, SCALE*get(x, y), y);
-		QVector3D b(x, SCALE*get(x, y+1), y+1);
-		QVector3D c(x+1, SCALE*get(x+1, y+1), y+1);
+		QVector3D a(x, AMPLITUDE*get(x, y), y);
+		QVector3D b(x, AMPLITUDE*get(x, y+1), y+1);
+		QVector3D c(x+1, AMPLITUDE*get(x+1, y+1), y+1);
 		return QVector3D::normal(a - b, b - c);
 	}
 

@@ -43,10 +43,10 @@ void LuaGLWidget::render()
 	glBegin(GL_QUADS);
 	for (int y = -HALFSIZE; y < HALFSIZE-1; y++) {
 		for (int x = -HALFSIZE; x < HALFSIZE-1; x++) {
-			QVector3D a(x, SCALE*get(x, y), y);
-			QVector3D b(x, SCALE*get(x, y+1), y+1);
-			QVector3D c(x+1, SCALE*get(x+1, y+1), y+1);
-			QVector3D d(x+1, SCALE*get(x+1, y), y);
+			QVector3D a(x, AMPLITUDE*get(x, y), y);
+			QVector3D b(x, AMPLITUDE*get(x, y+1), y+1);
+			QVector3D c(x+1, AMPLITUDE*get(x+1, y+1), y+1);
+			QVector3D d(x+1, AMPLITUDE*get(x+1, y), y);
 			QVector3D norm = normal(x,y);
 			QVector3D rnorm = average(norm, normal(x, y+1));
 			QVector3D tnorm = average(norm, normal(x+1, y));
