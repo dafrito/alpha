@@ -51,6 +51,7 @@ HEADERS *= PlayerInput.h
 HEADERS *= Cuboid.h
 HEADERS *= FontGLWidget.h
 HEADERS *= LuaGLDemo.h
+HEADERS *= Object.h
 
 SOURCES *= GLWidget.cpp
 SOURCES *= demos.cpp
