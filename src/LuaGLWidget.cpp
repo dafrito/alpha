@@ -6,9 +6,9 @@
 
 #include <cmath>
 
-static float func(int x, int z)
+static float func(const float& x, const float& z)
 {
-	return cos((float)x/10) * cos((float)z/10);
+	return cos(x/10) * cos(z/10);
 }
 
 LuaGLWidget::LuaGLWidget(QWidget* const parent) :
