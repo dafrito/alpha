@@ -9,10 +9,14 @@
 #include <QTimer>
 #include <GL/glut.h>
 #include "AnimatedGLWidget.h"
+#include <FTGL/ftgl.h>
 
 class PlanetsGLWidget : public AnimatedGLWidget
 {
 	Q_OBJECT
+
+	FTPolygonFont font;
+	FTSimpleLayout layout;
 
 public:
 	PlanetsGLWidget(QWidget* const parent = 0);
