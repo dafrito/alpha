@@ -26,7 +26,7 @@ public:
 	LuaGLWidget(QWidget* const parent = 0);
 
 	template <typename T>
-	void update(T& func)
+	void update(T func)
 	{
 		// The amount of compression between values. Higher values
 		// cause a wider range of values to be shown.
