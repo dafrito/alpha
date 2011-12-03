@@ -14,7 +14,9 @@ class LuaGLWidget : public GLWidget
 	Q_OBJECT
 	MeasuredTimer timer;
 
-	static const int HALFSIZE=100;
+	// Proportional to the total amount of vertices rendered.
+	// TODO Implement a display list so this value can be raised
+	static const int HALFSIZE=50;
 
 	// The vertical scaling applied to each vertex. Higher
 	// values mean higher peaks and lower troughs.
