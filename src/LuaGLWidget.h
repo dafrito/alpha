@@ -29,9 +29,13 @@ public:
 	template <typename T>
 	void update(T& func)
 	{
+		// The amount of compression between values. Higher values
+		// cause a wider range of values to be shown.
+		static const float FREQUENCY=.3;
+
 		for (int y = -HALFSIZE; y < HALFSIZE; y++) {
 			for (int x = -HALFSIZE; x < HALFSIZE; x++) {
-				set(x, y, func(x, y));
+				set(x, y, func(FREQUENCY*x, FREQUENCY*y));
 			}
 		}
 	}
