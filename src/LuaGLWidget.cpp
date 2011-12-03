@@ -8,11 +8,6 @@
 
 using namespace nt;
 
-static float noop(const float&, const float&)
-{
-	return 0;
-}
-
 LuaGLWidget::LuaGLWidget(QWidget* const parent) :
 	GLWidget(parent),
 	timer(this, 1000 / 60)
