@@ -18,9 +18,9 @@
 #include "TorusGLWidget.h"
 #include "FilmRollGLWidget.h"
 #include "VehicleGLWidget.h"
-#include "LuaGLWidget.h"
 #include "Alpha.h"
 #include "FontGLWidget.h"
+#include "LuaGLDemo.h"
 
 int main(int argc, char *argv[])
 {
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 	RotatableGLDemo spiralLinesDemo(new SpiralLinesGLWidget);
 	demoStack.addTab(&spiralLinesDemo, "Spiral");
 
-	LuaGLWidget luaDemo;
+	LuaGLDemo luaDemo;
 	demoStack.addTab(&luaDemo, "Lua");
 
 	RotatableGLDemo torusDemo(new TorusGLWidget);

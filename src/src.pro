@@ -50,6 +50,7 @@ HEADERS *= Vector.h
 HEADERS *= PlayerInput.h
 HEADERS *= Cuboid.h
 HEADERS *= FontGLWidget.h
+HEADERS *= LuaGLDemo.h
 
 SOURCES *= GLWidget.cpp
 SOURCES *= demos.cpp
@@ -73,3 +74,4 @@ SOURCES *= Camera.cpp
 SOURCES *= PlayerInput.cpp
 SOURCES *= Cuboid.cpp
 SOURCES *= FontGLWidget.cpp
+SOURCES *= LuaGLDemo.cpp
