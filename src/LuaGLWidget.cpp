@@ -15,6 +15,7 @@ LuaGLWidget::LuaGLWidget(QWidget* const parent) :
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
 	timer.startOnShow(this);
+	updateOnCameraMove(false);
 }
 
 void LuaGLWidget::initializeGL()

@@ -51,6 +51,10 @@ protected:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 
+	void updateOnCameraMove(bool doUpdate) {
+		updatingOnCameraMove = doUpdate;
+	}
+
 	// We scale rotation such that 1 unit of xRot, yRot, or zRot is
 	// equal to 1/ROTATION_SCALE degrees. Therefore, when you want to
 	// set rotation, you need to multiply by this scale to get expected
@@ -72,6 +76,7 @@ private:
 	int yRot;
 	int zRot;
 	QPoint lastPos;
+	bool updatingOnCameraMove;
 };
 
 #endif // GLWIDGET_H

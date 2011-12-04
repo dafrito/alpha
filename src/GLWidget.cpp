@@ -13,7 +13,8 @@ GLWidget::GLWidget(QWidget* const parent)
 	: QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 	xRot(0),
 	yRot(0),
-	zRot(0)
+	zRot(0),
+	updatingOnCameraMove(true)
 {
 }
 
@@ -108,7 +109,8 @@ void GLWidget::setScaledXRotation(int angle)
 	if (angle != xRot) {
 		xRot = angle;
 		emit xRotationChanged(angle);
-		updateGL();
+		if (updatingOnCameraMove)
+			updateGL();
 	}
 }
 
@@ -118,7 +120,8 @@ void GLWidget::setScaledYRotation(int angle)
 	if (angle != yRot) {
 		yRot = angle;
 		emit yRotationChanged(angle);
-		updateGL();
+		if (updatingOnCameraMove)
+			updateGL();
 	}
 }
 
@@ -128,6 +131,7 @@ void GLWidget::setScaledZRotation(int angle)
 	if (angle != zRot) {
 		zRot = angle;
 		emit zRotationChanged(angle);
-		updateGL();
+		if (updatingOnCameraMove)
+			updateGL();
 	}
 }
