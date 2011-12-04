@@ -7,6 +7,7 @@
 
 #include "AnimatedGLWidget.h"
 
+// TODO Replace this with Cuboid
 struct Cube
 {
 	QVector3D pos;
