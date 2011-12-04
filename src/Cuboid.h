@@ -27,8 +27,16 @@ class Cuboid
 	GLfloat _colors[24*4];
 
 public:
+	Cuboid(float size);
 	Cuboid( float length, float width, float height);
 	void draw();
+
+	void setSize(const float& size);
+
+	void setDimensions(
+			const float& length,
+			const float& width,
+			const float& height);
 
 	void setWidth(const float width) { _width = width/2; }
 	float width() { return _width*2; }

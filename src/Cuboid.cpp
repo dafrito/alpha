@@ -1,6 +1,10 @@
 #include "Cuboid.h"
 #include <GL/gl.h>
 
+Cuboid::Cuboid(float size)
+{
+	setSize(size);
+}
 
 Cuboid::Cuboid( float length, float width, float height):
  _length(length/2), _width(width/2), _height(height/2) {}
@@ -27,6 +31,20 @@ void Cuboid::setSimpleColor(float r, float g, float b, float a)
 	}
 
 
+}
+
+void Cuboid::setSize(const float& size)
+{
+	setLength(size);
+	setWidth(size);
+	setHeight(size);
+}
+
+void Cuboid::setDimensions(const float& length, const float& width, const float& height)
+{
+	setLength(length);
+	setWidth(width);
+	setHeight(height);
 }
 
 void Cuboid::draw()
