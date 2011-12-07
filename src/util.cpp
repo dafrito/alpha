@@ -8,10 +8,10 @@ void setGLFrustum(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar)
 {
 	GLdouble xmin, xmax, ymin, ymax;
 
-	ymax = zNear * tan(fovy * M_PI / 360.0);
-	ymin = -ymax;
-	xmin = ymin * aspect;
-	xmax = ymax * aspect;
+	xmax = zNear * tan(fovy * M_PI / 360.0);
+	xmin = -xmax;
+	ymin = xmin / aspect;
+	ymax = xmax / aspect;
 
 	glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
 }
