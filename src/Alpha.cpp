@@ -206,7 +206,7 @@ void Alpha::paintGL()
 		glPopMatrix();
 		glPushMatrix();
 		{
-			glTranslatef(0.0f,-90.0f,10.0f);
+			glTranslatef(100.0f,100.0f,10.0f);
 			glColor3f(0.0f,0.0f,0.0f);
 			playerShape.draw();
 		}
