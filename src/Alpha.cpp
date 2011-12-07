@@ -9,7 +9,7 @@
 using namespace nt;
 
 // Config
-const float TURN_SPEED = 1;
+const float TURN_SPEED = M_PI;
 const float PLAYER_MOVESPEED = 50;
 const float PLAYER_BWD = 0.7; // how fast you move backwards compared to forwards
 const float FOV = 65;
@@ -80,7 +80,7 @@ void Alpha::tick(const float& elapsed)
 {
 	Vector3<double> velocity;
 
-	float da = M_PI * elapsed * TURN_SPEED;
+	float da = TURN_SPEED * elapsed;
 
 	if (input.switchTarget()) {
 		NewTarget();
