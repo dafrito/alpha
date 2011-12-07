@@ -141,8 +141,189 @@ void Alpha::tick(const float& elapsed)
 	velocity.normalize();
 	velocity.rotateX(camera.target->rotation().x());
 	velocity.rotateZ(camera.target->rotation().z());
-	velocity.scale(0.5 * PLAYER_MOVESPEED * elapsed);
+	velocity.scale(PLAYER_MOVESPEED * elapsed);
 	camera.target->position().add(velocity);
+
+
+	static int step = 0;
+
+	int i = 0;
+	// if we want the object to rotate instantly: think onyxia
+	// FIXME: dear god
+	static bool rotateInstantly = false;
+	Object*  obj[3];
+	obj[0] = &player2;
+	// How far center of object needs to get to the radius
+	// XXX: probably should be something like obj->skin.hitboxradius()
+	// and the target's hitboxRadius if the wayPoint is a target
+	float wpRadius = .5; // XXX: this seems to be as accurate as it can get
+	if (step < 4) {
+
+		Vector3<double> pivot(obj[i]->position());
+
+		Vector3<double> wayPoint[4];
+		wayPoint[0].set(40,0,10);
+		wayPoint[1].set(-100,0,10);
+		wayPoint[2].set(0,100,20);
+		wayPoint[3].set(0,100,70);
+		Vector3<double> difference;
+		// get our distance difference vector
+		difference.setX( wayPoint[step].x() - obj[i]->position().x() );
+		difference.setY( wayPoint[step].y() - obj[i]->position().y() );
+		difference.setZ( wayPoint[step].z() - obj[i]->position().z() );
+
+
+		// XXX: rotations needed are calculated each tick
+		// could perhaps calculate it just once, and only recalculate based on wayPoint made or
+		// upset condition (blocked path / attacked / attacking)
+		float zRot = 0; // Target Horizontal Angle
+		float xRot = 0; // Target Vertical Angle
+
+		// keeping zeros from giving us bad data
+		if (difference.x() == 0) {
+			if (difference.y() >= 0){
+				zRot = 0;
+			} else {
+				zRot = M_PI_2 * 2;
+			}
+		} else if (difference.y() == 0) {
+			if (difference.x() > 0) {
+				zRot = M_PI_2 * 3;
+			} else {
+				zRot = M_PI_2;
+			}
+		} else {
+			// figure out correct TOTAL angle, changes based on quadrant
+			zRot = atan( difference.y() / difference.x() );
+			if (difference.x() < 0){
+				zRot += M_PI_2;
+			} else {
+				zRot += M_PI_2 * 3;
+			}
+		}
+		// horizontal distance
+		float dxy = sqrt(
+			difference.x() * difference.x() + difference.y() * difference.y()
+		);
+		// vertical and horizontal angle calculation's aren't exacly the same
+		// a function may be used but it probably would make it just as long
+		if (difference.z() == 0) {
+			xRot = 0;
+		} else if (dxy == 0) {
+			if (difference.z() > 0){
+				xRot = M_PI_2;
+			} else {
+				xRot = M_PI_2 * 3;
+			}
+		} else {
+			xRot = atan( dxy / difference.z() );
+			if (difference.z() < 0){
+				xRot = M_PI_2 * 3 - xRot;
+			} else {
+				xRot = M_PI_2 - xRot;
+			}
+		}
+
+		// find the change in angles needed: current rotation - target rotation
+		zRot = obj[i]->rotation().z() - zRot;
+		xRot = obj[i]->rotation().x() - xRot;
+
+		// if we are rotating instantly we simply set the current rotation to the target rotation
+		if (!rotateInstantly)
+		{
+
+			// make sure all our comparisons are between 0-2*M_PI
+			normalizeAngle(zRot);
+			normalizeAngle(xRot);
+
+			// XXX: could turn this part into a function
+			// getTurnAmountThisTick()
+
+			// positive is a left turn
+			if ( zRot < M_PI) {
+				// we can only rotate so fast
+				if (zRot > da) {
+					zRot = -da;
+				} else {
+					zRot = -zRot;
+				}
+			} else {
+				if (zRot > da) {
+					zRot = da;
+				} // else { zRot = zRot; }
+			}
+
+			// positive is a pitch up
+			if ( xRot < M_PI) {
+				if (xRot > da) {
+					xRot = -da;
+				} else {
+					xRot = -xRot;
+				}
+			} else {
+				if (xRot > da) {
+					xRot = da;
+				} // else {xRot = xRot;}
+			}
+		}
+		// so it will be more versatile later on
+		static float v = PLAYER_MOVESPEED; // velocity
+		static float w = TURN_SPEED; // angular velocity
+		double radius = v/w;
+		// if we aren't at the waypoint, start moving
+		if (difference.length() > wpRadius)
+		{
+
+			// remove all previous velocities
+			// find the pivot point for a turn, if the wayPoint is too close and we can't move and turn
+			// to that point we need to slow down to give it time for the turn
+			// XXX: really don't know if vectors are worth it in these cases
+			// lots of reusing or brand new variables
+			velocity.zero();
+			velocity.set(-zRot, 0, 0 ); // "strafe" into position
+			velocity.normalize(); // set the zRot to +-1;
+			velocity.rotateZ(obj[i]->rotation().z()); // set it to the current rotation
+			velocity.scale(radius); // actually move it
+			pivot.add(velocity); // set pivot position to the determined coords
+			difference.zero(); // once we are inside this if, we no longer use the original
+			difference.setX( wayPoint[step].x() - pivot.x() );
+			difference.setY( wayPoint[step].y() - pivot.y() );
+			difference.setZ( wayPoint[step].z() - pivot.z() );
+
+			velocity.zero(); // reset for the actual object movement
+			velocity.addY(1); // object only moves forward
+			// float comparisons seem to be off by a bit
+			// so instead of seeing if dead on, just see if close
+			bool x = xRot < 0.001f && xRot > -0.001f;
+			bool z = zRot < 0.001f && zRot > -0.001f;
+			if (difference.length() < radius && !(x && z) ) {\
+				// if the target point is inside our turn radius, then slow down
+				v = w * difference.length();
+			}
+		} else { // head to next waypoint
+			step++;
+			v = PLAYER_MOVESPEED;
+			w = TURN_SPEED;
+		}
+
+		// add in our rotations
+		obj[i]->rotation().addZ(zRot);
+		obj[i]->rotation().addX(xRot);
+
+		// currently not needed but strafing / hovering may be implemented
+		velocity.normalize();
+		velocity.rotateX(obj[i]->rotation().x());
+		velocity.rotateZ(obj[i]->rotation().z());
+
+
+		// Move our object
+		velocity.scale(v * elapsed);
+		obj[i]->position().add(velocity);
+
+
+	}
+
+
 }
 
 void Alpha::initializeGL()

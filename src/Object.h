@@ -19,7 +19,18 @@ public:
 	{
 		return _position;
 	}
-
+	void velocity(double x, double y, double z)
+	{
+		_velocity.setX(x);
+		_velocity.setY(y);
+		_velocity.setZ(z);
+	}
+	void addVelocity(double x, double y, double z)
+	{
+		_velocity.addX(x);
+		_velocity.addY(y);
+		_velocity.addZ(z);
+	}
 	Velocity& velocity()
 	{
 		return _velocity;
