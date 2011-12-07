@@ -157,7 +157,7 @@ void Alpha::resizeGL(int width, int height)
 	const float aspectRatio = (float) width / height;
 	glMatrixMode(GL_PROJECTION); // determines how the the world is viewed by the user
 	glLoadIdentity(); // set the matrix to an unmodified state
-	nt::setGLFrustrum(FOV, aspectRatio, 1, viewDistance);
+	nt::setGLFrustum(FOV, aspectRatio, 1, viewDistance);
 	glMatrixMode(GL_MODELVIEW); // the world and where it is viewed from
 	glLoadIdentity(); // set the matrix to an unmodified state
 }

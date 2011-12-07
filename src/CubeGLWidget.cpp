@@ -119,6 +119,6 @@ void CubeGLWidget::resizeGL(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	nt::setGLFrustrum(60, (float) width / height, 1, 800);
+	nt::setGLFrustum(60, (float) width / height, 1, 800);
 	glMatrixMode(GL_MODELVIEW);
 }
