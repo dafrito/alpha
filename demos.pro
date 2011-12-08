@@ -6,5 +6,5 @@
 }
 
 TEMPLATE = subdirs
-SUBDIRS = lua-cxx src
+SUBDIRS = lua-cxx src tests
 CONFIG += ordered
