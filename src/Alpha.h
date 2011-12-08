@@ -25,6 +25,8 @@ class Alpha : public QGLWidget
 	FTPolygonFont font;
 	FTSimpleLayout layout; // XXX: is this used?
 	QCursor cursor; // can set custom shapes to this
+	QPoint cursorHiddenAt;
+	bool cursorShown;
 public:
 	Alpha(QWidget* const parent = 0);
 protected:
@@ -37,6 +39,8 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 	void wheelEvent(QWheelEvent *event);
+	void hideCursor();
+	void showCursor();
 
 	void NewTarget()
 	{

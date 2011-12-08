@@ -123,6 +123,16 @@ public:
 		return pad.switchTarget;
 	}
 
+	bool leftMouse()
+	{
+		return pad.leftMouse;
+	}
+
+	bool rightMouse()
+	{
+		return pad.rightMouse;
+	}
+
 	void clear()
 	{
 		pad.switchTarget = false;

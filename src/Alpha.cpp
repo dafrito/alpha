@@ -23,7 +23,7 @@ const float viewDistance = 800;
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this),player("Player 1"),player2("?"), camera(&player), playerShape(8.0f,8.0f,8.0f),
-		font("DejaVuSansMono.ttf"), cursor(Qt::ArrowCursor)
+		font("DejaVuSansMono.ttf"), cursor(Qt::ArrowCursor), cursorShown(true)
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
@@ -460,9 +460,8 @@ void Alpha::keyReleaseEvent(QKeyEvent* event)
 // TODO: prevent the mouse cursor from moving during a Mouse, similar to wow
 void Alpha::mousePressEvent(QMouseEvent *event)
 {
-	// cursorPush()
-	QApplication::setOverrideCursor(Qt::BlankCursor);
 	input.handleMousePress(event);
+	hideCursor();
 	lastPos = event->pos();
 	if (event->button() & Qt::LeftButton) {
 		camera.rotateWithTarget = false;
@@ -473,14 +472,14 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 }
 void Alpha::mouseReleaseEvent(QMouseEvent * event)
 {
-	// cursorPop()
-	QApplication::restoreOverrideCursor();
 	input.handleMouseRelease(event);
+	showCursor();
 	if (event->button() & Qt::LeftButton) {
 		camera.rotateWithTarget = true;
 	}else if (event->button() & Qt::RightButton) {
 		camera.rotateTarget = false;
 	}
+
 }
 // Rotates the camera about the player
 // XXX: camera doesn't stay snapped behind player during keyboard turn while holding right click
@@ -512,5 +511,27 @@ void Alpha::wheelEvent(QWheelEvent *event)
 		camera.addTargetDistance(-numSteps * camera.zoomSpeed );
 	}
 	event->accept();
+}
+
+void Alpha::hideCursor()
+{
+	if (cursorShown) // hide
+	{
+		// cursorPush()
+		QApplication::setOverrideCursor(Qt::BlankCursor);
+		cursorHiddenAt = cursor.pos();
+		cursorShown = false;
+	}
+}
+void Alpha::showCursor()
+{
+	// if neither mouseButton is pressed
+	if ( !input.leftMouse() and !input.rightMouse() )
+	{
+		// cursorPop()
+		QApplication::restoreOverrideCursor();
+		cursor.setPos(cursorHiddenAt);
+		cursorShown = true;
+	}
 }
 
