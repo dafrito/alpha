@@ -1,6 +1,7 @@
 #include "Alpha.h"
 #include "util.h"
 #include <QKeyEvent>
+#include <QApplication> // used entirely to change the cursor look
 #include <QWheelEvent>
 #include <GL/glut.h>
 #include <iostream>
@@ -22,7 +23,7 @@ const float viewDistance = 800;
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this),player("Player 1"),player2("?"), camera(&player), playerShape(8.0f,8.0f,8.0f),
-		font("DejaVuSansMono.ttf")
+		font("DejaVuSansMono.ttf"), cursor(Qt::ArrowCursor)
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
@@ -62,6 +63,9 @@ Alpha::Alpha(QWidget* const parent) :
 		1,1,1,1
 	};
 	playerShape.colors(playerColors);
+	// set our base cursor, shouldn't be possible to get to get below it
+	// cursorLoadIdentity() or more accurately cursorPush()
+	QApplication::setOverrideCursor(cursor);
 }
 void Alpha::drawCameraOrientedText(FTFont* const font, const char* text, int zOffset)
 	{
@@ -456,6 +460,8 @@ void Alpha::keyReleaseEvent(QKeyEvent* event)
 // TODO: prevent the mouse cursor from moving during a Mouse, similar to wow
 void Alpha::mousePressEvent(QMouseEvent *event)
 {
+	// cursorPush()
+	QApplication::setOverrideCursor(Qt::BlankCursor);
 	input.handleMousePress(event);
 	lastPos = event->pos();
 	if (event->button() & Qt::LeftButton) {
@@ -467,6 +473,8 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 }
 void Alpha::mouseReleaseEvent(QMouseEvent * event)
 {
+	// cursorPop()
+	QApplication::restoreOverrideCursor();
 	input.handleMouseRelease(event);
 	if (event->button() & Qt::LeftButton) {
 		camera.rotateWithTarget = true;

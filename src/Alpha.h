@@ -24,6 +24,7 @@ class Alpha : public QGLWidget
 	Cuboid playerShape;
 	FTPolygonFont font;
 	FTSimpleLayout layout; // XXX: is this used?
+	QCursor cursor; // can set custom shapes to this
 public:
 	Alpha(QWidget* const parent = 0);
 protected:
