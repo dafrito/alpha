@@ -13,6 +13,15 @@ private slots:
 		QVERIFY(vec.x() == 0.0f);
 	}
 
+	void testVectorCanCompareAgainstThreeValues()
+	{
+		Vector3<int> a(1, 2, 3);
+		QVERIFY(!a.equals(0, 2, 3));
+		QVERIFY(!a.equals(1, 0, 3));
+		QVERIFY(!a.equals(1, 2, 0));
+		QVERIFY(a.equals(1, 2, 3));
+	}
+
 	void testVectorSupportsPlus()
 	{
 		Vector3<int> a(5, 4, 3);

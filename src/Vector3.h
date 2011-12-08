@@ -199,6 +199,14 @@ public:
 	{
 		std::cout << "(x: " << _x << ", y: " << _y << ", z: " << _z << ")" << std::endl;
 	}
+
+	template<typename U>
+	bool equals(U x, U y, U z)
+	{
+		return this->x() == x &&
+			this->y() == y &&
+			this->z() == z;
+	}
 };
 
 namespace nt
