@@ -113,9 +113,15 @@ public:
 	template <class U, class V>
 	void add(const Vector3<U, V>& other)
 	{
-		addX(other.x());
-		addY(other.y());
-		addZ(other.z());
+		add(other.x(), other.y(), other.z());
+	}
+
+	template <class U>
+	void add(const U x, const U y, const U z)
+	{
+		addX(x);
+		addY(y);
+		addZ(z);
 	}
 
 	template <class U, class V>
