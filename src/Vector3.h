@@ -207,6 +207,18 @@ public:
 			this->y() == y &&
 			this->z() == z;
 	}
+
+	template<typename U, class V>
+	bool operator ==(const Vector3<U, V>& other)
+	{
+		return equals(other.x(), other.y(), other.z());
+	}
+
+	template <typename U, class V>
+	bool operator !=(const Vector3<U, V>& other)
+	{
+		return !(*this == other);
+	}
 };
 
 namespace nt

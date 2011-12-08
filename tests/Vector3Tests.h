@@ -22,6 +22,19 @@ private slots:
 		QVERIFY(a.equals(1, 2, 3));
 	}
 
+	void testVectorCanCompareAgainstOtherVectors()
+	{
+		Vector3<int> a(1, 2, 3);
+		Vector3<int> b(0, 2, 3);
+		Vector3<int> c(1, 0, 3);
+		Vector3<int> d(1, 2, 0);
+		Vector3<int> e(1, 2, 3);
+		QVERIFY(a != b);
+		QVERIFY(a != c);
+		QVERIFY(a != d);
+		QVERIFY(a == e);
+	}
+
 	void testVectorSupportsPlus()
 	{
 		Vector3<int> a(5, 4, 3);
