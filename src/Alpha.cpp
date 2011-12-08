@@ -1,7 +1,6 @@
 #include "Alpha.h"
 #include "util.h"
 #include <QKeyEvent>
-#include <QApplication> // used entirely to change the cursor look
 #include <QWheelEvent>
 #include <GL/glut.h>
 #include <iostream>
@@ -23,7 +22,8 @@ const float viewDistance = 800;
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this),player("Player 1"),player2("?"), camera(&player), playerShape(8.0f,8.0f,8.0f),
-		font("DejaVuSansMono.ttf"), cursor(Qt::ArrowCursor), cursorShown(true)
+		font("DejaVuSansMono.ttf"), cursor(Qt::ArrowCursor), cursorShown(true),
+		_desktop( QApplication::desktop()->screenGeometry() )
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
@@ -462,7 +462,7 @@ void Alpha::mousePressEvent(QMouseEvent *event)
 {
 	input.handleMousePress(event);
 	hideCursor();
-	lastPos = event->pos();
+
 	if (event->button() & Qt::LeftButton) {
 		camera.rotateWithTarget = false;
 	}else if (event->button() & Qt::RightButton) {
@@ -487,6 +487,14 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 {
 	float dx = event->x() - lastPos.x();
 	float dy = event->y() - lastPos.y();
+	if (event->x()  > size().rwidth() || event->y() > size().rheight() ||
+	    event->x() < 0 || event->y() < 0)
+	{
+		cursor.setPos(desktop().center());
+		lastPos = QWidget::mapFromGlobal( desktop().center() );
+	} else {
+		lastPos = event->pos();
+	}
 	dx *= camera.zSpeed; // horizontal rotation
 	dy *= camera.xSpeed; // vertical rotation
 	// Right click behavior overrides left click so it always fires on press
@@ -497,10 +505,8 @@ void Alpha::mouseMoveEvent(QMouseEvent *event)
 	}else if (event->buttons() & Qt::LeftButton) {
 		camera.addXRotation(-dy );
 		camera.addZRotation(-dx );
-
-
 	}
-	lastPos = event->pos();
+
 }
 void Alpha::wheelEvent(QWheelEvent *event)
 {
@@ -519,7 +525,12 @@ void Alpha::hideCursor()
 	{
 		// cursorPush()
 		QApplication::setOverrideCursor(Qt::BlankCursor);
+		// set the hidden cursor to the middle of the desktop
+		// so regardless of where your window is you have a long
+		// way to move the mouse before it hits an edge
 		cursorHiddenAt = cursor.pos();
+		cursor.setPos(desktop().center());
+		lastPos = QWidget::mapFromGlobal( desktop().center() );
 		cursorShown = false;
 	}
 }
@@ -534,4 +545,3 @@ void Alpha::showCursor()
 		cursorShown = true;
 	}
 }
-

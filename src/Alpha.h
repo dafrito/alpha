@@ -1,6 +1,8 @@
 #ifndef ALPHA_H
 #define ALPHA_H
 
+#include <QApplication>
+#include <QDesktopWidget> // needed for desktop info, something about forward declaration
 #include <QGLWidget>
 #include <QVector3D>
 #include "MeasuredTimer.h"
@@ -27,6 +29,7 @@ class Alpha : public QGLWidget
 	QCursor cursor; // can set custom shapes to this
 	QPoint cursorHiddenAt;
 	bool cursorShown;
+	QRect _desktop; // _desktop.width() X _desktop.height() == resolution
 public:
 	Alpha(QWidget* const parent = 0);
 protected:
@@ -41,7 +44,10 @@ protected:
 	void wheelEvent(QWheelEvent *event);
 	void hideCursor();
 	void showCursor();
-
+	QRect desktop()
+	{
+		return _desktop;
+	}
 	void NewTarget()
 	{
 		if (camera.target == &player){
