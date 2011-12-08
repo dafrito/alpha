@@ -15,21 +15,21 @@ private slots:
 
 	void testVectorSupportsPlus()
 	{
-		Vector3<int> a(1, 0, 0);
-		Vector3<int> b(0, 1, 0);
+		Vector3<int> a(5, 4, 3);
+		Vector3<int> b(1, 3, 5);
 		Vector3<int> c = a + b;
-		QVERIFY(c.x() == 1);
-		QVERIFY(c.y() == 1);
-		QVERIFY(c.z() == 0);
+		QVERIFY(c.x() == 6);
+		QVERIFY(c.y() == 7);
+		QVERIFY(c.z() == 8);
 	}
 
 	void testVectorSupportsPlusEquals()
 	{
-		Vector3<int> a(1, 0, 0);
-		Vector3<int> b(0, 1, 0);
+		Vector3<int> a(5, 4, 3);
+		Vector3<int> b(1, 3, 5);
 		a += b;
-		QVERIFY(a.x() == 1);
-		QVERIFY(a.y() == 1);
-		QVERIFY(a.z() == 0);
+		QVERIFY(a.x() == 6);
+		QVERIFY(a.y() == 7);
+		QVERIFY(a.z() == 8);
 	}
 };
