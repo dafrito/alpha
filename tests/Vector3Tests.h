@@ -75,4 +75,22 @@ private slots:
 		QVERIFY(a.z() == 0);
 	}
 
+	void testVectorSupportsMultiplyOperator()
+	{
+		Vector3<int> a(3, 4, 5);
+		Vector3<int> r = a * 2;
+		QVERIFY(r.x() == 6);
+		QVERIFY(r.y() == 8);
+		QVERIFY(r.z() == 10);
+	}
+
+	void testVectorSupportsMultiplyEqualsOperator()
+	{
+		Vector3<int> a(3, 4, 5);
+		a *= 2;
+		QVERIFY(a.x() == 6);
+		QVERIFY(a.y() == 8);
+		QVERIFY(a.z() == 10);
+	}
+
 };

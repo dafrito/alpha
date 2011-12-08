@@ -196,6 +196,21 @@ public:
 			_z * factor);
 	}
 
+	template<typename U>
+	Vector3<T, WrappingPolicy> operator*(const U& factor)
+	{
+		Vector3<T, WrappingPolicy> result(*this);
+		result.scale(factor);
+		return result;
+	}
+
+	template<typename U>
+	Vector3<T, WrappingPolicy>& operator*=(const U& factor)
+	{
+		this->scale(factor);
+		return *this;
+	}
+
 	void dump() const
 	{
 		std::cout << "(x: " << _x << ", y: " << _y << ", z: " << _z << ")" << std::endl;
