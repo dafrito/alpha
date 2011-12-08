@@ -140,6 +140,21 @@ public:
 	}
 
 	template <class U, class V>
+	Vector3<T, WrappingPolicy> operator -(const Vector3<U, V>& other)
+	{
+		Vector3<T, WrappingPolicy> vec(*this);
+		vec.add(-other.x(), -other.y(), -other.z());
+		return vec;
+	}
+
+	template <class U, class V>
+	Vector3<T, WrappingPolicy>& operator -=(const Vector3<U, V>& other)
+	{
+		this->add(-other.x(), -other.y(), -other.z());
+		return *this;
+	}
+
+	template <class U, class V>
 	void rotate(const Vector3<U, V>& radians)
 	{
 		rotateX(radians.x());

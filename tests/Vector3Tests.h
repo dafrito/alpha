@@ -32,4 +32,25 @@ private slots:
 		QVERIFY(a.y() == 7);
 		QVERIFY(a.z() == 8);
 	}
+
+	void testVectorSupportsMinusOperator()
+	{
+		Vector3<int> a(5, 4, 3);
+		Vector3<int> b(1, 2, 3);
+		Vector3<int> c = a - b;
+		QVERIFY(c.x() == 4);
+		QVERIFY(c.y() == 2);
+		QVERIFY(c.z() == 0);
+	}
+
+	void testVectorSupportsMinusEqualsOperator()
+	{
+		Vector3<int> a(5, 4, 3);
+		Vector3<int> b(1, 2, 3);
+		a -= b;
+		QVERIFY(a.x() == 4);
+		QVERIFY(a.y() == 2);
+		QVERIFY(a.z() == 0);
+	}
+
 };
