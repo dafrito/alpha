@@ -4,7 +4,7 @@
 #include <QWheelEvent>
 #include <GL/glut.h>
 #include <iostream>
-#include "Vector.h"
+#include "Vector3.h"
 
 using namespace nt;
 

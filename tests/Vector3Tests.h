@@ -1,8 +1,8 @@
 #include <QtTest/QtTest>
-#include "Vector.h"
+#include "Vector3.h"
 #include <QDebug>
 
-class VectorTests : public QObject
+class Vector3Tests : public QObject
 {
 	Q_OBJECT
 

@@ -11,6 +11,6 @@ CONFIG += qt qtestlib
 INCLUDEPATH += ../src
 DEPENDPATH += ../src
 
-HEADERS *= VectorTests.h
+HEADERS *= Vector3Tests.h
 
 SOURCES *= main.cpp
