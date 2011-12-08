@@ -50,21 +50,11 @@ void Camera::alignWithTarget()
 
 void Camera::addTargetXRotation(float x)
 {
-
 	target->rotation().addX(x);
-	if (rotateWithTarget)
-	{
-		setXRotation(rotation().x() + x);
-	}
 }
 void Camera::addTargetYRotation(float y)
 {
 	target->rotation().addY(y);
-	if (rotateWithTarget)
-	{
-		setYRotation(rotation().y() + y);
-	}
-
 }
 
 void Camera::addTargetZRotation(float z)
