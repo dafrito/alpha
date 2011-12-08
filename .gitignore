@@ -3,3 +3,4 @@ Makefile
 demo
 build/
 run-tests
+*.gdb-index
