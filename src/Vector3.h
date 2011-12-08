@@ -125,7 +125,7 @@ public:
 	}
 
 	template <class U, class V>
-	Vector3<T, WrappingPolicy> operator +(const Vector3<U, V>& other)
+	Vector3<T, WrappingPolicy> operator +(const Vector3<U, V>& other) const
 	{
 		Vector3<T, WrappingPolicy> vec(*this);
 		vec.add(other);
@@ -140,7 +140,7 @@ public:
 	}
 
 	template <class U, class V>
-	Vector3<T, WrappingPolicy> operator -(const Vector3<U, V>& other)
+	Vector3<T, WrappingPolicy> operator -(const Vector3<U, V>& other) const
 	{
 		Vector3<T, WrappingPolicy> vec(*this);
 		vec.add(-other.x(), -other.y(), -other.z());
@@ -201,7 +201,7 @@ public:
 	}
 
 	template<typename U>
-	bool equals(U x, U y, U z)
+	bool equals(U x, U y, U z) const
 	{
 		return this->x() == x &&
 			this->y() == y &&
@@ -209,13 +209,13 @@ public:
 	}
 
 	template<typename U, class V>
-	bool operator ==(const Vector3<U, V>& other)
+	bool operator ==(const Vector3<U, V>& other) const
 	{
 		return equals(other.x(), other.y(), other.z());
 	}
 
 	template <typename U, class V>
-	bool operator !=(const Vector3<U, V>& other)
+	bool operator !=(const Vector3<U, V>& other) const
 	{
 		return !(*this == other);
 	}
