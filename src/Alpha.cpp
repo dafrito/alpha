@@ -143,7 +143,10 @@ void Alpha::tick(const float& elapsed)
 
 
 	velocity.normalize();
-	velocity.rotateX(camera.target->rotation().x());
+	// up/down commands now move you up/down relative to the world
+	if ( velocity.z() == 0 ) {
+		velocity.rotateX(camera.target->rotation().x());
+	}
 	velocity.rotateZ(camera.target->rotation().z());
 	velocity.scale(PLAYER_MOVESPEED * elapsed);
 	camera.target->position().add(velocity);
