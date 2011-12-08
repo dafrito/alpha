@@ -187,7 +187,8 @@ public:
 		set(0, 0, 0);
 	}
 
-	void scale(const T& factor)
+	template<typename U>
+	void scale(const U& factor)
 	{
 		set(
 			_x * factor,
