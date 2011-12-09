@@ -4,7 +4,7 @@
 #include <QWheelEvent>
 #include <GL/glut.h>
 #include <iostream>
-#include "Vector.h"
+#include "Vector3.h"
 
 using namespace nt;
 
@@ -148,8 +148,8 @@ void Alpha::tick(const float& elapsed)
 		velocity.rotateX(camera.target->rotation().x());
 	}
 	velocity.rotateZ(camera.target->rotation().z());
-	velocity.scale(PLAYER_MOVESPEED * elapsed);
-	camera.target->position().add(velocity);
+	velocity *= PLAYER_MOVESPEED * elapsed;
+	camera.target->position() += velocity;
 
 
 	static int step = 0;
@@ -286,18 +286,18 @@ void Alpha::tick(const float& elapsed)
 			// to that point we need to slow down to give it time for the turn
 			// XXX: really don't know if vectors are worth it in these cases
 			// lots of reusing or brand new variables
-			velocity.zero();
+			velocity.clear();
 			velocity.set(-zRot, 0, 0 ); // "strafe" into position
 			velocity.normalize(); // set the zRot to +-1;
 			velocity.rotateZ(obj[i]->rotation().z()); // set it to the current rotation
-			velocity.scale(radius); // actually move it
-			pivot.add(velocity); // set pivot position to the determined coords
-			difference.zero(); // once we are inside this if, we no longer use the original
+			velocity *= radius; // actually move it
+			pivot += velocity; // set pivot position to the determined coords
+			difference.clear(); // once we are inside this if, we no longer use the original
 			difference.setX( wayPoint[step].x() - pivot.x() );
 			difference.setY( wayPoint[step].y() - pivot.y() );
 			difference.setZ( wayPoint[step].z() - pivot.z() );
 
-			velocity.zero(); // reset for the actual object movement
+			velocity.clear(); // reset for the actual object movement
 			velocity.addY(1); // object only moves forward
 			// float comparisons seem to be off by a bit
 			// so instead of seeing if dead on, just see if close
@@ -324,8 +324,8 @@ void Alpha::tick(const float& elapsed)
 
 
 		// Move our object
-		velocity.scale(v * elapsed);
-		obj[i]->position().add(velocity);
+		velocity *= v * elapsed;
+		obj[i]->position() += velocity;
 
 
 	}

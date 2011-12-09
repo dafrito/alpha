@@ -1,7 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "Vector.h"
+#include "Vector3.h"
 #include "util.h"
 
 using namespace nt;
