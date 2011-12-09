@@ -43,6 +43,58 @@ private slots:
 		QVERIFY(a == e);
 	}
 
+	void testDefaultVectorStartsZeroedOut()
+	{
+		Vector3<int> a;
+		QVERIFY(!a);
+	}
+
+	void testVectorHasSetMethods()
+	{
+		Vector3<int> a;
+		a.setX(1);
+		QVERIFY(a.x() == 1);
+		QVERIFY(a.equals(1, 0, 0));
+		a.setY(2);
+		QVERIFY(a.y() == 2);
+		QVERIFY(a.equals(1, 2, 0));
+		a.setZ(3);
+		QVERIFY(a.z() == 3);
+		QVERIFY(a.equals(1, 2, 3));
+	}
+
+	void testVectorHasThreeArgSet()
+	{
+		Vector3<int> a;
+		a.set(1, 2, 3);
+		QVERIFY(a.equals(1, 2, 3));
+	}
+
+	void testTwoArgSetIgnoresZ()
+	{
+		Vector3<int> a(1, 2, 3);
+		a.set(4, 5);
+		QVERIFY(a.equals(4, 5, 3));
+	}
+
+	void testComponentsHaveAddMethods()
+	{
+		Vector3<int> a(1, 2, 3);
+		a.addX(1);
+		QVERIFY(a.equals(2, 2, 3));
+		a.addY(2);
+		QVERIFY(a.equals(2, 4, 3));
+		a.addZ(3);
+		QVERIFY(a.equals(2, 4, 6));
+	}
+
+	void testVectorCanBeCleared()
+	{
+		Vector3<int> a(1, 2, 3);
+		a.zero();
+		QVERIFY(a.equals(0, 0, 0));
+	}
+
 	void testVectorSupportsPlus()
 	{
 		Vector3<int> a(5, 4, 3);
