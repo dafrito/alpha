@@ -210,4 +210,18 @@ private slots:
 		vec = other;
 		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
 	}
+
+	void testVectorsCopyConstructorAbidesByPolicy()
+	{
+		Vector3<double> first(M_PI * 3, M_PI * 3, M_PI * 3);
+		Vector3<double, WrapRadians> vec(first);
+		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
+	}
+
+	void testVectorThreeArgCtorAbidesByPolicy()
+	{
+		Vector3<double, WrapRadians> vec(M_PI * 3, M_PI * 3, M_PI * 3);
+		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
+	}
+
 };

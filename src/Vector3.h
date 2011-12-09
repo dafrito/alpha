@@ -28,25 +28,39 @@ template <
 // Object rotations needs to rotate Z-axis first then X, the opposite of the way we handle the camera
 class Vector3
 {
+
+	void rewrapAll()
+	{
+		WrappingPolicy::wrap(_x);
+		WrappingPolicy::wrap(_y);
+		WrappingPolicy::wrap(_z);
+	}
+
 protected:
 	T _x;
 	T _y;
 	T _z;
 public:
-	Vector3() : _x(), _y(), _z() {}
+	Vector3() :
+		_x(), _y(), _z()
+	{
+		rewrapAll();
+	}
 
 	template <typename U, typename V>
 	Vector3(const Vector3<U, V>& other) :
-		_x(other._x),
-		_y(other._y),
-		_z(other._z)
-	{}
+		_x(other.x()),
+		_y(other.y()),
+		_z(other.z())
+	{
+		rewrapAll();
+	}
 
 	Vector3(const T& x, const T& y, const T& z) :
-		_x(x),
-		_y(y),
-		_z(z)
-	{}
+		_x(x), _y(y), _z(z)
+	{
+		rewrapAll();
+	}
 
 	const T& x() const { return _x; };
 	void setX(const T& x)
