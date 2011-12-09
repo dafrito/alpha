@@ -228,6 +228,12 @@ public:
 	{
 		return Vector3<T, WrappingPolicy>(-x(), -y(), -z());
 	}
+
+	operator bool() const
+	{
+		const T nil = T();
+		return !equals(nil, nil, nil);
+	}
 };
 
 namespace nt

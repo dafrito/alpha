@@ -100,4 +100,12 @@ private slots:
 		QVERIFY(a.z() == 10);
 	}
 
+	void testVectorHasFalsyBooleanValueForZeroMagnitude()
+	{
+		Vector3<int> a;
+		QVERIFY(!a);
+		a.setX(1);
+		QVERIFY(a);
+	}
+
 };
