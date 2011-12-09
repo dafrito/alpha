@@ -4,6 +4,7 @@
 #include <QGLWidget>
 #include <QVector3D>
 #include <cmath>
+#include <FTGL/ftgl.h>
 
 namespace nt
 {
@@ -14,6 +15,7 @@ namespace nt
 
 	void glVertex(const QVector3D&);
 	void glNormal(const QVector3D&);
+	void drawText(FTFont* const font, const char* text, int yOffset);
 
 	template <typename T>
 	void normalizeAngle(T& angle)

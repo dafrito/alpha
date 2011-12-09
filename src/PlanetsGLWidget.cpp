@@ -2,6 +2,8 @@
 #include <FTGL/ftgl.h>
 #include "ntgl.h"
 
+using nt::drawText;
+
 PlanetsGLWidget::PlanetsGLWidget(QWidget* const parent) :
 	AnimatedGLWidget(parent),
 	font("DejaVuSansMono.ttf"),
@@ -23,15 +25,6 @@ void PlanetsGLWidget::tick(const float& elapsed)
 	while (rotation > 360) {
 		rotation -= 360;
 	}
-}
-
-void drawText(FTFont* const font, const char* text, int yOffset)
-{
-	glPushMatrix();
-	const float width = font->BBox(text).Upper().X();
-	glTranslatef(-width/2, yOffset + 2 + font->FaceSize(), 0);
-	font->Render(text);
-	glPopMatrix();
 }
 
 void PlanetsGLWidget::render()
