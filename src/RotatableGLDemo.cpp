@@ -40,11 +40,12 @@ RotatableGLDemo::RotatableGLDemo(GLWidget* const widget, QWidget* parent) :
 
 QSlider *RotatableGLDemo::createSlider() const
 {
+    static const int SCALE = 16;
     QSlider *slider = new QSlider(Qt::Vertical);
-    slider->setRange(0, 360 * 16);
-    slider->setSingleStep(16);
-    slider->setPageStep(15 * 16);
-    slider->setTickInterval(15 * 16);
+    slider->setRange(0, 360 * SCALE);
+    slider->setSingleStep(SCALE);
+    slider->setPageStep(30 * SCALE);
+    slider->setTickInterval(15 * SCALE);
     return slider;
 }
 
