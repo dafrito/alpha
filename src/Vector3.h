@@ -100,7 +100,8 @@ public:
 
 	void set(const T& x, const T& y)
 	{
-		set(x, y, _z);
+		setX(x);
+		setY(y);
 	}
 
 	void set(const T& x, const T& y, const T& z)
