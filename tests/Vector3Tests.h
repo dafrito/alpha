@@ -212,6 +212,16 @@ private slots:
 		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
 	}
 
+	void testVectorSupportsDegreeWrapping()
+	{
+		Vector3<int, WrapDegrees> vec;
+		vec.addX(360 + 180);
+		QVERIFY(vec.x() == 180);
+		vec.clear();
+		vec.addX(-90);
+		QVERIFY(vec.x() == 270);
+	}
+
 	void testVectorsCopyConstructorAbidesByPolicy()
 	{
 		Vector3<double> first(M_PI * 3, M_PI * 3, M_PI * 3);
