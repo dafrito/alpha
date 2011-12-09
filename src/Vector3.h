@@ -37,9 +37,9 @@ public:
 
 	template <typename U, typename V>
 	Vector3(const Vector3<U, V>& other) :
-		_x(other.x()),
-		_y(other.y()),
-		_z(other.z())
+		_x(other._x),
+		_y(other._y),
+		_z(other._z)
 	{}
 
 	Vector3(const T& x, const T& y, const T& z) :
@@ -129,7 +129,7 @@ public:
 	template <class U, class V>
 	Vector3<T, WrappingPolicy>& operator +=(const Vector3<U, V>& other)
 	{
-		add(other.x(), other.y(), other.z());
+		add(other._x, other._y, other._z);
 		return *this;
 	}
 
@@ -137,23 +137,23 @@ public:
 	Vector3<T, WrappingPolicy> operator -(const Vector3<U, V>& other) const
 	{
 		Vector3<T, WrappingPolicy> vec(*this);
-		vec.add(-other.x(), -other.y(), -other.z());
+		vec.add(-other._x, -other._y, -other._z);
 		return vec;
 	}
 
 	template <class U, class V>
 	Vector3<T, WrappingPolicy>& operator -=(const Vector3<U, V>& other)
 	{
-		this->add(-other.x(), -other.y(), -other.z());
+		this->add(-other._x, -other._y, -other._z);
 		return *this;
 	}
 
 	template <class U, class V>
 	void rotate(const Vector3<U, V>& radians)
 	{
-		rotateX(radians.x());
-		rotateY(radians.y());
-		rotateZ(radians.z());
+		rotateX(radians._x);
+		rotateY(radians._y);
+		rotateZ(radians._z);
 	}
 
 	T length() const
@@ -178,7 +178,7 @@ public:
 
 	void zero()
 	{
-		set(0, 0, 0);
+		_x = _y = _z = 0;
 	}
 
 	template<typename U>
@@ -225,15 +225,13 @@ public:
 	template<typename U>
 	bool equals(U x, U y, U z) const
 	{
-		return this->x() == x &&
-			this->y() == y &&
-			this->z() == z;
+		return _x == x && _y == y && _z == z;
 	}
 
 	template<typename U, class V>
 	bool operator ==(const Vector3<U, V>& other) const
 	{
-		return equals(other.x(), other.y(), other.z());
+		return equals(other._x, other._y, other._z);
 	}
 
 	template <typename U, class V>
@@ -244,7 +242,7 @@ public:
 
 	Vector3<T, WrappingPolicy> operator-() const
 	{
-		return Vector3<T, WrappingPolicy>(-x(), -y(), -z());
+		return Vector3<T, WrappingPolicy>(-_x, -_y, -_z);
 	}
 
 	operator bool() const
