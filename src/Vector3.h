@@ -48,7 +48,7 @@ public:
 		_z(z)
 	{}
 
-	T x() const { return _x; };
+	const T& x() const { return _x; };
 	void setX(const T& x)
 	{
 		_x = x;
@@ -65,7 +65,7 @@ public:
 			_y * sin(radians) + _z * cos(radians));
 	}
 
-	T y() const { return _y; };
+	const T& y() const { return _y; };
 	void setY(const T& y)
 	{
 		_y = y;
@@ -82,7 +82,7 @@ public:
 			_z * cos(radians) - _x * sin(radians));
 	}
 
-	T z() const { return _z; };
+	const T& z() const { return _z; };
 	void setZ(const T& z)
 	{
 		_z = z;
