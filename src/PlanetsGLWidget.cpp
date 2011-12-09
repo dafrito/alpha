@@ -38,7 +38,7 @@ void PlanetsGLWidget::render()
 		glColor3f(1, 0, 0);		// Red
 		glRotatef(-rotation,0,0,1); 		// the space this planet exists in will rotate on its z-axis
 		font.FaceSize(12);
-		drawText(&font, "Sun", 10);
+		drawText(font, "Sun", 10);
 		glutWireSphere(20, 15, 15);  		// creates the planet, centered at the origin, so it rotates on its own z-axis
 	}
 	glPopMatrix();							// ends object manipulation, returns to the previous state -- in this case the original state
@@ -60,7 +60,7 @@ void PlanetsGLWidget::render()
 		glRotatef(rotation, 0, 0, 1);		// this space will rotate about its z-axis
 		glTranslatef(90, 0, 0);				// moves the place point 90 x-units from the origin.
 		font.FaceSize(7);
-		drawText(&font, "Mercury", 6);
+		drawText(font, "Mercury", 6);
 		glutWireSphere(6, 15, 15);			// places the moon at the place point, which will rotate about the origin
 	}										// this moon is tide-locked
 	glPopMatrix();
@@ -81,7 +81,7 @@ void PlanetsGLWidget::render()
 			glColor3f(0,1,1);	// Cyan
 			glTranslatef(25,0,0);			// moves the place point 25 x-units from the origin, which is the green moon's place point
 			font.FaceSize(5);
-			drawText(&font, "Nix", 3);
+			drawText(font, "Nix", 3);
 			glutSolidSphere(3,15,15);		// this mini-moon orbits entirely because of its on the rotating plane from the green moon
 		}
 		glPopMatrix();
@@ -92,7 +92,7 @@ void PlanetsGLWidget::render()
 			glRotatef(rotation*2,0,0,1);	// this mini-moon's space is rotating from its own power and that of the green moon's
 			glTranslatef(45,0,0);			// since the place point is no longer on the origin the object will not orbit the origin
 			font.FaceSize(5);
-			drawText(&font, "Hydra", 3);
+			drawText(font, "Hydra", 3);
 			glutSolidSphere(3,15,15);
 
 		}
@@ -105,7 +105,7 @@ void PlanetsGLWidget::render()
 			glRotatef(-rotation,0,0,1);		// this mini-moon is rotating against the green moon's space's rotation
 			glTranslatef(35,0,0);			// making it appear that its actually orbiting the main planet
 			font.FaceSize(5);
-			drawText(&font, "Charon", 5);
+			drawText(font, "Charon", 5);
 			glutWireSphere(5,15,15);
 		}
 		glPopMatrix();

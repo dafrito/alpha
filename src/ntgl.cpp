@@ -26,12 +26,12 @@ void glNormal(const QVector3D& vec)
 	glNormal3d(vec.x(), vec.y(), vec.z());
 }
 
-void drawText(FTFont* const font, const char* text, int yOffset)
+void drawText(FTFont& font, const char* text, int yOffset)
 {
 	glPushMatrix();
-	const float width = font->BBox(text).Upper().X();
-	glTranslatef(-width/2, yOffset + 2 + font->FaceSize(), 0);
-	font->Render(text);
+	const float width = font.BBox(text).Upper().X();
+	glTranslatef(-width/2, yOffset + 2 + font.FaceSize(), 0);
+	font.Render(text);
 	glPopMatrix();
 }
 
