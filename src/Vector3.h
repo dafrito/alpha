@@ -199,6 +199,24 @@ public:
 		return *this;
 	}
 
+	template<typename U>
+	Vector3<T, WrappingPolicy> operator/(const U& factor)
+	{
+		Vector3<T, WrappingPolicy> result(*this);
+		result /= factor;
+		return result;
+	}
+
+	template<typename U>
+	Vector3<T, WrappingPolicy>& operator/=(const U& factor)
+	{
+		set(
+			_x / factor,
+			_y / factor,
+			_z / factor);
+		return *this;
+	}
+
 	void dump() const
 	{
 		std::cout << "(x: " << _x << ", y: " << _y << ", z: " << _z << ")" << std::endl;

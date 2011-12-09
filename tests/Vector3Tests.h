@@ -100,6 +100,24 @@ private slots:
 		QVERIFY(a.z() == 10);
 	}
 
+	void testVectorSupportsDivideOperator()
+	{
+		Vector3<int> a(6, 8, 10);
+		Vector3<int> r = a / 2;
+		QVERIFY(r.x() == 3);
+		QVERIFY(r.y() == 4);
+		QVERIFY(r.z() == 5);
+	}
+
+	void testVectorSupportsDivideEqualsOperator()
+	{
+		Vector3<int> a(6, 8, 10);
+		a /= 2;
+		QVERIFY(a.x() == 3);
+		QVERIFY(a.y() == 4);
+		QVERIFY(a.z() == 5);
+	}
+
 	void testVectorHasFalsyBooleanValueForZeroMagnitude()
 	{
 		Vector3<int> a;
