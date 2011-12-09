@@ -111,8 +111,7 @@ public:
 		setZ(z);
 	}
 
-	template <class U>
-	void add(const U x, const U y, const U z)
+	void add(const T& x, const T& y, const T& z)
 	{
 		addX(x);
 		addY(y);
@@ -224,8 +223,7 @@ public:
 		std::cout << "(x: " << x() << ", y: " << y() << ", z: " << z() << ")" << std::endl;
 	}
 
-	template<typename U>
-	bool equals(U otherX, U otherY, U otherZ) const
+	bool equals(const T& otherX, const T& otherY, const T& otherZ) const
 	{
 		return x() == otherX && y() == otherY && z() == otherZ;
 	}
