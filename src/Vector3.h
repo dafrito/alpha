@@ -110,12 +110,6 @@ public:
 		setZ(z);
 	}
 
-	template <class U, class V>
-	void add(const Vector3<U, V>& other)
-	{
-		add(other.x(), other.y(), other.z());
-	}
-
 	template <class U>
 	void add(const U x, const U y, const U z)
 	{
@@ -128,14 +122,14 @@ public:
 	Vector3<T, WrappingPolicy> operator +(const Vector3<U, V>& other) const
 	{
 		Vector3<T, WrappingPolicy> vec(*this);
-		vec.add(other);
+		vec += other;
 		return vec;
 	}
 
 	template <class U, class V>
 	Vector3<T, WrappingPolicy>& operator +=(const Vector3<U, V>& other)
 	{
-		this->add(other);
+		add(other.x(), other.y(), other.z());
 		return *this;
 	}
 
@@ -188,26 +182,20 @@ public:
 	}
 
 	template<typename U>
-	void scale(const U& factor)
-	{
-		set(
-			_x * factor,
-			_y * factor,
-			_z * factor);
-	}
-
-	template<typename U>
 	Vector3<T, WrappingPolicy> operator*(const U& factor)
 	{
 		Vector3<T, WrappingPolicy> result(*this);
-		result.scale(factor);
+		result *= factor;
 		return result;
 	}
 
 	template<typename U>
 	Vector3<T, WrappingPolicy>& operator*=(const U& factor)
 	{
-		this->scale(factor);
+		set(
+			_x * factor,
+			_y * factor,
+			_z * factor);
 		return *this;
 	}
 
