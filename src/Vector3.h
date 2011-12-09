@@ -16,7 +16,7 @@ struct WrapRadians
 	template <class T>
 	static void wrap(T& value)
 	{
-		normalizeAngle(value);
+		nt::normalizeAngle(value);
 	}
 };
 
