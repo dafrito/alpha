@@ -91,7 +91,7 @@ private slots:
 	void testVectorCanBeCleared()
 	{
 		Vector3<int> a(1, 2, 3);
-		a.zero();
+		a.clear();
 		QVERIFY(a.equals(0, 0, 0));
 	}
 

@@ -177,7 +177,7 @@ public:
 			_z / len);
 	}
 
-	void zero()
+	void clear()
 	{
 		_x = _y = _z = 0;
 	}
