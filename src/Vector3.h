@@ -223,6 +223,11 @@ public:
 	{
 		return !(*this == other);
 	}
+
+	Vector3<T, WrappingPolicy> operator-() const
+	{
+		return Vector3<T, WrappingPolicy>(-x(), -y(), -z());
+	}
 };
 
 namespace nt

@@ -75,6 +75,13 @@ private slots:
 		QVERIFY(a.z() == 0);
 	}
 
+	void testVectorSupportsNegation()
+	{
+		Vector3<int> a(3, 4, 5);
+		Vector3<int> b = -a;
+		QVERIFY(b.equals(-3, -4, -5));
+	}
+
 	void testVectorSupportsMultiplyOperator()
 	{
 		Vector3<int> a(3, 4, 5);
