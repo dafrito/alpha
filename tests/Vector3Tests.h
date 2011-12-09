@@ -290,5 +290,12 @@ private slots:
 	}
 
 
+	void testFuzzyEqualsAllowsForErrors()
+	{
+		Vector3<double> a(0.01, 0, 0);
+		Vector3<double> zero;
+		QVERIFY(a.fuzzyEquals(zero, .1));
+		QVERIFY(!a.fuzzyEquals(zero, .001));
+	}
 
 };

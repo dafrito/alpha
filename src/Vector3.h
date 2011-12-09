@@ -242,6 +242,19 @@ public:
 		return x() == otherX && y() == otherY && z() == otherZ;
 	}
 
+	bool fuzzyEquals(const T& otherX, const T& otherY, const T& otherZ, const T& fuzz) const
+	{
+		return std::abs(otherX - x()) < fuzz &&
+			std::abs(otherY - y()) < fuzz &&
+			std::abs(otherZ - z()) < fuzz;
+	}
+
+	template<typename U, class V>
+	bool fuzzyEquals(const Vector3<U, V>& other, const T& fuzz) const
+	{
+		return fuzzyEquals(other.x(), other.y(), other.z(), fuzz);
+	}
+
 	template<typename U, class V>
 	bool operator ==(const Vector3<U, V>& other) const
 	{
