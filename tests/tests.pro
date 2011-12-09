@@ -12,5 +12,6 @@ INCLUDEPATH += ../src
 DEPENDPATH += ../src
 
 HEADERS *= Vector3Tests.h
+HEADERS *= RotationTests.h
 
 SOURCES *= main.cpp
