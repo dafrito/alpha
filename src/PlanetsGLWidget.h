@@ -16,8 +16,6 @@ class PlanetsGLWidget : public AnimatedGLWidget
 	Q_OBJECT
 
 	FTPolygonFont font;
-	FTSimpleLayout layout;
-
 public:
 	PlanetsGLWidget(QWidget* const parent = 0);
 protected:

@@ -25,7 +25,6 @@ class Alpha : public QGLWidget
 	QPoint lastPos;
 	Cuboid playerShape;
 	FTPolygonFont font;
-	FTSimpleLayout layout; // XXX: is this used?
 	QCursor cursor; // can set custom shapes to this
 	QPoint cursorHiddenAt;
 	bool cursorShown;
