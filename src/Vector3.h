@@ -179,7 +179,8 @@ public:
 
 	void clear()
 	{
-		_x = _y = _z = 0;
+		const T nil = T();
+		set(nil, nil, nil);
 	}
 
 	template<typename U>
