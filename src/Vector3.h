@@ -249,6 +249,27 @@ public:
 	{
 		return x() || y() || z();
 	}
+
+	Vector3<T, WrappingPolicy>& operator=(const Vector3<T, WrappingPolicy>& other)
+	{
+		if (this == &other)
+			return *this;
+		return assign(other);
+	}
+
+	template <typename U, class V>
+	Vector3<T, WrappingPolicy>& operator=(const Vector3<U, V>& other)
+	{
+		return assign(other);
+	}
+
+private:
+	template <typename U, class V>
+	Vector3<T, WrappingPolicy>& assign(const Vector3<U, V> other)
+	{
+		set(other.x(), other.y(), other.z());
+		return *this;
+	}
 };
 
 namespace nt

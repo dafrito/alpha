@@ -95,6 +95,13 @@ private slots:
 		QVERIFY(a.equals(0, 0, 0));
 	}
 
+	void testVectorSupportsAssignmentOperator()
+	{
+		Vector3<int> a(1, 2, 3);
+		Vector3<int> b = a;
+		QVERIFY(b.equals(1, 2, 3));
+	}
+
 	void testVectorSupportsPlus()
 	{
 		Vector3<int> a(5, 4, 3);
