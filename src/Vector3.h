@@ -54,15 +54,15 @@ public:
 		_x = x;
 		WrappingPolicy::wrap(_x);
 	}
-	void addX(const T& x) { setX(_x + x); }
+	void addX(const T& magnitude) { setX(x() + magnitude); }
 	void rotateX(const T& radians)
 	{
 		if (!radians)
 			return;
 		set(
-			_x,
-			_y * cos(radians) - _z * sin(radians),
-			_y * sin(radians) + _z * cos(radians));
+			x(),
+			y() * cos(radians) - z() * sin(radians),
+			y() * sin(radians) + z() * cos(radians));
 	}
 
 	const T& y() const { return _y; };
@@ -71,15 +71,15 @@ public:
 		_y = y;
 		WrappingPolicy::wrap(_y);
 	}
-	void addY(const T& y) { setY(_y + y); }
+	void addY(const T& magnitude) { setY(y() + magnitude); }
 	void rotateY(const T& radians)
 	{
 		if (!radians)
 			return;
 		set(
-			_x * cos(radians) + _z * sin(radians),
-			_y,
-			_z * cos(radians) - _x * sin(radians));
+			x() * cos(radians) + z() * sin(radians),
+			y(),
+			z() * cos(radians) - x() * sin(radians));
 	}
 
 	const T& z() const { return _z; };
@@ -88,14 +88,14 @@ public:
 		_z = z;
 		WrappingPolicy::wrap(_z);
 	}
-	void addZ(const T& z) { setZ(_z + z); }
+	void addZ(const T& magnitude) { setZ(z() + magnitude); }
 	void rotateZ(const T& radians)
 	{
 		if (!radians)
 			return;
 		set(
-			_x*cos(radians) - _y*sin(radians),
-			_x*sin(radians) + _y*cos(radians));
+			x()*cos(radians) - y()*sin(radians),
+			x()*sin(radians) + y()*cos(radians));
 	}
 
 	void set(const T& x, const T& y)
@@ -130,7 +130,7 @@ public:
 	template <class U, class V>
 	Vector3<T, WrappingPolicy>& operator +=(const Vector3<U, V>& other)
 	{
-		add(other._x, other._y, other._z);
+		add(other.x(), other.y(), other.z());
 		return *this;
 	}
 
@@ -138,31 +138,31 @@ public:
 	Vector3<T, WrappingPolicy> operator -(const Vector3<U, V>& other) const
 	{
 		Vector3<T, WrappingPolicy> vec(*this);
-		vec.add(-other._x, -other._y, -other._z);
+		vec.add(-other.x(), -other.y(), -other.z());
 		return vec;
 	}
 
 	template <class U, class V>
 	Vector3<T, WrappingPolicy>& operator -=(const Vector3<U, V>& other)
 	{
-		this->add(-other._x, -other._y, -other._z);
+		this->add(-other.x(), -other.y(), -other.z());
 		return *this;
 	}
 
 	template <class U, class V>
 	void rotate(const Vector3<U, V>& radians)
 	{
-		rotateX(radians._x);
-		rotateY(radians._y);
-		rotateZ(radians._z);
+		rotateX(radians.x());
+		rotateY(radians.y());
+		rotateZ(radians.z());
 	}
 
 	T length() const
 	{
 		return sqrt(
-			_x * _x +
-			_y * _y +
-			_z * _z);
+			x() * x() +
+			y() * y() +
+			z() * z());
 	}
 
 	void normalize()
@@ -172,9 +172,9 @@ public:
 			return;
 		}
 		set(
-			_x / len,
-			_y / len,
-			_z / len);
+			x() / len,
+			y() / len,
+			z() / len);
 	}
 
 	void clear()
@@ -195,9 +195,9 @@ public:
 	Vector3<T, WrappingPolicy>& operator*=(const U& factor)
 	{
 		set(
-			_x * factor,
-			_y * factor,
-			_z * factor);
+			x() * factor,
+			y() * factor,
+			z() * factor);
 		return *this;
 	}
 
@@ -213,27 +213,27 @@ public:
 	Vector3<T, WrappingPolicy>& operator/=(const U& factor)
 	{
 		set(
-			_x / factor,
-			_y / factor,
-			_z / factor);
+			x() / factor,
+			y() / factor,
+			z() / factor);
 		return *this;
 	}
 
 	void dump() const
 	{
-		std::cout << "(x: " << _x << ", y: " << _y << ", z: " << _z << ")" << std::endl;
+		std::cout << "(x: " << x() << ", y: " << y() << ", z: " << z() << ")" << std::endl;
 	}
 
 	template<typename U>
-	bool equals(U x, U y, U z) const
+	bool equals(U otherX, U otherY, U otherZ) const
 	{
-		return _x == x && _y == y && _z == z;
+		return x() == otherX && y() == otherY && z() == otherZ;
 	}
 
 	template<typename U, class V>
 	bool operator ==(const Vector3<U, V>& other) const
 	{
-		return equals(other._x, other._y, other._z);
+		return equals(other.x(), other.y(), other.z());
 	}
 
 	template <typename U, class V>
@@ -244,12 +244,12 @@ public:
 
 	Vector3<T, WrappingPolicy> operator-() const
 	{
-		return Vector3<T, WrappingPolicy>(-_x, -_y, -_z);
+		return Vector3<T, WrappingPolicy>(-x(), -y(), -z());
 	}
 
 	operator bool() const
 	{
-		return _x || _y || _z;
+		return x() || y() || z();
 	}
 };
 
