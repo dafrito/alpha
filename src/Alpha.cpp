@@ -148,8 +148,8 @@ void Alpha::tick(const float& elapsed)
 		velocity.rotateX(camera.target->rotation().x());
 	}
 	velocity.rotateZ(camera.target->rotation().z());
-	velocity.scale(PLAYER_MOVESPEED * elapsed);
-	camera.target->position().add(velocity);
+	velocity *= PLAYER_MOVESPEED * elapsed;
+	camera.target->position() += velocity;
 
 
 	static int step = 0;
@@ -290,8 +290,8 @@ void Alpha::tick(const float& elapsed)
 			velocity.set(-zRot, 0, 0 ); // "strafe" into position
 			velocity.normalize(); // set the zRot to +-1;
 			velocity.rotateZ(obj[i]->rotation().z()); // set it to the current rotation
-			velocity.scale(radius); // actually move it
-			pivot.add(velocity); // set pivot position to the determined coords
+			velocity *= radius; // actually move it
+			pivot += velocity; // set pivot position to the determined coords
 			difference.zero(); // once we are inside this if, we no longer use the original
 			difference.setX( wayPoint[step].x() - pivot.x() );
 			difference.setY( wayPoint[step].y() - pivot.y() );
@@ -324,8 +324,8 @@ void Alpha::tick(const float& elapsed)
 
 
 		// Move our object
-		velocity.scale(v * elapsed);
-		obj[i]->position().add(velocity);
+		velocity *= v * elapsed;
+		obj[i]->position() += velocity;
 
 
 	}
