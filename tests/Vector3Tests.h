@@ -193,4 +193,21 @@ private slots:
 		QVERIFY(a);
 	}
 
+	void testVectorSupportsWrappingPolicies()
+	{
+		Vector3<double, WrapRadians> vec;
+		vec.set(M_PI * 3, 0, 0);
+		QVERIFY(vec.equals(M_PI, 0, 0));
+		vec.clear();
+		vec.addX(M_PI * 3);
+		QVERIFY(vec.equals(M_PI, 0, 0));
+		vec.clear();
+		vec.add(M_PI * 3, M_PI * 3, M_PI * 3);
+		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
+		vec = -vec;
+		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
+		Vector3<double> other(M_PI * 3, M_PI * 3, M_PI * 3);
+		vec = other;
+		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
+	}
 };
