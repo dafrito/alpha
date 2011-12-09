@@ -247,8 +247,7 @@ public:
 
 	operator bool() const
 	{
-		const T nil = T();
-		return !equals(nil, nil, nil);
+		return _x || _y || _z;
 	}
 };
 
