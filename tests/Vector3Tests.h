@@ -13,6 +13,14 @@ private slots:
 		QVERIFY(vec.x() == 0.0f);
 	}
 
+	void testVectorSupportsNestedValues()
+	{
+		Vector3<Vector3<int>> vec(
+			Vector3<int>(1, 2, 3),
+			Vector3<int>(4, 5, 6),
+			Vector3<int>(7, 8, 9));
+	}
+
 	void testVectorCanCompareAgainstThreeValues()
 	{
 		Vector3<int> a(1, 2, 3);
