@@ -76,3 +76,4 @@ SOURCES *= PlayerInput.cpp
 SOURCES *= Cuboid.cpp
 SOURCES *= FontGLWidget.cpp
 SOURCES *= LuaGLDemo.cpp
+SOURCES *= Vector3.cpp

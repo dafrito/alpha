@@ -2,6 +2,7 @@
 #include "Vector3.h"
 #include <QDebug>
 
+
 class Vector3Tests : public QObject
 {
 	Q_OBJECT
@@ -223,5 +224,71 @@ private slots:
 		Vector3<double, WrapRadians> vec(M_PI * 3, M_PI * 3, M_PI * 3);
 		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
 	}
+
+	void testGetAxisHorizontalAngles()
+	{
+		Vector3<double> Position(0,0,0);
+		Vector3<double> Rotation = nt::getAxisAngles(Position);
+		QVERIFY(Rotation.equals(0,0,M_PI_2*0 + atan(0.0)));
+
+		Position.set(0,3,0);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY(Rotation.equals(0,0,M_PI_2*0 + atan(0.0)));
+
+		Position.set(-2,3,0);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY(Rotation.equals(0,0,M_PI_2*0 + atan(2.0/3.0)));
+
+		Position.set(-2,0,0);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY(Rotation.equals(0,0,M_PI_2*1) + atan(0.0));
+
+		Position.set(-2,-3,0);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY(Rotation.equals(0,0,M_PI_2*2 - atan(2.0/3.0)));
+
+		Position.set(0,-3,0);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY(Rotation.equals(0,0,M_PI_2*2) + atan(0.0));
+
+		Position.set(2,-3,0);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY(Rotation.equals(0,0,M_PI_2*2 + atan(2.0/3.0)));
+
+		Position.set(2,0,0);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY(Rotation.equals(0,0,M_PI_2*3 + atan(0.0)));
+
+		Position.set(2,3,0);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY(Rotation.equals(0,0,M_PI_2*4 - atan(2.0/3.0)));
+
+	}
+	void testGetAxisVerticalAngles()
+	{
+		Vector3<double> Position(0,0,0);
+		Vector3<double> Rotation = nt::getAxisAngles(Position);
+		QVERIFY( Rotation.x() == M_PI_2*0 + atan(0.0));
+
+		Position.set(0,0,6);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY( Rotation.x() == M_PI_2*1 + atan(0.0));
+
+		Position.set(3,0,6);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY( Rotation.x() == M_PI_2*1 - atan(3.0/6.0));
+
+		Position.set(3,4,6);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY( Rotation.x() == M_PI_2*1 - atan(5.0/6.0));
+
+		Position.set(0,0,-6);
+		Rotation = nt::getAxisAngles(Position);
+		QVERIFY( Rotation.x() == M_PI_2*3 + atan(0.0));
+
+
+	}
+
+
 
 };

@@ -351,6 +351,8 @@ namespace nt
 		glRotated(-vec.z() * TO_DEGREES, 0, 0, 1);
 	}
 
+	Vector3<double> getAxisAngles(Vector3<double>& vec);
+
 };
 
 #endif // VECTOR_H
