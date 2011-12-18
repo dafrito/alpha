@@ -14,6 +14,7 @@ TARGET= demo
 
 LIBS += -lglut -lftgl
 QT += opengl
+QMAKE_CXXFLAGS += -Wall -Werror
 
 OBJECTS_DIR = ../build
 MOC_DIR = ../build
