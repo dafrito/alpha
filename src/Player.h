@@ -10,19 +10,19 @@ class Player : public Object
 
 
 public:
-	Player(char* name): Object(), _name(name) {}
+	Player(const char* name): Object(), _name(name) {}
 
-	void name(char* name)
+	void name(const char* name)
 	{
 	_name = name;
 	}
-	char* name()
+	const char* name()
 	{
 		return _name;
 	}
 
 protected:
-		char* _name;
+		const char* _name;
 };
 
 #endif // PLAYER_H
