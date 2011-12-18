@@ -1,7 +1,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <GL/glut.h>
-#include "util.h"
+#include "ntgl.h"
 
 #include "CubeGLWidget.h"
 

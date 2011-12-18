@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "util.h"
+#include "ntgl.h"
 #include <cassert>
 
 using namespace nt;

@@ -1,5 +1,5 @@
 #include "Alpha.h"
-#include "util.h"
+#include "ntgl.h"
 #include <QKeyEvent>
 #include <QWheelEvent>
 #include <GL/glut.h>

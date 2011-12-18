@@ -2,7 +2,7 @@
 #define OBJECT_H
 
 #include "Vector3.h"
-#include "util.h"
+#include "ntgl.h"
 
 using namespace nt;
 

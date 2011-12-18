@@ -1,7 +1,7 @@
 #include "LuaGLWidget.h"
 #include <QFile>
 #include <QVector3D>
-#include "util.h"
+#include "ntgl.h"
 #include "LuaGlobal.hpp"
 
 #include <cmath>

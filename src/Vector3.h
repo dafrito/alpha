@@ -3,7 +3,7 @@
 
 #include <cmath>
 #include <iostream>
-#include "util.h"
+#include "ntgl.h"
 
 struct NoWrapping
 {

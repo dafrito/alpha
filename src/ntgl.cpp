@@ -1,4 +1,4 @@
-#include "util.h"
+#include "ntgl.h"
 #include <cmath>
 
 namespace nt
