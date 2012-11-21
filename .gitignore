@@ -34,3 +34,7 @@ alpha.m4
 
 # Qt artifacts
 moc_*
+
+# Editor trash
+*~
+*.swp
