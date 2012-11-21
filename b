@@ -1,2 +1,2 @@
 #!/bin/sh
-./compile && ./demo
+./compile && cd src && ./alpha
