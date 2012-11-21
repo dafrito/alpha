@@ -4,7 +4,7 @@
 #include <QVector3D>
 
 #include "GLWidget.h"
-#include "Lua.hpp"
+#include <lua-cxx/LuaEnvironment.hpp>
 #include "Heights.h"
 #include "MeasuredTimer.h"
 

@@ -2,7 +2,7 @@
 #include <QFile>
 #include <QVector3D>
 #include "ntgl.h"
-#include "LuaGlobal.hpp"
+#include <lua-cxx/LuaGlobal.hpp>
 
 #include <cmath>
 

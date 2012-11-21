@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QLineEdit>
 #include "LuaGLWidget.h"
-#include "Lua.hpp"
+#include <lua-cxx/LuaEnvironment.hpp>
 
 class LuaGLDemo : public QWidget
 {
