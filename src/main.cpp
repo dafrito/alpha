@@ -1,48 +1,109 @@
-// To build this file from scratch, use something like the following:
-// g++ -lQtCore -lQtGui -I/usr/include/QtCore -I/usr/include/QtGui main.cpp
-
 #include <QApplication>
-#include <QMainWindow>
 #include <QDesktopWidget>
-#include <QPushButton>
-#include <QSize>
 
-void centerApp(QMainWindow& window)
-{
-    QSize appSize(800, 600);
-    window.resize(appSize);
-
-    QDesktopWidget* desktop = QApplication::desktop();
-
-    int desktopArea = desktop->width() * desktop->height();
-    int appArea = appSize.width() * appSize.height();
-    if (((float)appArea / (float)desktopArea) > 0.75f) {
-        // Just maximize it if the desktop isn't significantly
-        // bigger than our app's area.
-        window.showMaximized();
-    } else {
-        // Center the app on the primary monitor.
-        QPoint windowLocation = desktop->screenGeometry(desktop->primaryScreen()).center();
-        windowLocation.setX(windowLocation.x() - appSize.width() / 2);
-        windowLocation.setY(windowLocation.y() - appSize.height() / 2);
-        window.move(windowLocation);
-        window.show();
-    }
-}
+#include "DemoTabWidget.h"
+#include "SpiralGLWidget.h"
+#include "SpiralLinesGLWidget.h"
+#include "BlankGLWidget.h"
+#include "RotatableGLDemo.h"
+#include "LogoGLWidget.h"
+#include "PlanetsGLWidget.h"
+#include "TriangleGLWidget.h"
+#include "TriangleStripGLWidget.h"
+#include "StippleGLWidget.h"
+#include "RandomStippleGLWidget.h"
+#include "DiamondGLDemo.h"
+#include "CubeGLWidget.h"
+#include "StarGLDemo.h"
+#include "TorusGLWidget.h"
+#include "FilmRollGLWidget.h"
+#include "VehicleGLWidget.h"
+#include "Alpha.h"
+#include "FontGLWidget.h"
+#include "LuaGLDemo.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+	glutInit(&argc, argv);
+	QApplication app(argc, argv);
+	QSize appSize(800, 600);
 
-    QMainWindow gui;
-    gui.setWindowTitle("alpha");
-    centerApp(gui);
+	DemoTabWidget demoStack;
+	demoStack.resize(appSize);
 
-    QPushButton quit("Quit", &gui);
-    quit.setGeometry(10, 40, 180, 40);
-    QObject::connect(&quit, SIGNAL(clicked()), &app, SLOT(quit()));
+	BlankGLWidget blankDemo;
+	demoStack.addTab(&blankDemo, "Blank");
 
-    gui.setCentralWidget(&quit);
+	TriangleGLWidget triangleDemo;
+	demoStack.addTab(&triangleDemo, "Triangle");
 
-    return app.exec();
+	TriangleStripGLWidget triangleStripDemo;
+	demoStack.addTab(&triangleStripDemo, "Triangle Strip");
+
+	StarGLDemo starDemo;
+	demoStack.addTab(&starDemo, "Star");
+
+	RotatableGLDemo filmRollDemo(new FilmRollGLWidget);
+	demoStack.addTab(&filmRollDemo, "Film Roll");
+
+	RotatableGLDemo spiralDemo(new SpiralGLWidget);
+	demoStack.addTab(&spiralDemo, "3D Spiral");
+
+	RotatableGLDemo spiralLinesDemo(new SpiralLinesGLWidget);
+	demoStack.addTab(&spiralLinesDemo, "Spiral");
+
+	LuaGLDemo luaDemo;
+	demoStack.addTab(&luaDemo, "Lua");
+
+	RotatableGLDemo torusDemo(new TorusGLWidget);
+	demoStack.addTab(&torusDemo, "Torus");
+
+	RotatableGLDemo planetsDemo(new PlanetsGLWidget);
+	demoStack.addTab(&planetsDemo, "Planets");
+
+	RotatableGLDemo stippleDemo(new StippleGLWidget);
+	demoStack.addTab(&stippleDemo, "Stipple");
+
+	RotatableGLDemo randomStippleDemo(new RandomStippleGLWidget);
+	demoStack.addTab(&randomStippleDemo, "Random Stipple");
+
+	RotatableGLDemo fontDemo(new FontGLWidget);
+	demoStack.addTab(&fontDemo, "Fonts");
+
+	RotatableGLDemo cubeDemo(new CubeGLWidget);
+	demoStack.addTab(&cubeDemo, "Cubes");
+
+	RotatableGLDemo logoDemo(new LogoGLWidget);
+	demoStack.addTab(&logoDemo, "Logo");
+
+	DiamondGLDemo diamondDemo;
+	demoStack.addTab(&diamondDemo, "Diamond");
+
+	VehicleGLWidget vehicleDemo;
+	demoStack.addTab(&vehicleDemo, "Vehicle");
+
+	Alpha alphaDemo;
+	demoStack.addTab(&alphaDemo, "Alpha");
+
+	// Display most recently added tab.
+	demoStack.setCurrentIndex(demoStack.count() -1);
+
+	QDesktopWidget* desktop = QApplication::desktop();
+
+	int desktopArea = desktop->width() * desktop->height();
+	int appArea = appSize.width() * appSize.height();
+	if (((float)appArea / (float)desktopArea) > 0.75f) {
+		// Just maximize it if the desktop isn't significantly
+		// bigger than our app's area.
+		demoStack.showMaximized();
+	} else {
+		// Center the app on the primary monitor.
+		QPoint windowLocation = desktop->screenGeometry(desktop->primaryScreen()).center();
+		windowLocation.setX(windowLocation.x() - appSize.width() / 2);
+		windowLocation.setY(windowLocation.y() - appSize.height() / 2);
+		demoStack.move(windowLocation);
+		demoStack.show();
+	}
+
+	return app.exec();
 }
