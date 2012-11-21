@@ -91,6 +91,7 @@ dnl Check for Mesa first, unless we were asked not to.
       GLU_search_list="GLU glu32    MesaGLU"
       GLX_search_list="GLX          MesaGLX"
     fi
+    glut_search_list="glut freeglut"
 
     AC_LANG_SAVE
     AC_LANG_C
@@ -145,14 +146,24 @@ fi
       done;
     ])
 
+    AC_CHECK_HEADER([GL/glut.h], [
+      for lib_candidate in $glut_search_list; do
+        LIBS="$GL_LIBS -l$lib_candidate"
+        AC_LINK_IFELSE(
+          [AC_LANG_PROGRAM([#include <GL/glut.h>], [glutGetModifiers();])],
+          [have_glut=yes], [have_glut=no]
+        )
+        if test x"$have_glut" = xyes; then
+          GL_LIBS="$GL_LIBS -l$lib_candidate"
+          break;
+        fi;
+      done;
+    ])
+
     LIBS="$GL_LIBS"
 
     AC_CHECK_HEADER([GL/glx.h], [
       AC_SEARCH_LIBS(glXChooseVisual, $GLX_search_list, have_GLX=yes,  have_GLX=no)
-    ])
-
-    AC_CHECK_HEADER([GL/glut.h], [
-      AC_SEARCH_LIBS(glutInit,        glut,             have_glut=yes, have_glut=no)
     ])
 
     GL_LIBS="$LIBS"
