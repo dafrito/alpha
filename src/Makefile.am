@@ -1,9 +1,9 @@
-bin_PROGRAMS = alpha
-alpha_CPPFLAGS = @CXX_11_CXXFLAGS@ @QT_CXXFLAGS@ @LUA_CXX_INCLUDE@ @FREETYPE2_CFLAGS@ @LUA_INCLUDE@ @FTGL_CFLAGS@ @GL_CFLAGS@
-alpha_LDADD = @QT_LIBS@ @LUA_CXX_LIBS@ @FREETYPE2_LIBS@ @FTGL_LIBS@ @LUA_LIB@ @GL_LIBS@
+noinst_LTLIBRARIES = libalpha.la
+libalpha_la_CPPFLAGS = @CXX_11_CXXFLAGS@ @QT_CXXFLAGS@ @LUA_CXX_INCLUDE@ @FREETYPE2_CFLAGS@ @LUA_INCLUDE@ @FTGL_CFLAGS@ @GL_CFLAGS@
+libalpha_la_LIBADD = @QT_LIBS@ @LUA_CXX_LIBS@ @FREETYPE2_LIBS@ @FTGL_LIBS@ @LUA_LIB@ @GL_LIBS@
 
 # moc-generated source files
-alpha_MOC_SOURCES = \
+libalpha_la_MOC_SOURCES = \
 	moc_Alpha.cpp \
 	moc_AnimatedGLWidget.cpp \
 	moc_CubeGLWidget.cpp \
@@ -23,8 +23,8 @@ alpha_MOC_SOURCES = \
 	moc_StarGLWidget.cpp \
 	moc_VehicleGLWidget.cpp
 
-alpha_SOURCES = \
-	$(alpha_MOC_SOURCES) \
+libalpha_la_SOURCES = \
+	$(libalpha_la_MOC_SOURCES) \
 	Alpha.cpp \
 	AnimatedGLWidget.cpp \
 	Camera.cpp \
@@ -83,7 +83,13 @@ alpha_SOURCES = \
 	TriangleStripGLWidget.h \
 	ntgl.h \
 	Vector3.h \
-	VehicleGLWidget.h \
+	VehicleGLWidget.h
+
+bin_PROGRAMS = alpha
+alpha_CPPFLAGS = $(libalpha_la_CPPFLAGS)
+alpha_LDADD = $(libalpha_la_LIBADD) libalpha.la
+
+alpha_SOURCES = \
 	main.cpp
 
 mostlyclean-local:
