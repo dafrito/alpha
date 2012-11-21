@@ -1,0 +1,92 @@
+# ===========================================================================
+#    @PACKAGE_URL@
+# ===========================================================================
+#
+# SYNOPSIS
+#
+#   AX_HAVE_ALPHA
+#
+# DESCRIPTION
+#
+#   Test for @PACKAGE_NAME@
+#
+#   This macro calls:
+#
+#     AC_SUBST(ALPHA_INCLUDE)
+#     AC_SUBST(ALPHA_LIBS)
+#
+#   And sets:
+#
+#     HAVE_ALPHA
+#
+# LICENSE
+#
+#   Copyright (c) 2012 Aaron Faanes <@PACKAGE_BUGREPORT@>
+#
+#   Copying and distribution of this file, with or without modification, are
+#   permitted in any medium without royalty provided the copyright notice
+#   and this notice are preserved. This file is offered as-is, without any
+#   warranty.
+
+AC_DEFUN([AX_HAVE_ALPHA],
+[
+	AC_ARG_WITH([alpha],
+    AS_HELP_STRING([--with-alpha], [use @PACKAGE_NAME@]),
+    [
+      if test x"$withval" = "xno"; then
+        want_ALPHA="no";
+      else
+        want_ALPHA="yes";
+      fi
+    ],
+    [want_ALPHA="yes"]
+  )
+
+  if test x"$want_ALPHA" = "xyes"; then
+    AC_MSG_CHECKING([for alpha])
+
+    # Ensure we have a suitable C++ compiler
+    AC_REQUIRE([AC_PROG_CC])
+
+    ax_ALPHA_saved_CPPFLAGS="$CPPFLAGS"
+    ax_ALPHA_INCLUDE=""
+    CPPFLAGS="$CPPFLAGS $ax_ALPHA_INCLUDE"
+    export CPPFLAGS
+
+    ax_ALPHA_saved_LIBS="$LIBS"
+    ax_ALPHA_LIBS=""
+    LIBS="$LIBS $ax_ALPHA_LIBS"
+    export LIBS
+
+    AC_LANG_PUSH([C++])
+    AC_COMPILE_IFELSE([
+      AC_LANG_PROGRAM(
+        [[@%:@include <alpha/Alpha.hpp>]],
+        [[
+          Alpha obj;
+          return 0;
+        ]]
+      )],
+      ax_have_ALPHA=yes,
+      ax_have_ALPHA=no
+    )
+    AC_LANG_POP([C++])
+
+    AC_MSG_RESULT([$ax_have_ALPHA])
+    if test x"$ax_have_ALPHA" = "xyes"; then
+      AC_DEFINE(HAVE_ALPHA,,[define if alpha is available])
+      ALPHA_INCLUDE="$ax_ALPHA_INCLUDE"
+      dnl This doesn't yet test the location of this project
+      ALPHA_LIBS="$ax_ALPHA_LIBS -l@PACKAGE_NAME@"
+    else
+      AC_MSG_ERROR([Could not find alpha])
+      ALPHA_INCLUDE=""
+      ALPHA_LIBS=""
+    fi
+    AC_SUBST(ALPHA_INCLUDE)
+    AC_SUBST(ALPHA_LIBS)
+
+    CPPFLAGS="$ax_ALPHA_saved_CPPFLAGS"
+    LIBS="$ax_ALPHA_saved_LIBS"
+  fi;
+])
