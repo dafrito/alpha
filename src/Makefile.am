@@ -87,13 +87,13 @@ libalpha_la_SOURCES = \
 
 bin_PROGRAMS = alpha
 alpha_CPPFLAGS = $(libalpha_la_CPPFLAGS)
-alpha_LDADD = $(libalpha_la_LIBADD) libalpha.la
+alpha_LDADD = libalpha.la $(libalpha_la_LIBADD)
 
 alpha_SOURCES = \
 	main.cpp
 
 mostlyclean-local:
-	rm -f $(alpha_MOC_SOURCES)
+	rm -f $(alpha_MOC_SOURCES) $(libalpha_la_MOC_SOURCES)
 .PHONY: mostlyclean-local
 
 moc_%.cpp: %.h
