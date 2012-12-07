@@ -25,7 +25,7 @@ void FontGLWidget::tick(const float& elapsed)
 
 void FontGLWidget::render()
 {
-	FTOutlineFont font("DejaVuSansMono.ttf");
+	FTOutlineFont font("../media/DejaVuSansMono.ttf");
 	font.FaceSize(FONT_SIZE);
 	glTranslatef(0, -5 * FONT_SIZE, 0);
 	for (int i = 0; i < 10; i++) {

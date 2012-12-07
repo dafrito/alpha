@@ -13,7 +13,7 @@ CubeGLWidget::CubeGLWidget(QWidget* const parent) :
 	AnimatedGLWidget(parent)
 {
 	for(int i = 0; i < CubeGLWidget::NUM_CUBES; i++) {
-		const int size = 1 + rand() % (HALF_RANGE / 7);
+		const unsigned int size = 1 + rand() % (HALF_RANGE / 7);
 		Cube cube = {
 			QVector3D(
 				-HALF_RANGE + size + rand() % ((HALF_RANGE - size) * 2),

@@ -51,5 +51,5 @@ AC_LANG([C++])
 
 # Checks for library functions.
 
-AC_CONFIG_FILES([alpha.m4 Makefile src/Makefile tests/Makefile rpm.spec])
+AC_CONFIG_FILES([alpha.m4 Makefile src/Makefile demos/Makefile tests/Makefile rpm.spec])
 AC_OUTPUT

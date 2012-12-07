@@ -22,7 +22,7 @@ const float viewDistance = 800;
 Alpha::Alpha(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
 		timer(this),player("Player 1"),player2("?"), camera(&player), playerShape(8.0f,8.0f,8.0f),
-		font("DejaVuSansMono.ttf"), cursor(Qt::ArrowCursor), cursorShown(true),
+		font("../media/DejaVuSansMono.ttf"), cursor(Qt::ArrowCursor), cursorShown(true),
 		_desktop( QApplication::desktop()->screenGeometry() )
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
