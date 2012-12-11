@@ -16,6 +16,7 @@ const float FOV = 65;
 
 const float viewDistance = 800;
 // end Config
+//The weets.
 
 
 
