@@ -20,7 +20,6 @@ libalpha_la_SOURCES = \
 	Camera.h \
 	config.h \
 	Cuboid.h \
-	Heights.h \
 	MeasuredTimer.h \
 	Object.h \
 	Player.h \
