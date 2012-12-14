@@ -1,17 +1,19 @@
 #ifndef ALPHA_H
 #define ALPHA_H
 
-#include <QApplication>
-#include <QDesktopWidget> // needed for desktop info, something about forward declaration
 #include <QGLWidget>
-#include <QVector3D>
+
+// Used for interpreting mouse input events
+#include <QApplication>
+#include <QDesktopWidget>
+
 #include "MeasuredTimer.h"
-#include <cmath>
 #include "Player.h"
 #include "Camera.h"
 #include "PlayerInput.h"
 #include "Cuboid.h"
-#include <FTGL/ftgl.h>
+
+class FTPolygonFont;
 
 class Alpha : public QGLWidget
 {

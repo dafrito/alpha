@@ -5,12 +5,18 @@
 #include <iostream>
 #include "ntgl.h"
 
+/**
+ * A no-op wrapping policy
+ */
 struct NoWrapping
 {
 	template <class T>
 	static void wrap(T&) {}
 };
 
+/**
+ * Treat the vector as a radian rotation during wrapping
+ */
 struct WrapRadians
 {
 	template <class T>
@@ -20,6 +26,9 @@ struct WrapRadians
 	}
 };
 
+/**
+ * Treat the vector as a degree rotation during wrapping
+ */
 struct WrapDegrees
 {
 	template <class T>

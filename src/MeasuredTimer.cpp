@@ -11,6 +11,9 @@ MeasuredTimer::MeasuredTimer(QObject* const parent, const int msec) :
 	connect(&timer, SIGNAL(timeout()), this, SLOT(dispatchTick()));
 }
 
+/**
+ * This method along with eventFilter really should be in a separate class
+ */
 void MeasuredTimer::startOnShow(QWidget* const widget)
 {
 	widget->installEventFilter(this);

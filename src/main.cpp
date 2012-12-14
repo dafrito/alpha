@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QDesktopWidget>
-#include <QPushButton>
 #include <QSize>
 #include "Alpha.h"
 #include <GL/glut.h>

@@ -3,8 +3,8 @@
 #include <QKeyEvent>
 #include <QWheelEvent>
 #include <GL/glut.h>
-#include <iostream>
 #include "Vector3.h"
+#include <FTGL/ftgl.h>
 
 using namespace nt;
 
