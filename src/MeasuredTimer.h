@@ -10,8 +10,6 @@ class QWidget;
 class QEvent;
 QT_END_NAMESPACE
 
-
-
 class MeasuredTimer : public QObject
 {
 	Q_OBJECT

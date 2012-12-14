@@ -8,23 +8,23 @@
 
 using namespace nt;
 
-// Config
 const float TURN_SPEED = M_PI;
 const float PLAYER_MOVESPEED = 50;
 const float PLAYER_BWD = 0.7; // how fast you move backwards compared to forwards
 const float FOV = 65;
-
 const float viewDistance = 800;
-// end Config
-//The weets.
-
-
 
 Alpha::Alpha(QWidget* const parent) :
-		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-		timer(this),player("Player 1"),player2("?"), camera(&player), playerShape(8.0f,8.0f,8.0f),
-		font("../media/DejaVuSansMono.ttf"), cursor(Qt::ArrowCursor), cursorShown(true),
-		_desktop( QApplication::desktop()->screenGeometry() )
+        QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
+        timer(this),
+        player("Player 1"),
+        player2("?"),
+        camera(&player),
+        playerShape(8.0f,8.0f,8.0f),
+        font("../media/DejaVuSansMono.ttf"),
+        cursor(Qt::ArrowCursor),
+        cursorShown(true),
+        _desktop(QApplication::desktop()->screenGeometry())
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
