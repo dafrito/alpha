@@ -6,7 +6,7 @@ using nt::drawText;
 
 PlanetsGLWidget::PlanetsGLWidget(QWidget* const parent) :
 	AnimatedGLWidget(parent),
-	font("../media/DejaVuSansMono.ttf"),
+	font(MEDIA_DIR "/DejaVuSansMono.ttf"),
 	rotation(0)
 {
 }

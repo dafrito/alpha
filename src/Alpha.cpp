@@ -21,7 +21,7 @@ Alpha::Alpha(QWidget* const parent) :
         player2("?"),
         camera(&player),
         playerShape(8.0f,8.0f,8.0f),
-        font("../media/DejaVuSansMono.ttf"),
+        font(MEDIA_DIR "/DejaVuSansMono.ttf"),
         cursor(Qt::ArrowCursor),
         cursorShown(true),
         _desktop(QApplication::desktop()->screenGeometry())
