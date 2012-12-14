@@ -241,8 +241,8 @@ void Alpha::tick(const float& elapsed)
 		{
 
 			// make sure all our comparisons are between 0-2*M_PI
-			normalizeAngle(zRot);
-			normalizeAngle(xRot);
+			normalizeRadians(zRot);
+			normalizeRadians(xRot);
 
 			// XXX: could turn this part into a function
 			// getTurnAmountThisTick()

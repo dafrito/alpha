@@ -18,12 +18,21 @@ namespace nt
 	void drawText(FTFont& font, const char* text, int yOffset);
 
 	template <typename T>
-	void normalizeAngle(T& angle)
+	void normalizeRadians(T& angle)
 	{
 		while (angle < 0)
 			angle += 2 * M_PI;
-		while (angle >= 2 * M_PI )
+		while (angle >= 2 * M_PI)
 			angle -= 2 * M_PI;
+	}
+
+	template <typename T>
+	void normalizeDegrees(T& angle)
+	{
+		while (angle < 0)
+			angle += 360;
+		while (angle >= 360)
+			angle -= 360;
 	}
 }
 

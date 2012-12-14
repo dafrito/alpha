@@ -99,7 +99,7 @@ void Camera::applySettings()
 // XXX: don't know how to do this properly with vector3
 void Camera::setXRotation(float angle)
 {
-	normalizeAngle(angle);
+	normalizeRadians(angle);
 	// keep us from flipping upside down
 	if ( angle > 3 * M_PI_2 ) { angle = 2 * M_PI; }
 	else if ( angle > M_PI ) {angle = M_PI;}

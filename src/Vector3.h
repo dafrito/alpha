@@ -14,9 +14,9 @@ struct NoWrapping
 struct WrapRadians
 {
 	template <class T>
-	static void wrap(T& value)
+	static void wrap(T& angle)
 	{
-		nt::normalizeAngle(value);
+		nt::normalizeRadians(angle);
 	}
 };
 
@@ -25,10 +25,7 @@ struct WrapDegrees
 	template <class T>
 	static void wrap(T& angle)
 	{
-		while (angle < 0)
-			angle += 360;
-		while (angle >= 360)
-			angle -= 360;
+		nt::normalizeDegrees(angle);
 	}
 };
 
