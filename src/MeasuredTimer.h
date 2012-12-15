@@ -2,7 +2,7 @@
 #define MEASUREDTIMER_H
 
 #include <QObject>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QTimer>
 
 QT_BEGIN_NAMESPACE
@@ -17,7 +17,7 @@ class MeasuredTimer : public QObject
 	Q_OBJECT
 
 	const int msec;
-	QTime time;
+	QElapsedTimer time;
 	QTimer timer;
 public:
 	static const int DEFAULT_RATE = 60;
