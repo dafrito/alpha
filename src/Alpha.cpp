@@ -5,6 +5,7 @@
 #include <GL/glut.h>
 #include "Vector3.h"
 #include <FTGL/ftgl.h>
+#include <GLOperation.hpp>
 
 using namespace nt;
 
@@ -70,7 +71,8 @@ Alpha::Alpha(QWidget* const parent) :
 }
 void Alpha::drawCameraOrientedText(FTFont* const font, const char* text, int zOffset)
 	{
-		glPushMatrix();
+        GLOperation ops;
+        ops.pushMatrix();
 		const float width = font->BBox(text).Upper().X();
 		glTranslatef(0, 0, zOffset + 2 + font->FaceSize());
 		glRotatef(camera.rotation().z() * TO_DEGREES, 0, 0, 1);
@@ -78,7 +80,6 @@ void Alpha::drawCameraOrientedText(FTFont* const font, const char* text, int zOf
 		// glRotatef( camera.rotation().x() * TO_DEGREES, 1,0,0);
 		glTranslatef(-width/2,0,0);
 		font->Render(text);
-		glPopMatrix();
 	}
 
 void Alpha::tick(const float& elapsed)
@@ -366,48 +367,48 @@ void Alpha::paintGL()
 	camera.applySettings();
 
 	// The world
-	glPushMatrix();
 	{
+        GLOperation ops;
 
-		glBegin(GL_QUADS);
+        ops.beginQuads();
 		glColor3f(0.1f, 0.65f, 0.1f);
-
 		glVertex3f( 100.0f, 100.0f, 0.0f); // Top Right
 		glVertex3f(-100.0f, 100.0f, 0.0f); // Top Left
 		glVertex3f(-100.0f,-100.0f, 0.0f); // Bottom Left
 		glVertex3f( 100.0f,-100.0f, 0.0f); // Bottom Right
+		ops.pop();
 
-		glEnd();
 		// for bearing
-		glPushMatrix();
+        ops.pushMatrix();
 		{
 			glTranslatef(0.0f,90.0f,10.0f);
 			glColor3f(1.0f,1.0f,0.0f);
 			glutWireSphere(10, 15, 15);
 		}
-		glPopMatrix();
-		glPushMatrix();
+        ops.pop();
+        ops.pushMatrix();
 		{
 			glTranslatef(-90.0f,0.0f,10.0f);
 			glColor3f(1.0f,0.0f,1.0f);
 			glutWireSphere(10, 15, 15);
 		}
-		glPopMatrix();
-		glPushMatrix();
+        ops.pop();
+        ops.pushMatrix();
 		{
 			glTranslatef(100.0f,100.0f,10.0f);
 			glColor3f(0.0f,0.0f,0.0f);
 			playerShape.draw();
 		}
-		glPopMatrix();
+        ops.pop();
 	}
-	glPopMatrix();
 
 	// draw the player's cube
 	// FIXME: this cube cannot see player2's cube through it when transparent
 	// possibly because of the order drawn, if thats the case then ghosts are out
-	glPushMatrix();
 	{
+        GLOperation ops;
+        ops.pushMatrix();
+
 		// mobile objects always need to be rotated and moved within the world
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
@@ -419,13 +420,13 @@ void Alpha::paintGL()
 		glRotateRadians(player.rotation());
 		playerShape.setAlpha(player.alpha());
 		playerShape.draw();
-
 	}
-	glPopMatrix();
 
 	// draw the player2
-	glPushMatrix();
 	{
+        GLOperation ops;
+        ops.pushMatrix();
+
 		// mobile objects always need to be rotated and moved within the world
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
@@ -436,11 +437,7 @@ void Alpha::paintGL()
 		glRotateRadians(player2.rotation());
 		playerShape.setAlpha(player2.alpha());
 		playerShape.draw();
-
 	}
-	glPopMatrix();
-
-
 }
 
 // XXX: not set up so you can do single actions on key down

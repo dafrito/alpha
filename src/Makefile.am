@@ -9,6 +9,8 @@ libalpha_la_MOC_SOURCES = \
 
 libalpha_la_SOURCES = \
 	$(libalpha_la_MOC_SOURCES) \
+	GLOperation.cpp \
+	GLOperation.hpp \
 	Alpha.cpp \
 	Camera.cpp \
 	Cuboid.cpp \
