@@ -45,10 +45,7 @@ protected:
 	void wheelEvent(QWheelEvent *event);
 	void hideCursor();
 	void showCursor();
-	QRect desktop()
-	{
-		return _desktop;
-	}
+	QRect desktop() { return _desktop; }
 	void NewTarget()
 	{
 		if (camera.target == &player){

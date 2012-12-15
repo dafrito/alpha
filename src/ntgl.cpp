@@ -35,4 +35,4 @@ void drawText(FTFont& font, const char* text, int yOffset)
 	glPopMatrix();
 }
 
-}
+} // namespace nt

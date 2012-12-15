@@ -34,6 +34,7 @@ namespace nt
 		while (angle >= 360)
 			angle -= 360;
 	}
-}
+
+} // namespace nt
 
 #endif // UTIL_H
