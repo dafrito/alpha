@@ -27,6 +27,10 @@ libalpha_la_SOURCES = \
 	Player.h \
 	PlayerInput.h \
 	ntgl.h \
+	RenderLayer.hpp \
+	DirectRenderLayer.hpp \
+	Renderable.hpp \
+	Physical.hpp \
 	Vector3.h
 
 bin_PROGRAMS = alpha

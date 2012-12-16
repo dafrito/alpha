@@ -6,19 +6,17 @@ TESTS = $(check_PROGRAMS)
 
 test_suites =         \
 	RotationTests \
+	RenderLayerTests \
 	Vector3Tests
 
-runtest_SOURCES =         \
-	tests.cpp             \
-	RotationTests.h \
-	Vector3Tests.h
+runtest_SOURCES = tests.cpp $(addsuffix .h, $(test_suites))
 
 runtest_MOC_SOURCES = \
 	moc_RotationTests.cpp \
+	moc_RenderLayerTests.cpp \
 	moc_Vector3Tests.cpp
 
-nodist_runtest_SOURCES =      \
-	$(runtest_MOC_SOURCES)
+nodist_runtest_SOURCES = $(runtest_MOC_SOURCES)
 
 mostlyclean-local:
 	rm -f $(runtest_MOC_SOURCES)
