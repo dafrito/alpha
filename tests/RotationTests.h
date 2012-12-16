@@ -1,5 +1,5 @@
 #include <QtTest/QtTest>
-#include "Vector3.h"
+#include <Vector3.h>
 #include <QDebug>
 #include <cmath>
 

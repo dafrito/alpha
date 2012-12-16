@@ -1,5 +1,5 @@
 check_PROGRAMS = runtest
-runtest_CPPFLAGS = @CXX_11_CXXFLAGS@ @QT_CXXFLAGS@ @LUA_CXX_INCLUDE@ @FREETYPE2_CFLAGS@ @LUA_INCLUDE@ @FTGL_CFLAGS@ @GL_CFLAGS@ -g -Wall -Werror -O0 @ALPHA_GLOBAL_CXXFLAGS@
+runtest_CPPFLAGS = @CXX_11_CXXFLAGS@ @QT_CXXFLAGS@ @LUA_CXX_INCLUDE@ @FREETYPE2_CFLAGS@ @LUA_INCLUDE@ @FTGL_CFLAGS@ @GL_CFLAGS@ -I$(top_srcdir)/src @ALPHA_GLOBAL_CXXFLAGS@
 runtest_LDADD = @QT_LIBS@ @LUA_CXX_LIBS@ @FREETYPE2_LIBS@ @FTGL_LIBS@ @LUA_LIB@ @GL_LIBS@ ../src/libalpha.la
 
 TESTS = $(check_PROGRAMS)
@@ -26,7 +26,7 @@ mostlyclean-local:
 
 tests.cpp: make_wrapper.sh $(addsuffix .h, $(test_suites))
 	rm -f $@
-	./make_wrapper.sh $^ >$@-wip
+	$(top_srcdir)/tests/make_wrapper.sh $^ >$@-wip
 	mv $@-wip $@
 	chmod -w $@
 
