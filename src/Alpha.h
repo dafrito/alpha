@@ -54,11 +54,11 @@ protected:
 			camera.setTarget(&player);
 		}
 	}
-	void drawCameraOrientedText(FTFont* const font, const char* text, int zOffset);
-
 
 private slots:
 	void tick(const float& elapsed);
 };
+
+void drawCameraOrientedText(const Camera& camera, FTFont* const font, const char* text, int zOffset);
 
 #endif // ALPHA_H

@@ -34,7 +34,7 @@ public:
 
 	float getTargetDistance() {return targetDistance;}
 
-	Rotation& rotation()
+	const Rotation& rotation() const
 	{
 		return _rotation;
 	}

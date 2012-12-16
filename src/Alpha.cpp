@@ -69,18 +69,6 @@ Alpha::Alpha(QWidget* const parent) :
 	// cursorLoadIdentity() or more accurately cursorPush()
 	QApplication::setOverrideCursor(cursor);
 }
-void Alpha::drawCameraOrientedText(FTFont* const font, const char* text, int zOffset)
-	{
-        GLOperation ops;
-        ops.pushMatrix();
-		const float width = font->BBox(text).Upper().X();
-		glTranslatef(0, 0, zOffset + 2 + font->FaceSize());
-		glRotatef(camera.rotation().z() * TO_DEGREES, 0, 0, 1);
-		glRotatef(90,1,0,0);
-		// glRotatef( camera.rotation().x() * TO_DEGREES, 1,0,0);
-		glTranslatef(-width/2,0,0);
-		font->Render(text);
-	}
 
 void Alpha::tick(const float& elapsed)
 {
@@ -416,7 +404,7 @@ void Alpha::paintGL()
 		glTranslate(player.position());
 		glColor3f(1.0f,1.0f,1.0f);
 		font.FaceSize(4);
-		drawCameraOrientedText(&font,player.name(),4);
+		drawCameraOrientedText(camera, &font,player.name(),4);
 		glRotateRadians(player.rotation());
 		playerShape.setAlpha(player.alpha());
 		playerShape.draw();
@@ -433,11 +421,24 @@ void Alpha::paintGL()
 		glTranslate(player2.position());
 		glColor3f(1.0f,1.0f,0.0f);
 		font.FaceSize(14);
-		drawCameraOrientedText(&font,player2.name(),-10);
+		drawCameraOrientedText(camera, &font,player2.name(),-10);
 		glRotateRadians(player2.rotation());
 		playerShape.setAlpha(player2.alpha());
 		playerShape.draw();
 	}
+}
+
+void drawCameraOrientedText(const Camera& camera, FTFont* const font, const char* text, int zOffset)
+{
+    GLOperation ops;
+    ops.pushMatrix();
+    const float width = font->BBox(text).Upper().X();
+    glTranslatef(0, 0, zOffset + 2 + font->FaceSize());
+    glRotatef(camera.rotation().z() * TO_DEGREES, 0, 0, 1);
+    glRotatef(90,1,0,0);
+    // glRotatef( camera.rotation().x() * TO_DEGREES, 1,0,0);
+    glTranslatef(-width/2,0,0);
+    font->Render(text);
 }
 
 // XXX: not set up so you can do single actions on key down

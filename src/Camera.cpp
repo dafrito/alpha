@@ -103,17 +103,17 @@ void Camera::setXRotation(float angle)
 	// keep us from flipping upside down
 	if ( angle > 3 * M_PI_2 ) { angle = 2 * M_PI; }
 	else if ( angle > M_PI ) {angle = M_PI;}
-	rotation().setX(angle);
+	_rotation.setX(angle);
 }
 
 void Camera::setYRotation(float angle)
 {
-	rotation().setY(angle);
+	_rotation.setY(angle);
 }
 
 void Camera::setZRotation(float angle)
 {
-	rotation().setZ(angle);
+	_rotation.setZ(angle);
 }
 
 void Camera::addXRotation(float angle)
@@ -126,7 +126,7 @@ void Camera::addXRotation(float angle)
 }
 void Camera::addYRotation(float angle)
 {
-	rotation().addY(angle);
+	_rotation.addY(angle);
 	if (rotateTarget)
 	{
 		alignTarget();
@@ -134,7 +134,7 @@ void Camera::addYRotation(float angle)
 }
 void Camera::addZRotation(float angle)
 {
-	rotation().addZ(angle);
+	_rotation.addZ(angle);
 	if (rotateTarget)
 	{
 		alignTarget();
