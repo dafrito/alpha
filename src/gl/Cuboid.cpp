@@ -1,5 +1,9 @@
 #include "Cuboid.h"
+
 #include <GL/gl.h>
+
+namespace nt {
+namespace gl {
 
 Cuboid::Cuboid(float size)
 {
@@ -110,4 +114,5 @@ void Cuboid::draw()
 	glDisableClientState(GL_COLOR_ARRAY);
 }
 
-
+} // namespace nt
+} // namespace gl

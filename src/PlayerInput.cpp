@@ -1,6 +1,5 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
-
 #include "PlayerInput.h"
 
 // XXX: not set up so you can do single actions on key down

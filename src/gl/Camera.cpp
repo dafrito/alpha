@@ -1,8 +1,10 @@
-#include "Camera.h"
-#include "ntgl.h"
+#include "gl/Camera.h"
+
+#include "gl/util.h"
 #include <cassert>
 
-using namespace nt;
+namespace nt {
+namespace gl {
 
 Camera::Camera(Player* t) :
 	target(t),
@@ -140,3 +142,6 @@ void Camera::addZRotation(float angle)
 		alignTarget();
 	}
 }
+
+} // namespace gl
+} // namespace nt

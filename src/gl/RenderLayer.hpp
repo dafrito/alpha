@@ -3,6 +3,9 @@
 
 #include "Vector3.h"
 
+namespace nt {
+namespace gl {
+
 template <typename Scalar>
 class RenderLayer
 {
@@ -17,5 +20,8 @@ public:
      */
     virtual void render(const Vector3<Scalar>& position)=0;
 };
+
+} // namespace gl
+} // namespace nt
 
 #endif // ALPHA_RENDERLAYER_HEADER

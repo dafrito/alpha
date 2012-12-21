@@ -1,7 +1,9 @@
 #include <QtTest/QtTest>
 #include "Vector3.h"
+#include "gl/util.h"
 #include <QDebug>
 
+using nt::Vector3;
 
 class Vector3Tests : public QObject
 {
@@ -196,6 +198,7 @@ private slots:
 
 	void testVectorSupportsWrappingPolicies()
 	{
+        using nt::WrapRadians;
 		Vector3<double, WrapRadians> vec;
 		vec.set(M_PI * 3, 0, 0);
 		QVERIFY(vec.equals(M_PI, 0, 0));
@@ -214,6 +217,7 @@ private slots:
 
 	void testVectorSupportsDegreeWrapping()
 	{
+        using nt::WrapDegrees;
 		Vector3<int, WrapDegrees> vec;
 		vec.addX(360 + 180);
 		QVERIFY(vec.x() == 180);
@@ -224,6 +228,7 @@ private slots:
 
 	void testVectorsCopyConstructorAbidesByPolicy()
 	{
+        using nt::WrapRadians;
 		Vector3<double> first(M_PI * 3, M_PI * 3, M_PI * 3);
 		Vector3<double, WrapRadians> vec(first);
 		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
@@ -231,69 +236,74 @@ private slots:
 
 	void testVectorThreeArgCtorAbidesByPolicy()
 	{
+        using nt::WrapRadians;
 		Vector3<double, WrapRadians> vec(M_PI * 3, M_PI * 3, M_PI * 3);
 		QVERIFY(vec.equals(M_PI, M_PI, M_PI));
 	}
 
 	void testGetAxisHorizontalAngles()
 	{
+        using nt::gl::getAxisAngles;
+
 		Vector3<double> Position(0,0,0);
-		Vector3<double> Rotation = nt::getAxisAngles(Position);
+		Vector3<double> Rotation = getAxisAngles(Position);
 		QVERIFY(Rotation.equals(0,0,M_PI_2*0 + atan(0.0)));
 
 		Position.set(0,3,0);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY(Rotation.equals(0,0,M_PI_2*0 + atan(0.0)));
 
 		Position.set(-2,3,0);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY(Rotation.equals(0,0,M_PI_2*0 + atan(2.0/3.0)));
 
 		Position.set(-2,0,0);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY(Rotation.equals(0,0,M_PI_2*1) + atan(0.0));
 
 		Position.set(-2,-3,0);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY(Rotation.equals(0,0,M_PI_2*2 - atan(2.0/3.0)));
 
 		Position.set(0,-3,0);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY(Rotation.equals(0,0,M_PI_2*2) + atan(0.0));
 
 		Position.set(2,-3,0);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY(Rotation.equals(0,0,M_PI_2*2 + atan(2.0/3.0)));
 
 		Position.set(2,0,0);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY(Rotation.equals(0,0,M_PI_2*3 + atan(0.0)));
 
 		Position.set(2,3,0);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY(Rotation.equals(0,0,M_PI_2*4 - atan(2.0/3.0)));
 
 	}
 	void testGetAxisVerticalAngles()
 	{
+        using nt::gl::getAxisAngles;
+
 		Vector3<double> Position(0,0,0);
-		Vector3<double> Rotation = nt::getAxisAngles(Position);
+		Vector3<double> Rotation = getAxisAngles(Position);
 		QVERIFY( Rotation.x() == M_PI_2*0 + atan(0.0));
 
 		Position.set(0,0,6);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY( Rotation.x() == M_PI_2*1 + atan(0.0));
 
 		Position.set(3,0,6);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY( Rotation.x() == M_PI_2*1 - atan(3.0/6.0));
 
 		Position.set(3,4,6);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY( Rotation.x() == M_PI_2*1 - atan(5.0/6.0));
 
 		Position.set(0,0,-6);
-		Rotation = nt::getAxisAngles(Position);
+		Rotation = getAxisAngles(Position);
 		QVERIFY( Rotation.x() == M_PI_2*3 + atan(0.0));
 
 

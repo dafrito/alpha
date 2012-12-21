@@ -1,7 +1,7 @@
 #include "LuaGLWidget.h"
 #include <QFile>
 #include <QVector3D>
-#include "ntgl.h"
+#include "gl/util.h"
 #include <lua-cxx/LuaGlobal.hpp>
 
 #include <cmath>
@@ -60,14 +60,14 @@ void LuaGLWidget::render()
 			QVector3D tnorm = average(norm, normal(x+1, y));
 			QVector3D lnorm = average(norm, normal(x, y-1));
 			QVector3D bnorm = average(norm, normal(x-1, y));
-			glNormal(average(rnorm, bnorm));
-			glVertex(b);
-			glNormal(average(rnorm, tnorm));
-			glVertex(c);
-			glNormal(average(lnorm, tnorm));
-			glVertex(d);
-			glNormal(average(lnorm, bnorm));
-			glVertex(a);
+			gl::glNormal(average(rnorm, bnorm));
+			gl::glVertex(b);
+			gl::glNormal(average(rnorm, tnorm));
+			gl::glVertex(c);
+			gl::glNormal(average(lnorm, tnorm));
+			gl::glVertex(d);
+			gl::glNormal(average(lnorm, bnorm));
+			gl::glVertex(a);
 		}
 	}
 	glEnd();
@@ -78,6 +78,6 @@ void LuaGLWidget::resizeGL(int width, int height)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	nt::setGLFrustum(60, (float) width / height, 1, 800);
+	nt::gl::setGLFrustum(60, (float) width / height, 1, 800);
 	glMatrixMode(GL_MODELVIEW);
 }

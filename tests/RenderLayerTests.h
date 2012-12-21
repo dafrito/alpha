@@ -2,7 +2,7 @@
 #define ALPHA_RENDERLAYERTESTS_HEADER
 
 #include <QtTest/QtTest>
-#include <DirectRenderLayer.hpp>
+#include <gl/DirectRenderLayer.hpp>
 
 namespace
 {
@@ -14,6 +14,9 @@ void dummyRender()
 }
 
 }
+
+using nt::Vector3;
+using namespace nt::gl;
 
 class RenderLayerTests : public QObject
 {

@@ -3,7 +3,7 @@
 #include <FTGL/ftgl.h>
 
 #include "FontGLWidget.h"
-#include "ntgl.h"
+#include "gl/util.h"
 
 FontGLWidget::FontGLWidget(QWidget* const parent) :
 	AnimatedGLWidget(parent),

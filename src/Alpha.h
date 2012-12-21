@@ -9,11 +9,13 @@
 
 #include "MeasuredTimer.h"
 #include "Player.h"
-#include "Camera.h"
+#include "gl/Camera.h"
 #include "PlayerInput.h"
-#include "Cuboid.h"
+#include "gl/Cuboid.h"
 
 class FTPolygonFont;
+
+namespace nt {
 
 class Alpha : public QGLWidget
 {
@@ -23,9 +25,9 @@ class Alpha : public QGLWidget
 	PlayerInput input;
 	Player player;
 	Player player2;
-	Camera camera;
+	gl::Camera camera;
 	QPoint lastPos;
-	Cuboid playerShape;
+	gl::Cuboid playerShape;
 	FTPolygonFont font;
 	QCursor cursor; // can set custom shapes to this
 	QPoint cursorHiddenAt;
@@ -59,6 +61,8 @@ private slots:
 	void tick(const float& elapsed);
 };
 
-void drawCameraOrientedText(const Camera& camera, FTFont* const font, const char* text, int zOffset);
+void drawCameraOrientedText(const gl::Camera& camera, FTFont* const font, const char* text, int zOffset);
+
+} // namespace nt
 
 #endif // ALPHA_H

@@ -10,6 +10,8 @@ class QWidget;
 class QEvent;
 QT_END_NAMESPACE
 
+namespace nt {
+
 class MeasuredTimer : public QObject
 {
 	Q_OBJECT
@@ -32,5 +34,7 @@ public slots:
 private slots:
 	void dispatchTick();
 };
+
+} // namespace nt
 
 #endif // MEASUREDTIMER_H

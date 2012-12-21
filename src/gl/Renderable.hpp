@@ -1,7 +1,10 @@
 #ifndef ALPHA_RENDERABLE_HEADER
 #define ALPHA_RENDERABLE_HEADER
 
-#include "Physical.hpp"
+#include "gl/Physical.hpp"
+
+namespace nt {
+namespace gl {
 
 /**
  * Represents something that can be rendered. Specifically,
@@ -21,5 +24,8 @@ struct Renderable
         renderer(renderer)
     {}
 };
+
+} // namespace gl
+} // namespace nt
 
 #endif // ALPHA_RENDERABLE_HEADER

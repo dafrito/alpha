@@ -15,7 +15,7 @@ class AnimatedGLWidget : public GLWidget
 {
 	Q_OBJECT
 
-	MeasuredTimer timer;
+	nt::MeasuredTimer timer;
 public:
 	AnimatedGLWidget(QWidget* const parent = 0);
 protected slots:

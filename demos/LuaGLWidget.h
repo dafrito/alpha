@@ -14,7 +14,7 @@ class LuaGLWidget : public GLWidget
 {
 	Q_OBJECT
 
-	MeasuredTimer timer;
+	nt::MeasuredTimer timer;
 
 	// The vertical scaling applied to each vertex. Higher
 	// values mean higher peaks and lower troughs.

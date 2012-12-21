@@ -3,18 +3,15 @@
 
 #include <vector>
 
-namespace
-{
-
+namespace {
 enum glOperation {
     OP_popMatrix,
     OP_end
 };
-
 }
 
-namespace nt
-{
+namespace nt {
+namespace gl {
 
 class GLOperation
 {
@@ -31,6 +28,7 @@ public:
     ~GLOperation();
 };
 
+} // namespace gl
 } // namespace nt
 
 #endif // ALPHA_GLOPERATION_HEADER

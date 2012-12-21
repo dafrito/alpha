@@ -3,6 +3,8 @@
 
 #include <GL/gl.h>
 
+namespace nt {
+namespace gl {
 
 /*
 	       -X ---width--- +X
@@ -54,5 +56,7 @@ public:
 	void setAlpha(GLfloat alpha);
 };
 
+} // namespace gl
+} // namespace nt
 
 #endif // CUBOID_H

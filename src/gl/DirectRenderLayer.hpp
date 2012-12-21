@@ -1,21 +1,23 @@
 #ifndef ALPHA_DIRECTRENDERLAYER_HEADER
 #define ALPHA_DIRECTRENDERLAYER_HEADER
 
-#include "RenderLayer.hpp"
-#include "Renderable.hpp"
-#include "ntgl.h"
+#include "gl/RenderLayer.hpp"
+#include "gl/Renderable.hpp"
+#include "gl/util.h"
 
-#include <iostream>
 #include <vector>
 #include <algorithm>
+
+namespace nt {
+namespace gl {
 
 struct GLTransform
 {
     template <class Scalar>
     static void transform(const Physical<Scalar>& physical)
     {
-        nt::glTranslate(physical.getPosition());
-        nt::glRotateRadians(physical.getRotation());
+        glTranslate(physical.getPosition());
+        glRotateRadians(physical.getRotation());
     }
 };
 
@@ -64,5 +66,8 @@ public:
         }
     }
 };
+
+} // namespace gl
+} // namespace nt
 
 #endif // ALPHA_DIRECTRENDERLAYER_HEADER

@@ -2,8 +2,10 @@
 #include <QMainWindow>
 #include <QDesktopWidget>
 #include <QSize>
-#include "Alpha.h"
+
 #include <GL/glut.h>
+
+#include "Alpha.h"
 
 void centerApp(QMainWindow& window)
 {

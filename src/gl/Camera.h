@@ -4,6 +4,9 @@
 #include "Player.h"
 #include <cmath>
 
+namespace nt {
+namespace gl {
+
 // the beginning of a camera class
 // XXX: most things are public
 class Camera
@@ -63,5 +66,8 @@ private:
 	Rotation _rotation;
 
 };
+
+} // namespace gl
+} // namespace nt
 
 #endif // CAMERA_H

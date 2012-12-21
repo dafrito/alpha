@@ -1,13 +1,15 @@
 #include "Alpha.h"
-#include "ntgl.h"
+
 #include <QKeyEvent>
 #include <QWheelEvent>
-#include <GL/glut.h>
-#include "Vector3.h"
 #include <FTGL/ftgl.h>
-#include <GLOperation.hpp>
+#include <GL/glut.h>
 
-using namespace nt;
+#include "Vector3.h"
+#include "gl/GLOperation.hpp"
+#include "gl/util.h"
+
+namespace nt {
 
 const float TURN_SPEED = M_PI;
 const float PLAYER_MOVESPEED = 50;
@@ -335,7 +337,7 @@ void Alpha::resizeGL(int width, int height)
 	const float aspectRatio = (float) width / height;
 	glMatrixMode(GL_PROJECTION); // determines how the the world is viewed by the user
 	glLoadIdentity(); // set the matrix to an unmodified state
-	nt::setGLFrustum(FOV, aspectRatio, 1, viewDistance);
+	gl::setGLFrustum(FOV, aspectRatio, 1, viewDistance);
 	glMatrixMode(GL_MODELVIEW); // the world and where it is viewed from
 	glLoadIdentity(); // set the matrix to an unmodified state
 }
@@ -356,7 +358,7 @@ void Alpha::paintGL()
 
 	// The world
 	{
-        GLOperation ops;
+        gl::GLOperation ops;
 
         ops.beginQuads();
 		glColor3f(0.1f, 0.65f, 0.1f);
@@ -394,43 +396,43 @@ void Alpha::paintGL()
 	// FIXME: this cube cannot see player2's cube through it when transparent
 	// possibly because of the order drawn, if thats the case then ghosts are out
 	{
-        GLOperation ops;
+        gl::GLOperation ops;
         ops.pushMatrix();
 
 		// mobile objects always need to be rotated and moved within the world
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
 
-		glTranslate(player.position());
+		gl::glTranslate(player.position());
 		glColor3f(1.0f,1.0f,1.0f);
 		font.FaceSize(4);
 		drawCameraOrientedText(camera, &font,player.name(),4);
-		glRotateRadians(player.rotation());
+		gl::glRotateRadians(player.rotation());
 		playerShape.setAlpha(player.alpha());
 		playerShape.draw();
 	}
 
 	// draw the player2
 	{
-        GLOperation ops;
+        gl::GLOperation ops;
         ops.pushMatrix();
 
 		// mobile objects always need to be rotated and moved within the world
 		// this isn't actually rotated within the world, it's rotated within everything
 		// this is fine because the world is never moved or rotated either
-		glTranslate(player2.position());
+		gl::glTranslate(player2.position());
 		glColor3f(1.0f,1.0f,0.0f);
 		font.FaceSize(14);
 		drawCameraOrientedText(camera, &font,player2.name(),-10);
-		glRotateRadians(player2.rotation());
+		gl::glRotateRadians(player2.rotation());
 		playerShape.setAlpha(player2.alpha());
 		playerShape.draw();
 	}
 }
 
-void drawCameraOrientedText(const Camera& camera, FTFont* const font, const char* text, int zOffset)
+void drawCameraOrientedText(const gl::Camera& camera, FTFont* const font, const char* text, int zOffset)
 {
-    GLOperation ops;
+    gl::GLOperation ops;
     ops.pushMatrix();
     const float width = font->BBox(text).Upper().X();
     glTranslatef(0, 0, zOffset + 2 + font->FaceSize());
@@ -547,3 +549,5 @@ void Alpha::showCursor()
 		cursorShown = true;
 	}
 }
+
+} // namespace nt

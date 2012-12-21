@@ -2,9 +2,9 @@
 #define OBJECT_H
 
 #include "Vector3.h"
-#include "ntgl.h"
+#include "gl/util.h"
 
-using namespace nt;
+namespace nt {
 
 class Object
 {
@@ -54,5 +54,7 @@ protected:
 	float _alpha;
 
 };
+
+} // namespace nt
 
 #endif // Object_H

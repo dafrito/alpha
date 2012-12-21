@@ -1,6 +1,9 @@
 #include "MeasuredTimer.h"
+
 #include <QEvent>
 #include <QWidget>
+
+namespace nt {
 
 MeasuredTimer::MeasuredTimer(QObject* const parent, const int msec) :
 	QObject(parent),
@@ -48,3 +51,5 @@ void MeasuredTimer::stop()
 		timer.stop();
 	}
 }
+
+} // namespace nt

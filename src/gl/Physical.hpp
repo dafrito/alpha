@@ -3,6 +3,9 @@
 
 #include "Vector3.h"
 
+namespace nt {
+namespace gl {
+
 /**
  * Represents a position and orientation in Euclidean space.
  */
@@ -29,5 +32,8 @@ public:
         return rotation;
     }
 };
+
+} // namespace gl
+} // namespace nt
 
 #endif // ALPHA_PHYSICAL_HEADER

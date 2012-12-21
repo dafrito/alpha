@@ -1,7 +1,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <GL/glut.h>
-#include "ntgl.h"
+#include "gl/util.h"
 
 #include "CubeGLWidget.h"
 
@@ -119,6 +119,6 @@ void CubeGLWidget::resizeGL(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	nt::setGLFrustum(60, (float) width / height, 1, 800);
+	nt::gl::setGLFrustum(60, (float) width / height, 1, 800);
 	glMatrixMode(GL_MODELVIEW);
 }

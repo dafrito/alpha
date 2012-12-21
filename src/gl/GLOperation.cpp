@@ -1,9 +1,9 @@
-#include "GLOperation.hpp"
+#include "gl/GLOperation.hpp"
 
 #include <GL/gl.h>
 
-namespace nt
-{
+namespace nt {
+namespace gl {
 
 GLOperation& GLOperation::pushMatrix()
 {
@@ -44,4 +44,5 @@ GLOperation::~GLOperation()
     pop();
 }
 
+} // namespace gl
 } // namespace nt

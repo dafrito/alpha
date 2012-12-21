@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <cmath>
 
+using nt::Vector3;
+
 class RotationTests : public QObject
 {
 	Q_OBJECT

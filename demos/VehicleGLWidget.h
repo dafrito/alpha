@@ -35,7 +35,7 @@ class VehicleGLWidget : public QGLWidget
 {
 	Q_OBJECT
 
-	MeasuredTimer timer;
+	nt::MeasuredTimer timer;
 	KeyPad pad;
 	Vehicle car;
 public:

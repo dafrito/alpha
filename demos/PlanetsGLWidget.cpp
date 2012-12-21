@@ -1,8 +1,8 @@
 #include "PlanetsGLWidget.h"
 #include <FTGL/ftgl.h>
-#include "ntgl.h"
+#include "gl/util.h"
 
-using nt::drawText;
+using nt::gl::drawText;
 
 PlanetsGLWidget::PlanetsGLWidget(QWidget* const parent) :
 	AnimatedGLWidget(parent),

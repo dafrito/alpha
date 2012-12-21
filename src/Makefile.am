@@ -9,29 +9,29 @@ libalpha_la_MOC_SOURCES = \
 
 libalpha_la_SOURCES = \
 	$(libalpha_la_MOC_SOURCES) \
-	GLOperation.cpp \
-	GLOperation.hpp \
-	Alpha.cpp \
-	Camera.cpp \
-	Cuboid.cpp \
+	gl/GLOperation.cpp \
+	gl/GLOperation.hpp \
+	gl/Camera.h \
+	gl/Camera.cpp \
+	gl/util.h \
+	gl/util.cpp \
+	gl/Cuboid.cpp \
+	gl/Cuboid.h \
+	gl/RenderLayer.hpp \
+	gl/DirectRenderLayer.hpp \
+	gl/Renderable.hpp \
+	gl/Physical.hpp \
+	math.hpp \
 	MeasuredTimer.cpp \
 	PlayerInput.cpp \
-	ntgl.cpp \
-	Vector3.cpp \
-	Alpha.h \
-	Camera.h \
+	Vector3.h \
 	config.h \
-	Cuboid.h \
 	MeasuredTimer.h \
 	Object.h \
 	Player.h \
 	PlayerInput.h \
-	ntgl.h \
-	RenderLayer.hpp \
-	DirectRenderLayer.hpp \
-	Renderable.hpp \
-	Physical.hpp \
-	Vector3.h
+	Alpha.h \
+	Alpha.cpp
 
 bin_PROGRAMS = alpha
 alpha_CPPFLAGS = $(libalpha_la_CPPFLAGS)
