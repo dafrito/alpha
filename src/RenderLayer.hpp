@@ -12,8 +12,8 @@ public:
      * to allow for optimization for geometry that is either entirely occluded at
      * that position, or for geometry that is too distant to be rendered.
      * <p>
-     * Only the camera transformation and perspective matrix has been set at this
-     * point.
+     * The position given is in the render layer's local coordinates. For instance, a
+     * "world" render layer would have its position relative to the world coordinates.
      */
     virtual void render(const Vector3<Scalar>& position)=0;
 };
