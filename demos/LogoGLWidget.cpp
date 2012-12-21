@@ -1,11 +1,11 @@
+#include "LogoGLWidget.hpp"
+
 #include <QtGui>
 #include <QtOpenGL>
 #include <GL/glext.h>
+#include <cmath>
 
-#include <math.h>
-
-#include "LogoGLWidget.h"
-#include "Logo.h"
+#include "Logo.hpp"
 
 LogoGLWidget::LogoGLWidget(QWidget* const parent) :
 	GLWidget(parent),

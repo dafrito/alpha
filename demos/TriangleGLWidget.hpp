@@ -1,7 +1,7 @@
 #ifndef TRIANGLEGLWIDGET_H
 #define TRIANGLEGLWIDGET_H
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 
 /**
  * Draws two triangles on the screen. These triangles are "front-facing", which

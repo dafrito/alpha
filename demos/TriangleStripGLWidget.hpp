@@ -1,7 +1,7 @@
 #ifndef TRIANGLESTRIPGLWIDGET_H
 #define TRIANGLESTRIPGLWIDGET_H
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 #include <cmath>
 
 /**

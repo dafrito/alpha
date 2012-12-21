@@ -1,8 +1,8 @@
 #include <QtGui>
 #include <cassert>
 
-#include "StarGLWidget.h"
-#include "StarGLDemo.h"
+#include "StarGLWidget.hpp"
+#include "StarGLDemo.hpp"
 
 StarGLDemo::StarGLDemo(QWidget* const parent) :
 	QWidget(parent),

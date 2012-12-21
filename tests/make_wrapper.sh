@@ -25,7 +25,7 @@ for f in $*; do
     if should_exclude $f; then
         continue;
     fi;
-	className=`basename $f .h`
+	className=`basename $f .hpp`
 	echo
 	echo "    $className test_$className;"
 	echo "    QTest::qExec(&test_$className, argc, argv);"

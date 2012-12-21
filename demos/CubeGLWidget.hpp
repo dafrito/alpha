@@ -5,7 +5,7 @@
 #include <QColor>
 #include <QVector3D>
 
-#include "AnimatedGLWidget.h"
+#include "AnimatedGLWidget.hpp"
 
 // TODO Replace this with Cuboid
 struct Cube

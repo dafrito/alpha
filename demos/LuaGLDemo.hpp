@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QLineEdit>
-#include "LuaGLWidget.h"
+#include "LuaGLWidget.hpp"
 #include <lua-cxx/LuaEnvironment.hpp>
 
 class LuaGLDemo : public QWidget

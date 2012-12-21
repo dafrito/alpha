@@ -2,8 +2,8 @@
 #include <QtOpenGL>
 #include <FTGL/ftgl.h>
 
-#include "FontGLWidget.h"
-#include "gl/util.h"
+#include "FontGLWidget.hpp"
+#include "gl/util.hpp"
 
 FontGLWidget::FontGLWidget(QWidget* const parent) :
 	AnimatedGLWidget(parent),

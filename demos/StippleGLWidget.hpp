@@ -1,7 +1,7 @@
 #ifndef STIPPLEGLWIDGET_H
 #define STIPPLEGLWIDGET_H
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 #include <cmath>
 
 class StippleGLWidget : public GLWidget

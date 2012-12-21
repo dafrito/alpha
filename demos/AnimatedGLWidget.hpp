@@ -3,8 +3,8 @@
 
 #include <QTime>
 #include <QTimer>
-#include "GLWidget.h"
-#include "MeasuredTimer.h"
+#include "GLWidget.hpp"
+#include "MeasuredTimer.hpp"
 
 QT_BEGIN_NAMESPACE
 class QShowEvent;

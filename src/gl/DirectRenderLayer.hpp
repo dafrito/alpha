@@ -3,7 +3,7 @@
 
 #include "gl/RenderLayer.hpp"
 #include "gl/Renderable.hpp"
-#include "gl/util.h"
+#include "gl/util.hpp"
 
 #include <vector>
 #include <algorithm>

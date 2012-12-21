@@ -1,7 +1,7 @@
 #ifndef FONTGLWIDGET_H
 #define FONTGLWIDGET_H
 
-#include "AnimatedGLWidget.h"
+#include "AnimatedGLWidget.hpp"
 
 class FontGLWidget : public AnimatedGLWidget
 {

@@ -1,8 +1,8 @@
+#include "StarGLWidget.hpp"
+
 #include <QtGui>
 #include <QtOpenGL>
 #include <cmath>
-
-#include "StarGLWidget.h"
 
 StarGLWidget::StarGLWidget(QWidget* const parent) :
 	GLWidget(parent),

@@ -1,8 +1,8 @@
-#include <QtGui>
+#include "LuaGLDemo.hpp"
 
-#include "LuaGLDemo.h"
-#include <lua-cxx/LuaGlobal.hpp>
+#include <QtGui>
 #include <iostream>
+#include <lua-cxx/LuaGlobal.hpp>
 #include <lua-cxx/LuaException.hpp>
 
 LuaGLDemo::LuaGLDemo(QWidget* const parent) :

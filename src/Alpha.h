@@ -7,11 +7,11 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
-#include "MeasuredTimer.h"
-#include "Player.h"
-#include "gl/Camera.h"
+#include "MeasuredTimer.hpp"
+#include "Player.hpp"
+#include "gl/Camera.hpp"
 #include "PlayerInput.h"
-#include "gl/Cuboid.h"
+#include "gl/Cuboid.hpp"
 
 class FTPolygonFont;
 

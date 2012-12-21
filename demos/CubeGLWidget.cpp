@@ -1,9 +1,9 @@
 #include <cassert>
 #include <cstdlib>
 #include <GL/glut.h>
-#include "gl/util.h"
+#include "gl/util.hpp"
 
-#include "CubeGLWidget.h"
+#include "CubeGLWidget.hpp"
 
 const int HALF_RANGE = 200;
 const int MAX_VELOCITY = 3;

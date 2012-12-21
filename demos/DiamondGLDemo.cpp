@@ -1,8 +1,8 @@
 #include <QtGui>
 #include <cassert>
 
-#include "DiamondGLWidget.h"
-#include "DiamondGLDemo.h"
+#include "DiamondGLWidget.hpp"
+#include "DiamondGLDemo.hpp"
 
 DiamondGLDemo::DiamondGLDemo(QWidget* const parent) :
 	QWidget(parent),

@@ -1,4 +1,5 @@
-#include "VehicleGLWidget.h"
+#include "VehicleGLWidget.hpp"
+
 #include <QKeyEvent>
 #include <cmath>
 

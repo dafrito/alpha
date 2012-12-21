@@ -23,7 +23,7 @@ demo_MOC_SOURCES = \
 
 demo_SOURCES = \
 	$(demo_MOC_SOURCES) \
-	GLWidget.h \
+	GLWidget.hpp \
 	GLWidget.cpp \
 	AnimatedGLWidget.cpp \
 	CubeGLWidget.cpp \
@@ -40,40 +40,37 @@ demo_SOURCES = \
 	StarGLDemo.cpp \
 	StarGLWidget.cpp \
 	VehicleGLWidget.cpp \
-	AnimatedGLWidget.h \
-	BlankGLWidget.h \
-	CubeGLWidget.h \
-	DemoTabWidget.h \
-	DiamondGLDemo.h \
-	DiamondGLWidget.h \
-	FilmRollGLWidget.h \
-	FontGLWidget.h \
-	GLWidget.h \
-	Heights.h \
-	LogoGLWidget.h \
-	Logo.h \
-	LuaGLDemo.h \
-	LuaGLWidget.h \
-	PlanetsGLWidget.h \
-	RandomStippleGLWidget.h \
-	RotatableGLDemo.h \
-	SpiralGLWidget.h \
-	SpiralLinesGLWidget.h \
-	StarGLDemo.h \
-	StarGLWidget.h \
-	StippleGLWidget.h \
-	TorusGLWidget.h \
-	TriangleGLWidget.h \
-	TriangleStripGLWidget.h \
-	VehicleGLWidget.h \
+	AnimatedGLWidget.hpp \
+	BlankGLWidget.hpp \
+	CubeGLWidget.hpp \
+	DemoTabWidget.hpp \
+	DiamondGLDemo.hpp \
+	DiamondGLWidget.hpp \
+	FilmRollGLWidget.hpp \
+	FontGLWidget.hpp \
+	GLWidget.hpp \
+	Heights.hpp \
+	LogoGLWidget.hpp \
+	Logo.hpp \
+	LuaGLDemo.hpp \
+	LuaGLWidget.hpp \
+	PlanetsGLWidget.hpp \
+	RandomStippleGLWidget.hpp \
+	RotatableGLDemo.hpp \
+	SpiralGLWidget.hpp \
+	SpiralLinesGLWidget.hpp \
+	StarGLDemo.hpp \
+	StarGLWidget.hpp \
+	StippleGLWidget.hpp \
+	TorusGLWidget.hpp \
+	TriangleGLWidget.hpp \
+	TriangleStripGLWidget.hpp \
+	VehicleGLWidget.hpp \
 	main.cpp
 
 mostlyclean-local:
 	rm -f $(demo_MOC_SOURCES)
 .PHONY: mostlyclean-local
-
-moc_%.cpp: %.h
-	@QT_MOC@ -o $@ $<
 
 moc_%.cpp: %.hpp
 	@QT_MOC@ -o $@ $<

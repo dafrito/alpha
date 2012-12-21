@@ -1,7 +1,7 @@
 #ifndef FILMROLLGLWIDGET_H
 #define FILMROLLGLWIDGET_H
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 #include <cmath>
 
 class FilmRollGLWidget : public GLWidget

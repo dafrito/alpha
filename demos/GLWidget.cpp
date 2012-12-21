@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 
 #ifndef GL_MULTISAMPLE
 #define GL_MULTISAMPLE  0x809D

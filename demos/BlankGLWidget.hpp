@@ -1,7 +1,7 @@
 #ifndef BLANKGLWIDGET_H
 #define BLANKGLWIDGET_H
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 
 class BlankGLWidget : public GLWidget
 {

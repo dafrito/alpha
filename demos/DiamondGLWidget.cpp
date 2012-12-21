@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-#include "DiamondGLWidget.h"
+#include "DiamondGLWidget.hpp"
 
 typedef QList<QVector3D>::const_iterator PointIter;
 

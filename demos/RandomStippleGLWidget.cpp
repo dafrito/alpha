@@ -1,8 +1,7 @@
+#include "RandomStippleGLWidget.hpp"
+
 #include <cassert>
 #include <cstdlib>
-
-#include "RandomStippleGLWidget.h"
-
 
 RandomStippleGLWidget::RandomStippleGLWidget(QWidget* const parent) :
 	GLWidget(parent)

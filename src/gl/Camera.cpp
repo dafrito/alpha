@@ -1,6 +1,6 @@
-#include "gl/Camera.h"
+#include "gl/Camera.hpp"
 
-#include "gl/util.h"
+#include "gl/util.hpp"
 #include <cassert>
 
 namespace nt {

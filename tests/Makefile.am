@@ -9,7 +9,7 @@ test_suites =         \
 	RenderLayerTests \
 	Vector3Tests
 
-runtest_SOURCES = tests.cpp $(addsuffix .h, $(test_suites))
+runtest_SOURCES = tests.cpp $(addsuffix .hpp, $(test_suites))
 
 runtest_MOC_SOURCES = \
 	moc_RotationTests.cpp \
@@ -22,11 +22,11 @@ mostlyclean-local:
 	rm -f $(runtest_MOC_SOURCES)
 .PHONY: mostlyclean-local
 
-tests.cpp: make_wrapper.sh $(addsuffix .h, $(test_suites))
+tests.cpp: make_wrapper.sh $(addsuffix .hpp, $(test_suites))
 	rm -f $@
 	$(top_srcdir)/tests/make_wrapper.sh $^ >$@-wip
 	mv $@-wip $@
 	chmod -w $@
 
-moc_%.cpp: %.h
+moc_%.cpp: %.hpp
 	@QT_MOC@ -o $@ $<

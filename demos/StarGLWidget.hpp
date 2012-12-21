@@ -3,7 +3,7 @@
 
 #include <QVector3D>
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 
 class StarGLWidget : public GLWidget
 {

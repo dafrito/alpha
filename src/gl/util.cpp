@@ -1,4 +1,4 @@
-#include "gl/util.h"
+#include "gl/util.hpp"
 
 #include <cmath>
 

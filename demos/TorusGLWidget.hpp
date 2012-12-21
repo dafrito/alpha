@@ -1,7 +1,7 @@
 #ifndef TORUSGLWIDGET_H
 #define TORUSGLWIDGET_H
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 #include <cassert>
 #include <cmath>
 

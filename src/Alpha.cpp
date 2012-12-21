@@ -5,9 +5,9 @@
 #include <FTGL/ftgl.h>
 #include <GL/glut.h>
 
-#include "Vector3.h"
+#include "Vector3.hpp"
 #include "gl/GLOperation.hpp"
-#include "gl/util.h"
+#include "gl/util.hpp"
 
 namespace nt {
 

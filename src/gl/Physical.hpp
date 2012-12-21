@@ -1,7 +1,7 @@
 #ifndef ALPHA_PHYSICAL_HEADER
 #define ALPHA_PHYSICAL_HEADER
 
-#include "Vector3.h"
+#include "Vector3.hpp"
 
 namespace nt {
 namespace gl {

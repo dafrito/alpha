@@ -4,7 +4,7 @@
 #include <QList>
 #include <QColor>
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 
 /**
  * Draws a series of horizontal lines on the screen. The lines vary by the

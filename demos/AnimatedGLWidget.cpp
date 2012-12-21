@@ -1,4 +1,4 @@
-#include "AnimatedGLWidget.h"
+#include "AnimatedGLWidget.hpp"
 
 AnimatedGLWidget::AnimatedGLWidget(QWidget* const parent) :
 	GLWidget(parent),

@@ -3,7 +3,7 @@
 
 #include <QGLWidget>
 #include <QVector3D>
-#include "MeasuredTimer.h"
+#include "MeasuredTimer.hpp"
 
 struct Vehicle
 {

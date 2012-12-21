@@ -3,10 +3,10 @@
 
 #include <QVector3D>
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 #include <lua-cxx/LuaEnvironment.hpp>
-#include "Heights.h"
-#include "MeasuredTimer.h"
+#include "Heights.hpp"
+#include "MeasuredTimer.hpp"
 
 using namespace std;
 

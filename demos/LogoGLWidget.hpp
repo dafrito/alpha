@@ -1,7 +1,7 @@
 #ifndef LOGOGLWIDGET_H
 #define LOGOWGLIDGET_H
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 
 class Logo;
 

@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Player.h"
+#include "Player.hpp"
 #include <cmath>
 
 namespace nt {

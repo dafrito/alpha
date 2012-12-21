@@ -4,7 +4,7 @@
 
 #include <qmath.h>
 
-#include "Logo.h"
+#include "Logo.hpp"
 
 static const qreal bar_thickness = 0.10;
 static const qreal logo_depth = 0.10;

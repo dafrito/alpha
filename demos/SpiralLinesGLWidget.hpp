@@ -1,7 +1,7 @@
 #ifndef SPIRALLINESGLWIDGET_H
 #define SPIRALLINESGLWIDGET_H
 
-#include "GLWidget.h"
+#include "GLWidget.hpp"
 #include <cmath>
 
 class SpiralLinesGLWidget : public GLWidget

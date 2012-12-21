@@ -1,4 +1,4 @@
-#include "MeasuredTimer.h"
+#include "MeasuredTimer.hpp"
 
 #include <QEvent>
 #include <QWidget>

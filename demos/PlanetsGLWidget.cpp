@@ -1,6 +1,7 @@
-#include "PlanetsGLWidget.h"
+#include "PlanetsGLWidget.hpp"
+
 #include <FTGL/ftgl.h>
-#include "gl/util.h"
+#include "gl/util.hpp"
 
 using nt::gl::drawText;
 

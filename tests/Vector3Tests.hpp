@@ -1,6 +1,6 @@
 #include <QtTest/QtTest>
-#include "Vector3.h"
-#include "gl/util.h"
+#include <Vector3.hpp>
+#include <gl/util.hpp>
 #include <QDebug>
 
 using nt::Vector3;

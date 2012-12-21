@@ -11,12 +11,12 @@ libalpha_la_SOURCES = \
 	$(libalpha_la_MOC_SOURCES) \
 	gl/GLOperation.cpp \
 	gl/GLOperation.hpp \
-	gl/Camera.h \
+	gl/Camera.hpp \
 	gl/Camera.cpp \
-	gl/util.h \
+	gl/util.hpp \
 	gl/util.cpp \
 	gl/Cuboid.cpp \
-	gl/Cuboid.h \
+	gl/Cuboid.hpp \
 	gl/RenderLayer.hpp \
 	gl/DirectRenderLayer.hpp \
 	gl/Renderable.hpp \
@@ -24,11 +24,11 @@ libalpha_la_SOURCES = \
 	math.hpp \
 	MeasuredTimer.cpp \
 	PlayerInput.cpp \
-	Vector3.h \
+	Vector3.hpp \
 	config.h \
-	MeasuredTimer.h \
-	Object.h \
-	Player.h \
+	MeasuredTimer.hpp \
+	Object.hpp \
+	Player.hpp \
 	PlayerInput.h \
 	Alpha.h \
 	Alpha.cpp
