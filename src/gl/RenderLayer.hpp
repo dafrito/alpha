@@ -19,6 +19,7 @@ public:
      * "world" render layer would have its position relative to the world coordinates.
      */
     virtual void render(const Vector3<Scalar>& position)=0;
+    virtual ~RenderLayer() {}
 };
 
 } // namespace gl
