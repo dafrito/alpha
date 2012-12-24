@@ -93,25 +93,12 @@ void Cuboid::draw()
 	 _width, _length,-_height, // v2
  	};
 
- 	GLubyte indices[] = {
-		 0, 1, 2, 3,
-		 4, 5, 6, 7,
-		 8, 9,10,11,
-		12,13,14,15,
-		16,17,18,19,
-		20,21,22,23
-	};
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-
-	glColorPointer(4, GL_FLOAT, 0, _colors);
-	glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, indices);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
+    glBegin(GL_QUADS);
+    for (int i = 0; i < 24; ++i) {
+        glColor4f(_colors[i*4], _colors[i*4 + 1], _colors[i*4 + 2], _colors[i*4 + 3]);
+        glVertex3f(vertices[i*3], vertices[i*3 + 1], vertices[i*3 + 2]);
+    }
+    glEnd();
 }
 
 } // namespace nt
