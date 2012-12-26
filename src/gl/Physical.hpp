@@ -16,20 +16,18 @@ public:
     typedef Vector3<Scalar> Position;
     typedef Vector3<Scalar> Rotation;
 
-protected:
-    Position position;
-    Rotation rotation;
-
+    Position _position;
+    Rotation _rotation;
 public:
 
     const Position& getPosition() const
     {
-        return position;
+        return _position;
     }
 
     const Rotation& getRotation() const
     {
-        return rotation;
+        return _rotation;
     }
 };
 
