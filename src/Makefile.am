@@ -19,6 +19,7 @@ libalpha_la_SOURCES = \
 	gl/Cuboid.hpp \
 	gl/RenderLayer.hpp \
 	gl/DirectRenderLayer.hpp \
+	gl/VoxmapRenderLayer.hpp \
 	gl/Renderable.hpp \
 	gl/Physical.hpp \
 	math.hpp \
