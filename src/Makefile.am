@@ -30,6 +30,7 @@ libalpha_la_SOURCES = \
 	Object.hpp \
 	Player.hpp \
 	PlayerInput.h \
+	ArrayVoxmap.hpp \
 	gl/Viewport.hpp \
 	gl/Viewport.cpp \
 	Alpha.h \
