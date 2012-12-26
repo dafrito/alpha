@@ -34,7 +34,7 @@ class DirectRenderLayer : public RenderLayer<Scalar>, private Transformer
 {
 public:
     typedef Renderable<Scalar, Renderer> RenderableType;
-    typedef std::vector<RenderableType*> RenderableList;
+    typedef std::vector<RenderableType> RenderableList;
 
 protected:
     RenderableList renderables;
@@ -42,13 +42,13 @@ protected:
 public:
     void add(Renderable<Scalar, Renderer>& renderable)
     {
-        renderables.push_back(&renderable);
+        renderables.push_back(renderable);
     }
 
     void remove(Renderable<Scalar, Renderer>& renderable)
     {
         typename RenderableList::iterator pos =
-            std::remove(renderables.begin(), renderables.end(), &renderable);
+            std::remove(renderables.begin(), renderables.end(), renderable);
         renderables.erase(pos, renderables.end());
     }
 
@@ -60,8 +60,8 @@ public:
     void render(const Vector3<Scalar>& position)
     {
         for (typename RenderableList::const_iterator i = renderables.begin(); i != renderables.end(); ++i) {
-            const RenderableType* const renderable = *i;
-            this->transform(*renderable->physical);
+            const Renderable& renderable(*i);
+            this->transform(renderable->physical);
             renderable->renderer();
         }
     }
