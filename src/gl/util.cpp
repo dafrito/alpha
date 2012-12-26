@@ -17,14 +17,34 @@ void setGLFrustum(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar)
 	glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
 }
 
-void glVertex(const QVector3D& vec)
+void glVertex(const float& x, const float& y, const float& z)
 {
-	glVertex3d(vec.x(), vec.y(), vec.z());
+    glVertex3f(x, y, z);
 }
 
-void glNormal(const QVector3D& vec)
+void glVertex(const double& x, const double& y, const double& z)
 {
-	glNormal3d(vec.x(), vec.y(), vec.z());
+    glVertex3d(x, y, z);
+}
+
+void glNormal(const float& x, const float& y, const float& z)
+{
+    glNormal3f(x, y, z);
+}
+
+void glNormal(const double& x, const double& y, const double& z)
+{
+    glNormal3d(x, y, z);
+}
+
+void glTranslate(const float& x, const float& y, const float& z)
+{
+    glTranslatef(x, y, z);
+}
+
+void glTranslate(const double& x, const double& y, const double& z)
+{
+    glTranslated(x, y, z);
 }
 
 void drawText(FTFont& font, const char* text, int yOffset)
