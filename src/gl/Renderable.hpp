@@ -19,7 +19,7 @@ struct Renderable
 
     Renderable(
         Physical<Scalar>* const physical,
-        Renderer renderer) :
+        Renderer* const renderer) :
         physical(physical),
         renderer(renderer)
     {}
