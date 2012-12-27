@@ -4,7 +4,8 @@ runtest_LDADD = @QT_LIBS@ @LUA_CXX_LIBS@ @FREETYPE2_LIBS@ @FTGL_LIBS@ @LUA_LIB@ 
 
 TESTS = $(check_PROGRAMS)
 
-test_suites =         \
+test_suites = \
+	VoxmapTests \
 	RotationTests \
 	RenderLayerTests \
 	Vector3Tests
@@ -12,6 +13,7 @@ test_suites =         \
 runtest_SOURCES = tests.cpp $(addsuffix .hpp, $(test_suites))
 
 runtest_MOC_SOURCES = \
+	moc_VoxmapTests.cpp \
 	moc_RotationTests.cpp \
 	moc_RenderLayerTests.cpp \
 	moc_Vector3Tests.cpp
