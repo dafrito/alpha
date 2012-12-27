@@ -17,7 +17,8 @@ void PerspectiveProjection::apply(const Box2<int>& viewArea) const
     glLoadIdentity();
     gl::setGLFrustum(
         _fov,
-        (float)(viewArea.width() / viewArea.height()),
+        static_cast<float>(viewArea.width()) /
+        static_cast<float>(viewArea.height()),
         1,
         _viewDistance
     );
