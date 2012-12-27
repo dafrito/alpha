@@ -16,8 +16,11 @@ public:
         _voxmap(),
         _size()
     {}
+    ArrayVoxmap(const Vector3<int>& size) :
+        _voxmap(size.x() * size.y() * size.z()),
+        _size(size)
+    {}
 
-    ArrayVoxmap(const Vector3<int>& size);
     const Vector3<int>& size() const;
 
     Voxel get(const int x, const int y, const int z) const;
