@@ -16,7 +16,7 @@ public:
      * that position, or for geometry that is too distant to be rendered.
      * <p>
      * The position given is in the render layer's local coordinates. For instance, a
-     * "world" render layer would have its position relative to the world coordinates.
+     * "world" render layer would have its position relative to the world origin.
      */
     virtual void render(const Vector3<Scalar>& position)=0;
     virtual ~RenderLayer() {}
