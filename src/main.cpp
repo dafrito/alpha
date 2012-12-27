@@ -61,5 +61,5 @@ int main(int argc, char *argv[])
     gui.setWindowTitle("Alpha");
     centerApp(gui);
 
-    return runLegacyAlpha(app, gui);
+    return runAlpha(app, gui);
 }
