@@ -9,6 +9,7 @@ libalpha_la_MOC_SOURCES = \
 
 libalpha_la_SOURCES = \
 	$(libalpha_la_MOC_SOURCES) \
+	config.h \
 	gl/GLOperation.cpp \
 	gl/GLOperation.hpp \
 	gl/Camera.hpp \
@@ -27,7 +28,6 @@ libalpha_la_SOURCES = \
 	PlayerInput.cpp \
 	Vector3.hpp \
 	Box2.hpp \
-	config.h \
 	MeasuredTimer.hpp \
 	Object.hpp \
 	Player.hpp \
