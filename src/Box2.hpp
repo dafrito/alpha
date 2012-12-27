@@ -14,6 +14,24 @@ class Box2
     Scalar _bottom;
 
 public:
+    Box2(
+        const Scalar& left,
+        const Scalar& right,
+        const Scalar& top,
+        const Scalar& bottom) :
+        _left(left),
+        _right(right),
+        _top(top),
+        _bottom(bottom)
+    {}
+
+    Box2() :
+        _left(),
+        _right(),
+        _top(),
+        _bottom()
+    {}
+
     const Scalar& left() const;
     const Scalar& right() const;
     const Scalar& top() const;
