@@ -9,7 +9,7 @@ void Screen::render(const Box2<int>& screenArea) const
 {
     glEnable(GL_SCISSOR_TEST);
     glScissor(screenArea);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for (std::vector<ViewportEntry>::const_iterator i = viewports.begin(); i != viewports.end(); ++i) {
         Box2<int> viewportArea;
