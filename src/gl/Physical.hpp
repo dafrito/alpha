@@ -20,9 +20,19 @@ public:
     Rotation _rotation;
 public:
 
+    Position& getPosition()
+    {
+        return _position;
+    }
+
     const Position& getPosition() const
     {
         return _position;
+    }
+
+    Rotation& getRotation()
+    {
+        return _rotation;
     }
 
     const Rotation& getRotation() const
