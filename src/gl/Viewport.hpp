@@ -2,12 +2,13 @@
 #define ALPHA_VIEWPORT_HEADER
 
 #include <vector>
-#include "gl/RenderLayer.hpp"
 #include <GL/gl.h>
-#include "gl/util.hpp"
 #include "Box2.hpp"
+
+#include "gl/RenderLayer.hpp"
 #include "gl/Physical.hpp"
 #include "gl/Projection.hpp"
+#include "gl/util.hpp"
 
 namespace nt {
 namespace gl {
