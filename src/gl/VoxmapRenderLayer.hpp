@@ -44,6 +44,9 @@ void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Vector3<double
     }
 
     const Vector3<int>& size = _voxmap->size();
+    Vector3<Scalar> halfVoxelSize(_voxelSize);
+    halfVoxelSize /= 2;
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
@@ -52,9 +55,9 @@ void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Vector3<double
             for (int z = 0; z < size.z(); ++z) {
                 glPushMatrix();
                 gl::glTranslate(
-                    x * _voxelSize.x(),
-                    y * _voxelSize.y(),
-                    z * _voxelSize.z()
+                    x * _voxelSize.x() + halfVoxelSize.x(),
+                    y * _voxelSize.y() + halfVoxelSize.y(),
+                    z * _voxelSize.z() + halfVoxelSize.z()
                 );
                 (*_renderer)(_voxmap->get(x, y, z), _voxelSize);
                 glPopMatrix();
