@@ -3,9 +3,9 @@
 
 #include "gl/RenderLayer.hpp"
 #include "gl/util.hpp"
-
 #include "gl/Projection.hpp"
-#include "gl/Physical.hpp"
+
+#include "Physical.hpp"
 
 #include <GL/gl.h>
 

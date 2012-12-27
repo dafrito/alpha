@@ -4,7 +4,6 @@
 #include "Vector3.hpp"
 
 namespace nt {
-namespace gl {
 
 /**
  * Represents a position and orientation in Euclidean space.
@@ -41,7 +40,6 @@ public:
     }
 };
 
-} // namespace gl
 } // namespace nt
 
 #endif // ALPHA_PHYSICAL_HEADER

@@ -23,13 +23,13 @@ libalpha_la_SOURCES = \
 	gl/DirectRenderLayer.hpp \
 	gl/VoxmapRenderLayer.hpp \
 	gl/Renderable.hpp \
-	gl/Physical.hpp \
 	gl/Projection.hpp \
 	gl/PerspectiveProjection.cpp \
 	gl/PerspectiveProjection.hpp \
 	math.hpp \
 	MeasuredTimer.cpp \
 	PlayerInput.cpp \
+	Physical.hpp \
 	Vector3.hpp \
 	Box2.hpp \
 	MeasuredTimer.hpp \

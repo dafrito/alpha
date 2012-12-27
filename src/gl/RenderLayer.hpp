@@ -1,7 +1,7 @@
 #ifndef ALPHA_RENDERLAYER_HEADER
 #define ALPHA_RENDERLAYER_HEADER
 
-#include "gl/Physical.hpp"
+#include "Physical.hpp"
 #include "gl/Projection.hpp"
 
 namespace nt {

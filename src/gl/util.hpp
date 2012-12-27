@@ -7,7 +7,7 @@
 
 #include "Vector3.hpp"
 #include "Box2.hpp"
-#include "gl/Physical.hpp"
+#include "Physical.hpp"
 
 namespace {
 const float TO_DEGREES = 180 / M_PI;
