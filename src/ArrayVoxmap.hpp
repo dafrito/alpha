@@ -24,6 +24,7 @@ public:
     const Vector3<int>& size() const;
 
     Voxel get(const int x, const int y, const int z) const;
+    void set(const int x, const int y, const int z, const Voxel& voxel);
 
     void resize(const Vector3<int>& size);
 };
@@ -49,6 +50,11 @@ Voxel ArrayVoxmap<Voxel>::get(const int x, const int y, const int z) const
     return _voxmap.at(x + _size.x() * y + z * _size.x() * _size.y());
 }
 
+template <class Voxel>
+void ArrayVoxmap<Voxel>::set(const int x, const int y, const int z, const Voxel& voxel)
+{
+    _voxmap.at(x + _size.x() * y + z * _size.x() * _size.y()) = voxel;
+}
 
 } // namespace nt
 
