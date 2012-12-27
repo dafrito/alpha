@@ -1,33 +1,26 @@
 #include "Viewport.hpp"
 
-#include <GL/gl.h>
-#include "gl/util.hpp"
-
 namespace nt {
 namespace gl {
 
-void ProjectionPerspective::updatePerspective(const int width, const int height) const
+void ProjectionPerspective::setFOV(const double& fov)
 {
-    // XXX These should eventually be pulled into the Viewport
-    static const double FOV = 65;
-    static const double VIEW_DISTANCE = 800;
+    _fov = fov;
+}
 
-    glViewport(0, 0, width, height);
+const double& ProjectionPerspective::getFOV() const
+{
+    return _fov;
+}
 
-    GLint oldMatrixMode;
-    glGetIntegerv(GL_MATRIX_MODE, &oldMatrixMode);
+void ProjectionPerspective::setViewDistance(const double& viewDistance)
+{
+    _viewDistance = viewDistance;
+}
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gl::setGLFrustum(
-        FOV,
-        (float)(width / height),
-        1,
-        VIEW_DISTANCE
-    );
-
-    // Reset the old mode
-    glMatrixMode(oldMatrixMode);
+const double& ProjectionPerspective::getViewDistance() const
+{
+    return _viewDistance;
 }
 
 } // namespace gl

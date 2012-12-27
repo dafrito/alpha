@@ -4,14 +4,53 @@
 #include <vector>
 #include "gl/RenderLayer.hpp"
 #include "gl/Camera.hpp"
+#include <GL/gl.h>
+#include "gl/util.hpp"
+#include "Box2.hpp"
 
 namespace nt {
 namespace gl {
 
 class ProjectionPerspective
 {
+    double _fov;
+
+    double _viewDistance;
+
+protected:
+
+    ProjectionPerspective() :
+        _fov(65),
+        _viewDistance(800)
+    {}
+
+    void updatePerspective(const Box2<int>& viewArea) const
+    {
+        glViewport(viewArea);
+
+        GLint oldMatrixMode;
+        glGetIntegerv(GL_MATRIX_MODE, &oldMatrixMode);
+
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gl::setGLFrustum(
+            _fov,
+            (float)(viewArea.width() / viewArea.height()),
+            1,
+            _viewDistance
+        );
+
+        // Reset the old mode
+        glMatrixMode(oldMatrixMode);
+    }
+
 public:
-    void updatePerspective(const int width, const int height) const;
+
+    const double& getFOV() const;
+    void setFOV(const double& fov);
+
+    const double& getViewDistance() const;
+    void setViewDistance(const double& viewDistance);
 };
 
 template <typename Scalar, typename Perspective = ProjectionPerspective>
@@ -23,10 +62,16 @@ class Viewport : public Perspective
     RenderLayerList _renderLayers;
 
     Vector3<Scalar> _cameraPos;
-public:
 
-    void render() const
+protected:
+    void updatePerspective(const Box2<int>& viewArea) const;
+
+public:
+    void render(const Box2<int>& viewArea) const
     {
+        updatePerspective(viewArea);
+        glMatrixMode(GL_MODELVIEW);
+
         for (typename RenderLayerList::const_iterator layer = _renderLayers.begin(); layer != _renderLayers.end(); ++layer) {
             (*layer)->render(_cameraPos);
         }
