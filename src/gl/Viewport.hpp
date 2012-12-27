@@ -19,7 +19,7 @@ class Viewport
 
     RenderLayerList _renderLayers;
 
-    const Physical<double>* _camera;
+    Physical<double> _camera;
 
     const Projection* _projection;
 
@@ -31,8 +31,8 @@ public:
     const Projection* getProjection() const;
     void setProjection(const Projection* const projection);
 
-    const Physical<double>* getCamera() const;
-    void setCamera(const Physical<double>* const camera);
+    const Physical<double>& getCamera() const;
+    Physical<double>& getCamera();
 
     void addRenderLayer(const RenderLayer* const layer);
     void removeRenderLayer(const RenderLayer* const layer);
