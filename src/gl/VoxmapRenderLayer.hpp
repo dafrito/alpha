@@ -15,14 +15,14 @@ template <
     typename Voxmap,
     typename VoxRenderer
 >
-class VoxmapRenderLayer : public RenderLayer<Scalar>
+class VoxmapRenderLayer : public RenderLayer
 {
     const Voxmap* _voxmap;
     const VoxRenderer* _renderer;
     Vector3<Scalar> _voxelSize;
 public:
     VoxmapRenderLayer();
-    void render(const Vector3<Scalar>& position);
+    void render(const Vector3<double>& position) const;
     void setVoxmap(Voxmap* const voxmap);
     void setRenderer(VoxRenderer* const voxmap);
     void setVoxelSize(const Vector3<Scalar> voxelSize);

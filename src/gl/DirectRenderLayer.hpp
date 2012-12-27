@@ -44,7 +44,7 @@ struct Renderable
  * a one-to-one representation of rendered geometery to objects.
  */
 template <typename Scalar, typename Renderer>
-class DirectRenderLayer : public RenderLayer<Scalar>
+class DirectRenderLayer : public RenderLayer
 {
 public:
     typedef Renderable<Scalar, Renderer> RenderableType;
@@ -59,7 +59,7 @@ public:
         renderables.push_back(RenderableType(physical, renderer));
     }
 
-    void render(const Vector3<Scalar>&) const
+    void render(const Vector3<double>&) const
     {
         for (typename RenderableList::const_iterator i = renderables.begin(); i != renderables.end(); ++i) {
             const RenderableType& renderable(*i);

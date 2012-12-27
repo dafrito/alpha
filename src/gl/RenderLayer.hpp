@@ -6,7 +6,6 @@
 namespace nt {
 namespace gl {
 
-template <typename Scalar>
 class RenderLayer
 {
 public:
@@ -18,7 +17,7 @@ public:
      * The position given is in the render layer's local coordinates. For instance, a
      * "world" render layer would have its position relative to the world origin.
      */
-    virtual void render(const Vector3<Scalar>& position)=0;
+    virtual void render(const Vector3<double>& position) const=0;
     virtual ~RenderLayer() {}
 };
 
