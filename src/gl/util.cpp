@@ -114,5 +114,15 @@ void glViewport(const Box2<int>& viewArea)
     );
 }
 
+void glScissor(const Box2<int>& viewArea)
+{
+    ::glScissor(
+        viewArea.left(),
+        viewArea.top(),
+        viewArea.width(),
+        viewArea.height()
+    );
+}
+
 } // namespace gl
 } // namespace nt

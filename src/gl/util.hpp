@@ -35,6 +35,8 @@ void glTranslate(const Vector& vec);
 void glTranslate(const float& x, const float& y, const float& z);
 void glTranslate(const double& x, const double& y, const double& z);
 
+void glScissor(const Box2<int>& screenArea);
+
 Vector3<double> getAxisAngles(Vector3<double>& vec);
 
 void glViewport(const Box2<int>& viewArea);
