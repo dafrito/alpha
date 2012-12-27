@@ -5,6 +5,8 @@
 #include "gl/Physical.hpp"
 #include "gl/util.hpp"
 
+#include <GL/gl.h>
+
 #include <vector>
 #include <algorithm>
 
@@ -61,12 +63,18 @@ public:
 
     void render(const Vector3<double>&) const
     {
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+
         for (typename RenderableList::const_iterator i = renderables.begin(); i != renderables.end(); ++i) {
             const RenderableType& renderable(*i);
             glTranslate(renderable.physical->getPosition());
             glRotateRadians(renderable.physical->getRotation());
             renderable.renderer();
         }
+
+        glDisable(GL_CULL_FACE);
+        glDisable(GL_DEPTH_TEST);
     }
 
     int numRenderables() const

@@ -44,6 +44,8 @@ void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Vector3<double
     }
 
     const Vector3<int>& size = _voxmap->size();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
     for (int x = 0; x < size.x(); ++x) {
         for (int y = 0; y < size.y(); ++y) {
@@ -59,6 +61,9 @@ void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Vector3<double
             }
         }
     }
+
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
 }
 
 template <typename Scalar, typename Voxmap, typename VoxRenderer>
