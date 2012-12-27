@@ -24,6 +24,9 @@ libalpha_la_SOURCES = \
 	gl/VoxmapRenderLayer.hpp \
 	gl/Renderable.hpp \
 	gl/Physical.hpp \
+	gl/Projection.hpp \
+	gl/PerspectiveProjection.cpp \
+	gl/PerspectiveProjection.hpp \
 	math.hpp \
 	MeasuredTimer.cpp \
 	PlayerInput.cpp \
