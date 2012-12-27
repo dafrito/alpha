@@ -15,7 +15,6 @@ class Bootstrapper
     typedef Vector3<float> Voxel;
     typedef ArrayVoxmap<Voxel> Voxmap;
 
-
     gl::PerspectiveProjection _projection;
     gl::Viewport _viewport;
     Voxmap _world;
