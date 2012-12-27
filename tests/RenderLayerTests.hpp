@@ -28,10 +28,9 @@ private slots:
         DirectRenderLayer<float, void()> layer;
 
         Physical<float> physical;
-        Renderable<float, void()> dummy(&physical, dummyRender);
 
         QCOMPARE(layer.numRenderables(), 0);
-        layer.add(dummy);
+        layer.add(&physical, dummyRender);
         QCOMPARE(layer.numRenderables(), 1);
 
         FLAG = 0;
@@ -39,7 +38,7 @@ private slots:
         layer.render(origin);
         QCOMPARE(FLAG, 1);
 
-        layer.remove(dummy);
+        layer.remove(&physical, dummyRender);
         QCOMPARE(layer.numRenderables(), 0);
     }
 };

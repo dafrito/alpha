@@ -2,7 +2,7 @@
 #define ALPHA_DIRECTRENDERLAYER_HEADER
 
 #include "gl/RenderLayer.hpp"
-#include "gl/Renderable.hpp"
+#include "gl/Physical.hpp"
 #include "gl/util.hpp"
 
 #include <vector>
@@ -18,6 +18,30 @@ struct GLTransform
     {
         glTranslate(physical.getPosition());
         glRotateRadians(physical.getRotation());
+    }
+};
+
+/**
+ * Represents something that can be rendered. Specifically,
+ * it requires a physical location, as well as a renderer
+ * that can draw the geometry at that location.
+ */
+template <typename Scalar, typename Renderer>
+struct Renderable
+{
+    Physical<Scalar>* physical;
+    Renderer* renderer;
+
+    Renderable(Physical<Scalar>* const physical, Renderer* const renderer) :
+        physical(physical),
+        renderer(renderer)
+    {}
+
+    template <typename U, typename V>
+    bool operator==(const Renderable<U, V>& other)
+    {
+        return physical == other.physical &&
+            renderer == other.renderer;
     }
 };
 
@@ -40,16 +64,18 @@ protected:
     RenderableList renderables;
 
 public:
-    void add(Renderable<Scalar, Renderer>& renderable)
+    void add(Physical<Scalar>* const physical, Renderer* const renderer)
     {
-        renderables.push_back(renderable);
+        renderables.push_back(RenderableType(physical, renderer));
     }
 
-    void remove(Renderable<Scalar, Renderer>& renderable)
+    void render(const Vector3<Scalar>&) const
     {
-        typename RenderableList::iterator pos =
-            std::remove(renderables.begin(), renderables.end(), renderable);
-        renderables.erase(pos, renderables.end());
+        for (typename RenderableList::const_iterator i = renderables.begin(); i != renderables.end(); ++i) {
+            const RenderableType& renderable(*i);
+            this->transform(renderable->physical);
+            renderable.renderer();
+        }
     }
 
     int numRenderables() const
@@ -57,13 +83,12 @@ public:
         return renderables.size();
     }
 
-    void render(const Vector3<Scalar>& position)
+    void remove(Physical<Scalar>* const physical, Renderer* const renderer)
     {
-        for (typename RenderableList::const_iterator i = renderables.begin(); i != renderables.end(); ++i) {
-            const Renderable& renderable(*i);
-            this->transform(renderable->physical);
-            renderable->renderer();
-        }
+        typename RenderableList::iterator pos =
+            std::remove(renderables.begin(), renderables.end(),
+                RenderableType(physical, renderer));
+        renderables.erase(pos, renderables.end());
     }
 };
 
