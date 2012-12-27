@@ -24,7 +24,7 @@ void Viewport::render(const Box2<int>& viewArea) const
     glTransform(_camera);
 
     for (RenderLayerList::const_iterator layer = _renderLayers.begin(); layer != _renderLayers.end(); ++layer) {
-        (*layer)->render(_camera.getPosition());
+        (*layer)->render(_camera, *_projection);
     }
 }
 

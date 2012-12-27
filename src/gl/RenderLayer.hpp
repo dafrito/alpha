@@ -1,7 +1,8 @@
 #ifndef ALPHA_RENDERLAYER_HEADER
 #define ALPHA_RENDERLAYER_HEADER
 
-#include "Vector3.hpp"
+#include "gl/Physical.hpp"
+#include "gl/Projection.hpp"
 
 namespace nt {
 namespace gl {
@@ -17,7 +18,7 @@ public:
      * The position given is in the render layer's local coordinates. For instance, a
      * "world" render layer would have its position relative to the world origin.
      */
-    virtual void render(const Vector3<double>& position) const=0;
+    virtual void render(const Physical<double>& position, const Projection& projection) const=0;
     virtual ~RenderLayer() {}
 };
 

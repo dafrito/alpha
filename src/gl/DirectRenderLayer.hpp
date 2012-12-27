@@ -2,8 +2,10 @@
 #define ALPHA_DIRECTRENDERLAYER_HEADER
 
 #include "gl/RenderLayer.hpp"
-#include "gl/Physical.hpp"
 #include "gl/util.hpp"
+
+#include "gl/Projection.hpp"
+#include "gl/Physical.hpp"
 
 #include <GL/gl.h>
 
@@ -58,7 +60,7 @@ public:
         renderables.push_back(RenderableType(physical, renderer));
     }
 
-    void render(const Vector3<double>&) const
+    void render(const Physical<double>&, const Projection& projection) const
     {
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);

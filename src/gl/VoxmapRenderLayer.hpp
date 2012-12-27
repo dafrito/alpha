@@ -22,7 +22,7 @@ class VoxmapRenderLayer : public RenderLayer
     Vector3<Scalar> _voxelSize;
 public:
     VoxmapRenderLayer();
-    void render(const Vector3<double>& position) const;
+    void render(const Physical<double>&, const Projection&) const;
     void setVoxmap(Voxmap* const voxmap);
     void setRenderer(VoxRenderer* const voxmap);
     void setVoxelSize(const Vector3<Scalar> voxelSize);
@@ -36,7 +36,7 @@ VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::VoxmapRenderLayer() :
 {}
 
 template <typename Scalar, typename Voxmap, typename VoxRenderer>
-void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Vector3<double>& position) const
+void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Physical<double>& position, const Projection&) const
 {
     if  (_voxmap == 0 || _renderer == 0) {
         // Voxmap or render aren't set, so just return
