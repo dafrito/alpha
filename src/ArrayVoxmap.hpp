@@ -10,25 +10,38 @@ template <class Voxel>
 class ArrayVoxmap
 {
     std::vector<Voxel> _voxmap;
-    const Vector3<int> _size;
+    Vector3<int> _size;
 public:
+    ArrayVoxmap() :
+        _voxmap(),
+        _size()
+    {}
+
     ArrayVoxmap(const Vector3<int>& size);
     const Vector3<int>& size() const;
+
+    Voxel get(const int x, const int y, const int z) const;
+
+    void resize(const Vector3<int>& size);
 };
 
-ArrayVoxmap(const Vector3<int>& size) :
-    _voxmap(),
-    _size(size)
-{
-    _voxmap.resize(_size.x() * _size.y() * _size.z());
-}
-
-const Vector3<int>& ArrayVoxmap::size() const
+template <class Voxel>
+const Vector3<int>& ArrayVoxmap<Voxel>::size() const
 {
     return _size;
 }
 
-Voxel& get(const int x, const int y, const int z)
+template <class Voxel>
+void ArrayVoxmap<Voxel>::resize(const Vector3<int>& size)
+{
+    _voxmap.clear();
+    _size.set(0, 0, 0);
+    _voxmap.resize(size.x() * size.y() * size.z());
+    _size = size;
+}
+
+template <class Voxel>
+Voxel ArrayVoxmap<Voxel>::get(const int x, const int y, const int z) const
 {
     return _voxmap.at(x + _size.x() * y + z * _size.x() * _size.y());
 }
