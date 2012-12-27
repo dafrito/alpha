@@ -35,6 +35,8 @@ libalpha_la_SOURCES = \
 	ArrayVoxmap.hpp \
 	gl/Viewport.hpp \
 	gl/Viewport.cpp \
+	gl/Screen.hpp \
+	gl/Screen.cpp \
 	Alpha.h \
 	Alpha.cpp
 
