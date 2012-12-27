@@ -48,11 +48,8 @@ struct Renderable
 template <typename Scalar, typename Renderer>
 class DirectRenderLayer : public RenderLayer
 {
-public:
     typedef Renderable<Scalar, Renderer> RenderableType;
     typedef std::vector<RenderableType> RenderableList;
-
-protected:
     RenderableList renderables;
 
 public:
