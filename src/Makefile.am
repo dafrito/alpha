@@ -5,6 +5,7 @@ libalpha_la_LIBADD = @QT_LIBS@ @LUA_CXX_LIBS@ @FREETYPE2_LIBS@ @FTGL_LIBS@ @LUA_
 # moc-generated source files
 libalpha_la_MOC_SOURCES = \
 	moc_Alpha.cpp \
+	moc_ScreenGLWidget.cpp \
 	moc_MeasuredTimer.cpp
 
 libalpha_la_SOURCES = \
@@ -37,6 +38,8 @@ libalpha_la_SOURCES = \
 	gl/Viewport.cpp \
 	gl/Screen.hpp \
 	gl/Screen.cpp \
+	gl/ScreenGLWidget.hpp \
+	gl/ScreenGLWidget.cpp \
 	Alpha.h \
 	Alpha.cpp
 
@@ -55,4 +58,7 @@ moc_%.cpp: %.h
 	@QT_MOC@ -o $@ $<
 
 moc_%.cpp: %.hpp
+	@QT_MOC@ -o $@ $<
+
+moc_%.cpp: gl/%.hpp
 	@QT_MOC@ -o $@ $<
