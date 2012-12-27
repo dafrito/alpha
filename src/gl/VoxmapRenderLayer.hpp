@@ -17,47 +17,67 @@ template <
 >
 class VoxmapRenderLayer : public RenderLayer<Scalar>
 {
-    const Voxmap& voxmap;
-    const VoxRenderer& renderer;
-    const Vector3<Scalar> bitSize;
+    const Voxmap* _voxmap;
+    const VoxRenderer* _renderer;
+    Vector3<Scalar> _voxelSize;
 public:
-    VoxmapRenderLayer(
-        const Voxmap& voxmap,
-        const VoxRenderer& renderer,
-        const Vector3<Scalar> bitSize);
-
+    VoxmapRenderLayer();
     void render(const Vector3<Scalar>& position);
+    void setVoxmap(Voxmap* const voxmap);
+    void setRenderer(VoxRenderer* const voxmap);
+    void setVoxelSize(const Vector3<Scalar> voxelSize);
 };
 
-VoxmapRenderLayer::VoxmapRenderLayer(
-    const Voxmap& voxmap,
-    const VoxRenderer& renderer,
-    const Vector3<Scalar> bitSize) :
-        voxmap(voxmap),
-        renderer(renderer),
-        bitSize(bitSize)
+template <typename Scalar, typename Voxmap, typename VoxRenderer>
+VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::VoxmapRenderLayer() :
+    _voxmap(0),
+    _renderer(0),
+    _voxelSize()
 {}
 
-void VoxmapRenderLayer::render(cosnt Vector3<Scalar>& position)
+template <typename Scalar, typename Voxmap, typename VoxRenderer>
+void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Vector3<double>& position) const
 {
-    const Vector3<int>& size = voxmap.size();
+    if  (_voxmap == 0 || _renderer == 0) {
+        // Voxmap or render aren't set, so just return
+        return;
+    }
+
+    const Vector3<int>& size = _voxmap->size();
 
     for (int x = 0; x < size.x(); ++x) {
         for (int y = 0; y < size.y(); ++y) {
             for (int z = 0; z < size.z(); ++z) {
                 glPushMatrix();
                 gl::glTranslate(
-                    x * bitSize.x(),
-                    y * bitSize.y(),
-                    z * bitSize.z()
+                    x * _voxelSize.x(),
+                    y * _voxelSize.y(),
+                    z * _voxelSize.z()
                 );
-                renderer(voxmap.get(x, y, z));
+                (*_renderer)(_voxmap->get(x, y, z), _voxelSize);
                 glPopMatrix();
             }
         }
     }
 }
 
+template <typename Scalar, typename Voxmap, typename VoxRenderer>
+void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::setVoxmap(Voxmap* const voxmap)
+{
+    _voxmap = voxmap;
+}
+
+template <typename Scalar, typename Voxmap, typename VoxRenderer>
+void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::setRenderer(VoxRenderer* const renderer)
+{
+    _renderer = renderer;
+}
+
+template <typename Scalar, typename Voxmap, typename VoxRenderer>
+void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::setVoxelSize(const Vector3<Scalar> voxelSize)
+{
+    _voxelSize = voxelSize;
+}
 
 } // namespace gl
 } // namespace nt
