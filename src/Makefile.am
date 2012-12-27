@@ -43,6 +43,8 @@ libalpha_la_SOURCES = \
 	gl/Screen.cpp \
 	gl/ScreenGLWidget.hpp \
 	gl/ScreenGLWidget.cpp \
+	Bootstrapper.hpp \
+	Bootstrapper.cpp \
 	Alpha.h \
 	Alpha.cpp
 

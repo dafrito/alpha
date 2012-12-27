@@ -6,6 +6,8 @@
 #include <GL/glut.h>
 
 #include "Alpha.h"
+#include "Bootstrapper.hpp"
+#include "gl/ScreenGLWidget.hpp"
 
 void centerApp(QMainWindow& window)
 {
@@ -30,6 +32,26 @@ void centerApp(QMainWindow& window)
     }
 }
 
+int runLegacyAlpha(QApplication& app, QMainWindow& gui)
+{
+    Alpha alpha;
+    gui.setCentralWidget(&alpha);
+
+    return app.exec();
+}
+
+int runAlpha(QApplication& app, QMainWindow& gui)
+{
+    Bootstrapper alphaBootstrapper;
+    nt::gl::ScreenGLWidget screenWidget;
+
+    screenWidget.setScreen(&alphaBootstrapper.getScreen());
+
+    gui.setCentralWidget(&screenWidget);
+
+    return app.exec();
+}
+
 int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
@@ -39,8 +61,5 @@ int main(int argc, char *argv[])
     gui.setWindowTitle("Alpha");
     centerApp(gui);
 
-    Alpha alpha;
-    gui.setCentralWidget(&alpha);
-
-    return app.exec();
+    return runLegacyAlpha(app, gui);
 }
