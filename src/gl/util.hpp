@@ -6,6 +6,7 @@
 #include <FTGL/ftgl.h>
 
 #include "Vector3.hpp"
+#include "Box2.hpp"
 
 namespace {
 const float TO_DEGREES = 180 / M_PI;
@@ -35,6 +36,10 @@ void glTranslate(const float& x, const float& y, const float& z);
 void glTranslate(const double& x, const double& y, const double& z);
 
 Vector3<double> getAxisAngles(Vector3<double>& vec);
+
+void glViewport(const Box2<int>& viewArea);
+
+// Implementation follows:
 
 template <typename Vector>
 void glVertex(const Vector& vec)

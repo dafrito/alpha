@@ -104,5 +104,15 @@ Vector3<double> getAxisAngles(Vector3<double>& vec)
 	return Rot;
 }
 
+void glViewport(const Box2<int>& viewArea)
+{
+    ::glViewport(
+        viewArea.left(),
+        viewArea.top(),
+        viewArea.width(),
+        viewArea.height()
+    );
+}
+
 } // namespace gl
 } // namespace nt
