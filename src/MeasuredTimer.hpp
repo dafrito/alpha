@@ -20,9 +20,7 @@ class MeasuredTimer : public QObject
 	QElapsedTimer time;
 	QTimer timer;
 public:
-	static const int DEFAULT_RATE = 60;
-
-	MeasuredTimer(QObject* const parent = 0, const int msec = 1000 / DEFAULT_RATE);
+	MeasuredTimer(const int msec, QObject* const parent = 0);
 
 	void startOnShow(QWidget* const widget);
 	bool eventFilter(QObject* obj, QEvent* event);

@@ -12,6 +12,7 @@ const int DRAG = 70;
 const int BRAKE_POWER = 1100;
 const float TURN_SPEED = 1;
 const float ELASTICITY = .3;		// Bounciness after collisions
+const float FPS = 60;
 // end Config
 
 
@@ -25,7 +26,7 @@ const int WALL_SIZE = 10;
 // End
 VehicleGLWidget::VehicleGLWidget(QWidget* const parent) :
 		QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-		timer(this)
+		timer(FPS, this)
 {
 	setFocusPolicy(Qt::ClickFocus);
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));

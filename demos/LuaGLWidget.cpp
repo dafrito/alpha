@@ -11,7 +11,7 @@ using namespace nt;
 
 LuaGLWidget::LuaGLWidget(QWidget* const parent) :
 	GLWidget(parent),
-	timer(this, 1000 / 60)
+	timer(1000 / 60, this)
 {
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
 	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));

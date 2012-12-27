@@ -16,10 +16,11 @@ const float PLAYER_MOVESPEED = 50;
 const float PLAYER_BWD = 0.7; // how fast you move backwards compared to forwards
 const float FOV = 65;
 const float viewDistance = 800;
+const float MAX_FPS = 60;
 
 Alpha::Alpha(QWidget* const parent) :
         QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-        timer(this),
+        timer(1000 / MAX_FPS, this),
         player("Player 1"),
         player2("?"),
         camera(&player),

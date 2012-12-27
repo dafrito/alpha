@@ -5,7 +5,7 @@
 
 namespace nt {
 
-MeasuredTimer::MeasuredTimer(QObject* const parent, const int msec) :
+MeasuredTimer::MeasuredTimer(const int msec, QObject* const parent) :
 	QObject(parent),
 	msec(msec),
 	time(),
