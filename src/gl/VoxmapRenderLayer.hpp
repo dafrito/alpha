@@ -39,7 +39,7 @@ template <typename Scalar, typename Voxmap, typename VoxRenderer>
 void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Physical<double>& position, const Projection&) const
 {
     if  (_voxmap == 0 || _renderer == 0) {
-        // Voxmap or render aren't set, so just return
+        // The voxmap or the voxel renderer isn't set, so just return
         return;
     }
 
