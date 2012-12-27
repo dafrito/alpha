@@ -7,6 +7,7 @@
 
 #include "Vector3.hpp"
 #include "Box2.hpp"
+#include "gl/Physical.hpp"
 
 namespace {
 const float TO_DEGREES = 180 / M_PI;
@@ -34,6 +35,9 @@ template <typename Vector>
 void glTranslate(const Vector& vec);
 void glTranslate(const float& x, const float& y, const float& z);
 void glTranslate(const double& x, const double& y, const double& z);
+
+template <typename Scalar>
+void glTransform(const Physical<Scalar>& physical);
 
 void glScissor(const Box2<int>& screenArea);
 
@@ -110,6 +114,13 @@ void glRotateRadiansBackwards(const Vector3<T, U>& vec)
 {
     glRotated(-vec.x() * TO_DEGREES, 1, 0, 0);
     glRotated(-vec.z() * TO_DEGREES, 0, 0, 1);
+}
+
+template <typename Scalar>
+void glTransform(const Physical<Scalar>& physical)
+{
+    glRotateRadians(physical.getRotation());
+    glTranslate(physical.getPosition());
 }
 
 } // namespace gl

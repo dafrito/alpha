@@ -7,7 +7,7 @@ namespace gl {
 
 Viewport::Viewport() :
     _renderLayers(),
-    _cameraPos(),
+    _camera(0),
     _projection(0)
 {}
 
@@ -20,10 +20,13 @@ void Viewport::render(const Box2<int>& viewArea) const
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glTranslate(_cameraPos);
+
+    if (_camera) {
+        glTransform(*_camera);
+    }
 
     for (RenderLayerList::const_iterator layer = _renderLayers.begin(); layer != _renderLayers.end(); ++layer) {
-        (*layer)->render(_cameraPos);
+        (*layer)->render(_camera->getPosition());
     }
 }
 
@@ -37,6 +40,16 @@ void Viewport::removeRenderLayer(const RenderLayer* const layer)
     RenderLayerList::iterator newEnd =
         std::remove(_renderLayers.begin(), _renderLayers.end(), layer);
     _renderLayers.erase(newEnd, _renderLayers.end());
+}
+
+const Physical<double>* Viewport::getCamera() const
+{
+    return _camera;
+}
+
+void Viewport::setCamera(const Physical<double>* const camera)
+{
+    _camera = camera;
 }
 
 const Projection* Viewport::getProjection() const

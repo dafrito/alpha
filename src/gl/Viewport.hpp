@@ -3,10 +3,10 @@
 
 #include <vector>
 #include "gl/RenderLayer.hpp"
-#include "gl/Camera.hpp"
 #include <GL/gl.h>
 #include "gl/util.hpp"
 #include "Box2.hpp"
+#include "gl/Physical.hpp"
 #include "gl/Projection.hpp"
 
 namespace nt {
@@ -18,7 +18,7 @@ class Viewport
 
     RenderLayerList _renderLayers;
 
-    Vector3<double> _cameraPos;
+    const Physical<double>* _camera;
 
     const Projection* _projection;
 
@@ -29,6 +29,9 @@ public:
 
     const Projection* getProjection() const;
     void setProjection(const Projection* const projection);
+
+    const Physical<double>* getCamera() const;
+    void setCamera(const Physical<double>* const camera);
 
     void addRenderLayer(const RenderLayer* const layer);
     void removeRenderLayer(const RenderLayer* const layer);
