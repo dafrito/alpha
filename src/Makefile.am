@@ -26,6 +26,7 @@ libalpha_la_SOURCES = \
 	MeasuredTimer.cpp \
 	PlayerInput.cpp \
 	Vector3.hpp \
+	Box2.hpp \
 	config.h \
 	MeasuredTimer.hpp \
 	Object.hpp \
