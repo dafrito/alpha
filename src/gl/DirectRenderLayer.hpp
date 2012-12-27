@@ -11,16 +11,6 @@
 namespace nt {
 namespace gl {
 
-struct GLTransform
-{
-    template <class Scalar>
-    static void transform(const Physical<Scalar>& physical)
-    {
-        glTranslate(physical.getPosition());
-        glRotateRadians(physical.getRotation());
-    }
-};
-
 /**
  * Represents something that can be rendered. Specifically,
  * it requires a physical location, as well as a renderer
@@ -53,8 +43,8 @@ struct Renderable
  * drawing the object. This is in contrast with other layers that do not have
  * a one-to-one representation of rendered geometery to objects.
  */
-template <typename Scalar, typename Renderer, typename Transformer = GLTransform>
-class DirectRenderLayer : public RenderLayer<Scalar>, private Transformer
+template <typename Scalar, typename Renderer>
+class DirectRenderLayer : public RenderLayer<Scalar>
 {
 public:
     typedef Renderable<Scalar, Renderer> RenderableType;
@@ -73,7 +63,8 @@ public:
     {
         for (typename RenderableList::const_iterator i = renderables.begin(); i != renderables.end(); ++i) {
             const RenderableType& renderable(*i);
-            this->transform(renderable->physical);
+            glTranslate(renderable.physical->getPosition());
+            glRotateRadians(renderable.physical->getRotation());
             renderable.renderer();
         }
     }
