@@ -39,6 +39,9 @@ void glTranslate(const double& x, const double& y, const double& z);
 template <typename Scalar>
 void glTransform(const Physical<Scalar>& physical);
 
+template <typename Scalar>
+void glReverseTransform(const Physical<Scalar>& physical);
+
 void glScissor(const Box2<int>& screenArea);
 
 Vector3<double> getAxisAngles(Vector3<double>& vec);
@@ -119,8 +122,15 @@ void glRotateRadiansBackwards(const Vector3<T, U>& vec)
 template <typename Scalar>
 void glTransform(const Physical<Scalar>& physical)
 {
-    glRotateRadians(physical.getRotation());
     glTranslate(physical.getPosition());
+    glRotateRadians(physical.getRotation());
+}
+
+template <typename Scalar>
+void glReverseTransform(const Physical<Scalar>& physical)
+{
+    glRotateRadians(physical.getRotation());
+    glTranslate(-physical.getPosition());
 }
 
 } // namespace gl

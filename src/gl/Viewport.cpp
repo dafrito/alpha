@@ -21,7 +21,7 @@ void Viewport::render(const Box2<int>& viewArea) const
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glTransform(_camera);
+    glReverseTransform(_camera);
 
     for (RenderLayerList::const_iterator layer = _renderLayers.begin(); layer != _renderLayers.end(); ++layer) {
         (*layer)->render(_camera, *_projection);
