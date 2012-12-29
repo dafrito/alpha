@@ -6,6 +6,9 @@
 
 namespace nt {
 
+/**
+ * A 3-dimensional map of voxels.
+ */
 template <class Voxel>
 class ArrayVoxmap
 {

@@ -6,6 +6,11 @@
 namespace nt {
 namespace gl {
 
+/**
+ * A projection matrix that creates a "realistic" view of the world.
+ *
+ * @see Projection
+ */
 class PerspectiveProjection : public Projection
 {
     double _fov;

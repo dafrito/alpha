@@ -13,6 +13,15 @@
 namespace nt {
 namespace gl {
 
+/**
+ * A view into a scene of rendered objects.
+ *
+ * A Viewport is roughly a combination of a camera and rendered objects,
+ * organized by their render layer.
+ *
+ * @see Screen
+ * @see RenderLayer
+ */
 class Viewport
 {
     typedef std::vector<const RenderLayer*> RenderLayerList;
@@ -26,6 +35,9 @@ class Viewport
 public:
     Viewport();
 
+    /**
+     * Render the scene into the specified screen coordinates.
+     */
     void render(const Box2<int>& viewArea) const;
 
     const Projection* getProjection() const;

@@ -5,6 +5,9 @@
 
 namespace nt {
 
+/**
+ * A 2-dimensional bounding box.
+ */
 template <typename Scalar>
 class Box2
 {

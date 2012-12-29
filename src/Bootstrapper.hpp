@@ -10,6 +10,14 @@
 
 using namespace nt;
 
+/**
+ * A staging area, as well as a script, to set up the application.
+ *
+ * This class is the place where everything gets started, and as such it houses several
+ * different classes. The complicated behavior should eventually get pushed to better
+ * locations than this class, though it's common to have new concepts live here until
+ * a more suitable design is created.
+ */
 class Bootstrapper
 {
     typedef Vector3<float> Voxel;

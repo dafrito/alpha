@@ -15,29 +15,8 @@
 namespace nt {
 namespace gl {
 
-/**
- * Represents something that can be rendered. Specifically,
- * it requires a physical location, as well as a renderer
- * that can draw the geometry at that location.
- */
 template <typename Scalar, typename Renderer>
-struct Renderable
-{
-    Physical<Scalar>* physical;
-    Renderer* renderer;
-
-    Renderable(Physical<Scalar>* const physical, Renderer* const renderer) :
-        physical(physical),
-        renderer(renderer)
-    {}
-
-    template <typename U, typename V>
-    bool operator==(const Renderable<U, V>& other)
-    {
-        return physical == other.physical &&
-            renderer == other.renderer;
-    }
-};
+struct Renderable;
 
 /**
  * A layer that contains a list of renderable objects. This is called a
@@ -87,6 +66,30 @@ public:
             std::remove(renderables.begin(), renderables.end(),
                 RenderableType(physical, renderer));
         renderables.erase(pos, renderables.end());
+    }
+};
+
+/**
+ * Represents something that can be rendered. Specifically,
+ * it requires a physical location, as well as a renderer
+ * that can draw the geometry at that location.
+ */
+template <typename Scalar, typename Renderer>
+struct Renderable
+{
+    Physical<Scalar>* physical;
+    Renderer* renderer;
+
+    Renderable(Physical<Scalar>* const physical, Renderer* const renderer) :
+        physical(physical),
+        renderer(renderer)
+    {}
+
+    template <typename U, typename V>
+    bool operator==(const Renderable<U, V>& other)
+    {
+        return physical == other.physical &&
+            renderer == other.renderer;
     }
 };
 

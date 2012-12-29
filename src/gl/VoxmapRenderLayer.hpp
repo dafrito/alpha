@@ -10,6 +10,24 @@
 namespace nt {
 namespace gl {
 
+/**
+ * Renders a voxmap.
+ *
+ * This render layer will render a collection of voxels, contained in
+ * a voxmap, at regular intervals on-screen. It assumes each entry in the
+ * voxmap is regularly spaced and uses a constant size, which allows it
+ * to omit having to store physical locations for each voxel. It also uses
+ * a single renderer for all voxels, which also contributes to keeping voxel
+ * data as light as possible.
+ *
+ * When using this class, clients are able to specify the voxel type as well
+ * as the renderer type used to draw them. It's preferable to keep voxel data
+ * as light as possible and lean heavily on the renderer type to draw the
+ * specific voxel.
+ *
+ * @see DirectRenderLayer
+ * @see RenderLayer
+ */
 template <
     typename Scalar,
     typename Voxmap,

@@ -7,6 +7,16 @@
 namespace nt {
 namespace gl {
 
+/**
+ * Represents a method for rendering objects.
+ *
+ * The method of rendering is left intentionally vague. This allows for different objects to
+ * be rendered using a strategy tailored to them. For example, some render layers may render
+ * from a list of objects, while others may render directly using a grid.
+ *
+ * @see DirectRenderLayer
+ * @see VoxmapRenderLayer
+ */
 class RenderLayer
 {
 public:
