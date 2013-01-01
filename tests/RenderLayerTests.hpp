@@ -3,6 +3,7 @@
 
 #include <QtTest/QtTest>
 #include <gl/DirectRenderLayer.hpp>
+#include <gl/PerspectiveProjection.hpp>
 
 namespace
 {
@@ -15,9 +16,6 @@ void dummyRender()
 
 }
 
-using nt::Vector3;
-using namespace nt::gl;
-
 class RenderLayerTests : public QObject
 {
     Q_OBJECT
@@ -25,6 +23,9 @@ private slots:
 
     void testDirectRenderLayer()
     {
+        using namespace nt;
+        using namespace nt::gl;
+
         DirectRenderLayer<float, void()> layer;
 
         Physical<float> physical;
@@ -34,8 +35,9 @@ private slots:
         QCOMPARE(layer.numRenderables(), 1);
 
         FLAG = 0;
-        Vector3<float> origin;
-        layer.render(origin);
+        Physical<double> origin;
+        PerspectiveProjection projection;
+        layer.render(origin, projection);
         QCOMPARE(FLAG, 1);
 
         layer.remove(&physical, dummyRender);
