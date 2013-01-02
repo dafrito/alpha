@@ -24,23 +24,35 @@ class SortedLoop
 {
     typedef std::multiset<LoopEntry> ReceiverList;
     ReceiverList _receivers;
+
+    int _idCount;
 public:
     SortedLoop() :
-        _receivers()
+        _receivers(),
+        _idCount(0)
     {}
 
-    void addReceiver(const std::function<void(const double&)> receiver, const int order);
-    void removeReceiver(const std::function<void(const double&)> receiver, const int order);
     void tick(const double& elapsed) const;
+
+    int addReceiver(const std::function<void(const double&)> receiver, const int order);
+
+    void removeReceiver(const int id);
+
     int numReceivers() const;
 };
 
 struct LoopEntry
 {
-    int order;
+    int id;
     std::function<void(const double&)> receiver;
+    int order;
 
-    LoopEntry(const std::function<void(const double&)>& receiver, const int order);
+    LoopEntry(const int id, std::function<void(const double&)> receiver, const int order) :
+        id(id),
+        receiver(receiver),
+        order(order)
+    {}
+
     bool operator <(const LoopEntry& other) const;
 };
 

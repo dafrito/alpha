@@ -2,14 +2,21 @@
 
 namespace nt {
 
-void SortedLoop::addReceiver(const std::function<void(const double&)> receiver, const int order)
+int SortedLoop::addReceiver(std::function<void(const double&)> receiver, const int order)
 {
-    _receivers.insert(LoopEntry(receiver, order));
+    int id = _idCount++;
+    _receivers.insert(LoopEntry(id, receiver, order));
+    return id;
 }
 
-void SortedLoop::removeReceiver(const std::function<void(const double&)> receiver, const int order)
+void SortedLoop::removeReceiver(const int id)
 {
-    _receivers.erase(LoopEntry(receiver, order));
+    for (typename ReceiverList::const_iterator i = _receivers.begin(); i != _receivers.end(); ++i) {
+        if (i->id == id) {
+            _receivers.erase(i);
+            return;
+        }
+    }
 }
 
 void SortedLoop::tick(const double& elapsed) const
@@ -23,11 +30,6 @@ int SortedLoop::numReceivers() const
 {
     return _receivers.size();
 }
-
-LoopEntry::LoopEntry(const std::function<void(const double&)>& receiver, const int order) :
-    order(order),
-    receiver(receiver)
-{}
 
 bool LoopEntry::operator <(const LoopEntry& other) const
 {

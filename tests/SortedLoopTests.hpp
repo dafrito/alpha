@@ -40,9 +40,9 @@ private slots:
     {
         nt::SortedLoop loop;
         QCOMPARE(loop.numReceivers(), 0);
-        loop.addReceiver(firstReceiver, 0);
+        int receiverId = loop.addReceiver(firstReceiver, 0);
         QCOMPARE(loop.numReceivers(), 1);
-        loop.removeReceiver(firstReceiver, 0);
+        loop.removeReceiver(receiverId);
         QCOMPARE(loop.numReceivers(), 0);
     }
 
@@ -61,6 +61,20 @@ private slots:
 
         QCOMPARE(FIRST_FLAG, true);
         QCOMPARE(SECOND_FLAG, true);
+    }
+
+    void testSortedLoopIsSpecificWhenRemovingElements()
+    {
+        FIRST_FLAG = false;
+        SECOND_FLAG = false;
+
+        nt::SortedLoop loop;
+
+        int id = loop.addReceiver(firstReceiver, 1);
+        loop.addReceiver(secondReceiver, 1);
+        QCOMPARE(loop.numReceivers(), 2);
+        loop.removeReceiver(id);
+        QCOMPARE(loop.numReceivers(), 1);
     }
 };
 
