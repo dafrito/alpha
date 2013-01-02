@@ -16,7 +16,7 @@ int SystemLoop::addTimelessSystem(const std::function<void()> system, const int 
 
 void SystemLoop::removeSystem(const int id)
 {
-    for (typename SystemList::const_iterator i = _systems.begin(); i != _systems.end(); ++i) {
+    for (auto i = begin(_systems); i != end(_systems); ++i) {
         if (i->id == id) {
             _systems.erase(i);
             return;
@@ -26,8 +26,8 @@ void SystemLoop::removeSystem(const int id)
 
 void SystemLoop::tick(const double& elapsed) const
 {
-    for (typename SystemList::const_iterator i = _systems.begin(); i != _systems.end(); ++i) {
-        i->system(elapsed);
+    for (auto entry : _systems) {
+        entry.system(elapsed);
     }
 }
 

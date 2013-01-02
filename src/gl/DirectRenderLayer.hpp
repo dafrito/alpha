@@ -45,8 +45,7 @@ public:
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
 
-        for (typename RenderableList::const_iterator i = renderables.begin(); i != renderables.end(); ++i) {
-            const RenderableType& renderable(*i);
+        for (auto renderable : renderables) {
             glTranslate(renderable.physical->getPosition());
             glRotateRadians(renderable.physical->getRotation());
             renderable.renderer();
@@ -63,10 +62,12 @@ public:
 
     void remove(Physical<Scalar>* const physical)
     {
-        typename RenderableList::iterator pos =
-            std::remove_if(renderables.begin(), renderables.end(),
-                [&](const Renderable<Scalar>& renderable){ return renderable.physical == physical; });
-        renderables.erase(pos, renderables.end());
+        renderables.erase(
+            std::remove_if(begin(renderables), end(renderables),
+                [&](const Renderable<Scalar>& renderable){ return renderable.physical == physical; }
+            ),
+            end(renderables)
+        );
     }
 };
 

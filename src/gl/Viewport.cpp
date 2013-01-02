@@ -23,8 +23,8 @@ void Viewport::render(const Box2<int>& viewArea) const
 
     glReverseTransform(_camera);
 
-    for (RenderLayerList::const_iterator layer = _renderLayers.begin(); layer != _renderLayers.end(); ++layer) {
-        (*layer)->render(_camera, *_projection);
+    for (auto layer : _renderLayers) {
+        layer->render(_camera, *_projection);
     }
 }
 
@@ -35,9 +35,10 @@ void Viewport::addRenderLayer(const RenderLayer* const layer)
 
 void Viewport::removeRenderLayer(const RenderLayer* const layer)
 {
-    RenderLayerList::iterator newEnd =
-        std::remove(_renderLayers.begin(), _renderLayers.end(), layer);
-    _renderLayers.erase(newEnd, _renderLayers.end());
+    _renderLayers.erase(
+        std::remove(begin(_renderLayers), end(_renderLayers), layer),
+        _renderLayers.end()
+    );
 }
 
 const Physical<double>& Viewport::getCamera() const

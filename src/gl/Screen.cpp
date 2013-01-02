@@ -1,5 +1,7 @@
 #include "Screen.hpp"
 
+#include <algorithm>
+
 #include "gl/util.hpp"
 
 namespace nt {
@@ -46,12 +48,12 @@ void Screen::addViewport(const Viewport* const viewport, const Box2<double>& ext
 
 void Screen::removeViewport(const Viewport* const viewport)
 {
-    for (std::vector<ViewportEntry>::iterator i = viewports.begin(); i != viewports.end(); ++i) {
-        if (i->viewport == viewport) {
-            viewports.erase(i);
-            return;
-        }
-    }
+    viewports.erase(
+        std::remove_if(begin(viewports), end(viewports),
+            [&](ViewportEntry& entry) { return entry.viewport == viewport; }
+        ),
+        end(viewports)
+    );
 }
 
 } // namespace gl
