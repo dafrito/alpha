@@ -17,16 +17,16 @@ void Screen::render(const Box2<int>& screenArea) const
         Box2<int> viewportArea;
 
         viewportArea.setLeft(
-            static_cast<int>(screenArea.left() * i->extent.left())
+            static_cast<int>(screenArea.width() * i->extent.left())
         );
         viewportArea.setRight(
-            static_cast<int>(screenArea.right() * i->extent.right())
+            static_cast<int>(screenArea.width() * i->extent.right())
         );
         viewportArea.setTop(
-            static_cast<int>(screenArea.top() * i->extent.top())
+            static_cast<int>(screenArea.height() * i->extent.top())
         );
         viewportArea.setBottom(
-            static_cast<int>(screenArea.bottom() * i->extent.bottom())
+            static_cast<int>(screenArea.height() * i->extent.bottom())
         );
 
         i->viewport->render(viewportArea);
