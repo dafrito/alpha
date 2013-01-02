@@ -95,6 +95,14 @@ void Bootstrapper::initialize()
         SYSTEM_STAGE::RENDERING
     );
 
+    _cameraMotion.setInput(&_playerInput);
+    _cameraMotion.setPhysical(&_viewport.getCamera());
+
+    _loop.addSystem(
+        [&](const double& elapsed) { _cameraMotion.tick(elapsed); },
+        SYSTEM_STAGE::INPUT
+    );
+
     // Finally, start the system loop
     connect(
         &_timer, SIGNAL(timeout(const double&)),

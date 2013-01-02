@@ -6,6 +6,7 @@
 #include "ArrayVoxmap.hpp"
 #include "PlayerInput.h"
 #include "input/PlayerInputFilter.hpp"
+#include "InputMotion.hpp"
 #include "SystemLoop.hpp"
 #include "gl/PerspectiveProjection.hpp"
 #include "gl/Viewport.hpp"
@@ -33,6 +34,8 @@ class Bootstrapper : public QObject
 
     input::PlayerInputFilter _playerInputFilter;
     PlayerInput _playerInput;
+
+    InputMotion _cameraMotion;
 
     gl::PerspectiveProjection _projection;
     gl::Viewport _viewport;

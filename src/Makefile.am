@@ -33,6 +33,8 @@ libalpha_la_SOURCES = \
 	PlayerInput.cpp \
 	input/PlayerInputFilter.hpp \
 	input/PlayerInputFilter.cpp \
+	InputMotion.hpp \
+	InputMotion.cpp \
 	Physical.hpp \
 	Vector3.hpp \
 	Box2.hpp \
