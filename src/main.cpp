@@ -43,11 +43,8 @@ int runLegacyAlpha(QApplication& app, QMainWindow& gui)
 int runAlpha(QApplication& app, QMainWindow& gui)
 {
     Bootstrapper alphaBootstrapper;
-    nt::gl::ScreenGLWidget screenWidget;
 
-    screenWidget.setScreen(&alphaBootstrapper.getScreen());
-
-    gui.setCentralWidget(&screenWidget);
+    gui.setCentralWidget(&alphaBootstrapper.getScreenGLWidget());
 
     return app.exec();
 }

@@ -7,6 +7,7 @@
 #include "gl/DirectRenderLayer.hpp"
 #include "gl/VoxmapRenderLayer.hpp"
 #include "gl/Screen.hpp"
+#include "gl/ScreenGLWidget.hpp"
 
 using namespace nt;
 
@@ -31,6 +32,7 @@ class Bootstrapper
     gl::VoxmapRenderLayer<double, Voxmap, void(Voxel, const Vector3<double>&)> _worldLayer;
 
     gl::Screen _screen;
+    gl::ScreenGLWidget _screenWidget;
 
     bool _initialized;
     void initialize();
@@ -39,7 +41,7 @@ class Bootstrapper
 public:
     Bootstrapper();
 
-    gl::Screen& getScreen();
+    gl::ScreenGLWidget& getScreenGLWidget();
 };
 
 #endif // ALPHA_BOOTSTRAPPER_HEADER

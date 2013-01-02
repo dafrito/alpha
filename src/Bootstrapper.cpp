@@ -20,6 +20,7 @@ Bootstrapper::Bootstrapper() :
     _unitsLayer(),
     _worldLayer(),
     _screen(),
+    _screenWidget(),
     _initialized(false)
 {}
 
@@ -46,6 +47,7 @@ void Bootstrapper::initialize()
     _viewport.addRenderLayer(&_unitsLayer);
 
     _screen.addViewport(&_viewport, Box2<double>(0, 1, 0, 1));
+    _screenWidget.setScreen(&_screen);
 }
 
 void Bootstrapper::populateWorld()
@@ -69,8 +71,8 @@ void Bootstrapper::populateWorld()
     }
 }
 
-gl::Screen& Bootstrapper::getScreen()
+gl::ScreenGLWidget& Bootstrapper::getScreenGLWidget()
 {
     initialize();
-    return _screen;
+    return _screenWidget;
 }
