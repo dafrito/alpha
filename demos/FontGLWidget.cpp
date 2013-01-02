@@ -16,7 +16,7 @@ void FontGLWidget::initializeGL()
 	qglClearColor(Qt::black);
 }
 
-void FontGLWidget::tick(const float& elapsed)
+void FontGLWidget::tick(const double& elapsed)
 {
 	rotation += ROTATION_SPEED * elapsed;
 	while (rotation > 360)

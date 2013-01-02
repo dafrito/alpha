@@ -42,7 +42,7 @@ void MeasuredTimer::start()
 
 void MeasuredTimer::dispatchTick()
 {
-	emit timeout((float)time.restart() / 1000);
+	emit timeout((double)time.restart() / 1000);
 }
 
 void MeasuredTimer::stop()

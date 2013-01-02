@@ -33,7 +33,7 @@ CubeGLWidget::CubeGLWidget(QWidget* const parent) :
 	}
 }
 
-void CubeGLWidget::tick(const float& elapsed)
+void CubeGLWidget::tick(const double& elapsed)
 {
 	static const QVector3D VEC_X(-1, 1, 1);
 	static const QVector3D VEC_Y(1, -1, 1);

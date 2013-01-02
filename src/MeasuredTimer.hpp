@@ -19,13 +19,14 @@ class MeasuredTimer : public QObject
 	const int msec;
 	QElapsedTimer time;
 	QTimer timer;
+
 public:
 	MeasuredTimer(const int msec, QObject* const parent = 0);
 
 	void startOnShow(QWidget* const widget);
 	bool eventFilter(QObject* obj, QEvent* event);
 signals:
-	void timeout(const float& elapsed);
+	void timeout(const double& elapsed);
 public slots:
 	void start();
 	void stop();

@@ -19,7 +19,7 @@ class AnimatedGLWidget : public GLWidget
 public:
 	AnimatedGLWidget(QWidget* const parent = 0);
 protected slots:
-	virtual void tick(const float& elapsed)=0;
+	virtual void tick(const double& elapsed)=0;
 };
 
 #endif // ANIMATEDGLWIDGET_H

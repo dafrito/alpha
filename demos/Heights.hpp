@@ -22,7 +22,7 @@ public:
 		memset(targetHeights, 0, sizeof(T) * ((HALFSIZE * 2) * (HALFSIZE * 2) - 1));
 	}
 
-	void tick(const float& elapsed)
+	void tick(const double& elapsed)
 	{
 		if (time > 0)
 			time -= elapsed;

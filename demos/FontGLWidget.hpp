@@ -14,7 +14,7 @@ public:
 	FontGLWidget(QWidget* const parent = 0);
 protected:
 	void initializeGL();
-	void tick(const float& elapsed);
+	void tick(const double& elapsed);
 	void render();
 };
 

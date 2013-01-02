@@ -31,8 +31,8 @@ Alpha::Alpha(QWidget* const parent) :
         _desktop(QApplication::desktop()->screenGeometry())
 {
 	setFocusPolicy(Qt::ClickFocus); // allows keyPresses to be passed to the rendered window
-	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
-	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
+	connect(&timer, SIGNAL(timeout(const double&)), this, SLOT(tick(const double&)));
+	connect(&timer, SIGNAL(timeout(const double&)), this, SLOT(updateGL()));
 	timer.startOnShow(this);
 	player.position().setZ(10);
 	player2.position().set(50, 0, 10);
@@ -73,7 +73,7 @@ Alpha::Alpha(QWidget* const parent) :
 	QApplication::setOverrideCursor(cursor);
 }
 
-void Alpha::tick(const float& elapsed)
+void Alpha::tick(const double& elapsed)
 {
 	Vector3<double> velocity;
 

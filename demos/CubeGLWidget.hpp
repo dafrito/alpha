@@ -35,7 +35,7 @@ protected:
 	void resizeGL(int, int);
 	void render();
 protected slots:
-	void tick(const float& elapsed);
+	void tick(const double& elapsed);
 };
 
 #endif // CUBEGLWIDGET_H

@@ -20,7 +20,7 @@ void PlanetsGLWidget::initializeGL()
 	glEnable(GL_DEPTH_TEST);
 }
 
-void PlanetsGLWidget::tick(const float& elapsed)
+void PlanetsGLWidget::tick(const double& elapsed)
 {
 	rotation += 30 * elapsed;
 	while (rotation > 360) {

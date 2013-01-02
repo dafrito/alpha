@@ -29,8 +29,8 @@ VehicleGLWidget::VehicleGLWidget(QWidget* const parent) :
 		timer(FPS, this)
 {
 	setFocusPolicy(Qt::ClickFocus);
-	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
-	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
+	connect(&timer, SIGNAL(timeout(const double&)), this, SLOT(tick(const double&)));
+	connect(&timer, SIGNAL(timeout(const double&)), this, SLOT(updateGL()));
 	timer.startOnShow(this);
 	car.maxspeed = MAXSPEED;
 	car.rev_maxspeed = -REV_MAXSPEED;
@@ -41,7 +41,7 @@ void VehicleGLWidget::initializeGL()
 	qglClearColor(Qt::black);
 }
 
-void VehicleGLWidget::tick(const float& elapsed)
+void VehicleGLWidget::tick(const double& elapsed)
 {
 
 	float accel = 0;

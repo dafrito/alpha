@@ -21,7 +21,7 @@ public:
 protected:
 	void initializeGL();
 	void render();
-	void tick(const float& elapsed);
+	void tick(const double& elapsed);
 private:
 	float rotation;
 };

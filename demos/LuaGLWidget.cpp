@@ -13,8 +13,8 @@ LuaGLWidget::LuaGLWidget(QWidget* const parent) :
 	GLWidget(parent),
 	timer(1000 / 60, this)
 {
-	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(updateGL()));
-	connect(&timer, SIGNAL(timeout(const float&)), this, SLOT(tick(const float&)));
+	connect(&timer, SIGNAL(timeout(const double&)), this, SLOT(updateGL()));
+	connect(&timer, SIGNAL(timeout(const double&)), this, SLOT(tick(const double&)));
 	timer.startOnShow(this);
 	updateOnCameraMove(false);
 }
@@ -30,7 +30,7 @@ void LuaGLWidget::initializeGL()
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 }
 
-void LuaGLWidget::tick(const float& elapsed)
+void LuaGLWidget::tick(const double& elapsed)
 {
 	heights.tick(elapsed);
 }
