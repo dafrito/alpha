@@ -75,7 +75,10 @@ void Bootstrapper::initialize()
     // Add a direct render layer for rendering individual units
     _viewport.addRenderLayer(&_unitsLayer);
 
-    // Finish up the render pipeline, using a screen and a Qt widget
+    // Finish up the render pipeline, using a screen and a Qt widget.
+    // The box specifies where the screen will be rendered, in relative
+    // [0,1] coordinates. Since OpenGL has the screen's origin at the
+    // bottom left corner, the vertical bounds are a bit unusual.
     _screen.addViewport(&_viewport, Box2<double>(0, 1, 0, 1));
     _screenWidget.setScreen(&_screen);
 
