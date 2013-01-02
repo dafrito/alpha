@@ -58,6 +58,8 @@ void Bootstrapper::initialize()
     _initialized = true;
 
     _playerInputFilter.setPlayerInput(&_playerInput);
+
+    _screenWidget.setFocusPolicy(Qt::ClickFocus);
     _screenWidget.installEventFilter(&_playerInputFilter);
 
     _viewport.setProjection(&_projection);
