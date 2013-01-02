@@ -8,6 +8,7 @@ test_suites = \
 	VoxmapTests \
 	RotationTests \
 	RenderLayerTests \
+	SortedLoopTests \
 	Vector3Tests
 
 runtest_SOURCES = tests.cpp $(addsuffix .hpp, $(test_suites))
@@ -16,6 +17,7 @@ runtest_MOC_SOURCES = \
 	moc_VoxmapTests.cpp \
 	moc_RotationTests.cpp \
 	moc_RenderLayerTests.cpp \
+	moc_SortedLoopTests.cpp \
 	moc_Vector3Tests.cpp
 
 nodist_runtest_SOURCES = $(runtest_MOC_SOURCES)
