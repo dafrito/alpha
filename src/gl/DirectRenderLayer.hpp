@@ -11,11 +11,12 @@
 
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 namespace nt {
 namespace gl {
 
-template <typename Scalar, typename Renderer>
+template <typename Scalar>
 struct Renderable;
 
 /**
@@ -26,15 +27,15 @@ struct Renderable;
  * drawing the object. This is in contrast with other layers that do not have
  * a one-to-one representation of rendered geometery to objects.
  */
-template <typename Scalar, typename Renderer>
+template <typename Scalar>
 class DirectRenderLayer : public RenderLayer
 {
-    typedef Renderable<Scalar, Renderer> RenderableType;
+    typedef Renderable<Scalar> RenderableType;
     typedef std::vector<RenderableType> RenderableList;
     RenderableList renderables;
 
 public:
-    void add(Physical<Scalar>* const physical, Renderer* const renderer)
+    void add(Physical<Scalar>* const physical, const std::function<void()> renderer)
     {
         renderables.push_back(RenderableType(physical, renderer));
     }
@@ -60,11 +61,11 @@ public:
         return renderables.size();
     }
 
-    void remove(Physical<Scalar>* const physical, Renderer* const renderer)
+    void remove(Physical<Scalar>* const physical)
     {
         typename RenderableList::iterator pos =
-            std::remove(renderables.begin(), renderables.end(),
-                RenderableType(physical, renderer));
+            std::remove_if(renderables.begin(), renderables.end(),
+                [&](const Renderable<Scalar>& renderable){ return renderable.physical == physical; });
         renderables.erase(pos, renderables.end());
     }
 };
@@ -74,23 +75,16 @@ public:
  * it requires a physical location, as well as a renderer
  * that can draw the geometry at that location.
  */
-template <typename Scalar, typename Renderer>
+template <typename Scalar>
 struct Renderable
 {
     Physical<Scalar>* physical;
-    Renderer* renderer;
+    std::function<void()> renderer;
 
-    Renderable(Physical<Scalar>* const physical, Renderer* const renderer) :
+    Renderable(Physical<Scalar>* const physical, const std::function<void()>& renderer) :
         physical(physical),
         renderer(renderer)
     {}
-
-    template <typename U, typename V>
-    bool operator==(const Renderable<U, V>& other)
-    {
-        return physical == other.physical &&
-            renderer == other.renderer;
-    }
 };
 
 } // namespace gl

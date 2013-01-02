@@ -27,7 +27,7 @@ class Bootstrapper
     gl::Viewport _viewport;
     Voxmap _world;
 
-    gl::DirectRenderLayer<double, void()> _unitsLayer;
+    gl::DirectRenderLayer<double> _unitsLayer;
     gl::VoxmapRenderLayer<double, Voxmap, void(Voxel, const Vector3<double>&)> _worldLayer;
 
     gl::Screen _screen;

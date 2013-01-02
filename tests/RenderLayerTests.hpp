@@ -26,7 +26,7 @@ private slots:
         using namespace nt;
         using namespace nt::gl;
 
-        DirectRenderLayer<float, void()> layer;
+        DirectRenderLayer<float> layer;
 
         Physical<float> physical;
 
@@ -40,7 +40,7 @@ private slots:
         layer.render(origin, projection);
         QCOMPARE(FLAG, 1);
 
-        layer.remove(&physical, dummyRender);
+        layer.remove(&physical);
         QCOMPARE(layer.numRenderables(), 0);
     }
 };
