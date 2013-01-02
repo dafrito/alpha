@@ -1,7 +1,10 @@
 #ifndef ALPHA_BOOTSTRAPPER_HEADER
 #define ALPHA_BOOTSTRAPPER_HEADER
 
+#include <QObject>
+
 #include "ArrayVoxmap.hpp"
+#include "SystemLoop.hpp"
 #include "gl/PerspectiveProjection.hpp"
 #include "gl/Viewport.hpp"
 #include "gl/DirectRenderLayer.hpp"
@@ -19,8 +22,10 @@ using namespace nt;
  * locations than this class, though it's common to have new concepts live here until
  * a more suitable design is created.
  */
-class Bootstrapper
+class Bootstrapper : public QObject
 {
+    Q_OBJECT
+
     typedef Vector3<float> Voxel;
     typedef ArrayVoxmap<Voxel> Voxmap;
 
@@ -34,6 +39,10 @@ class Bootstrapper
     gl::Screen _screen;
     gl::ScreenGLWidget _screenWidget;
 
+    SystemLoop _loop;
+
+    MeasuredTimer _timer;
+
     bool _initialized;
     void initialize();
 
@@ -42,6 +51,10 @@ public:
     Bootstrapper();
 
     gl::ScreenGLWidget& getScreenGLWidget();
+
+private slots:
+
+    void tick(const double&);
 };
 
 #endif // ALPHA_BOOTSTRAPPER_HEADER

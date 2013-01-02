@@ -6,7 +6,8 @@ libalpha_la_LIBADD = @QT_LIBS@ @LUA_CXX_LIBS@ @FREETYPE2_LIBS@ @FTGL_LIBS@ @LUA_
 libalpha_la_MOC_SOURCES = \
 	moc_Alpha.cpp \
 	moc_ScreenGLWidget.cpp \
-	moc_MeasuredTimer.cpp
+	moc_MeasuredTimer.cpp \
+	moc_Bootstrapper.cpp
 
 libalpha_la_SOURCES = \
 	$(libalpha_la_MOC_SOURCES) \
