@@ -7,6 +7,7 @@ libalpha_la_MOC_SOURCES = \
 	moc_Alpha.cpp \
 	moc_ScreenGLWidget.cpp \
 	moc_MeasuredTimer.cpp \
+	moc_PlayerInputFilter.cpp \
 	moc_Bootstrapper.cpp
 
 libalpha_la_SOURCES = \
@@ -30,6 +31,8 @@ libalpha_la_SOURCES = \
 	math.hpp \
 	MeasuredTimer.cpp \
 	PlayerInput.cpp \
+	input/PlayerInputFilter.hpp \
+	input/PlayerInputFilter.cpp \
 	Physical.hpp \
 	Vector3.hpp \
 	Box2.hpp \
@@ -66,6 +69,9 @@ moc_%.cpp: %.h
 	@QT_MOC@ -o $@ $<
 
 moc_%.cpp: %.hpp
+	@QT_MOC@ -o $@ $<
+
+moc_%.cpp: input/%.hpp
 	@QT_MOC@ -o $@ $<
 
 moc_%.cpp: gl/%.hpp

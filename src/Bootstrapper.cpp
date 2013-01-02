@@ -57,6 +57,9 @@ void Bootstrapper::initialize()
     }
     _initialized = true;
 
+    _playerInputFilter.setPlayerInput(&_playerInput);
+    _screenWidget.installEventFilter(&_playerInputFilter);
+
     _viewport.setProjection(&_projection);
 
     // Adjust the camera to a better default location

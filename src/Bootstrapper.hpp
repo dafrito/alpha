@@ -4,6 +4,8 @@
 #include <QObject>
 
 #include "ArrayVoxmap.hpp"
+#include "PlayerInput.h"
+#include "input/PlayerInputFilter.hpp"
 #include "SystemLoop.hpp"
 #include "gl/PerspectiveProjection.hpp"
 #include "gl/Viewport.hpp"
@@ -28,6 +30,9 @@ class Bootstrapper : public QObject
 
     typedef Vector3<float> Voxel;
     typedef ArrayVoxmap<Voxel> Voxmap;
+
+    input::PlayerInputFilter _playerInputFilter;
+    PlayerInput _playerInput;
 
     gl::PerspectiveProjection _projection;
     gl::Viewport _viewport;
