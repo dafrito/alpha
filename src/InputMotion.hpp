@@ -12,10 +12,12 @@ namespace nt {
 class InputMotion
 {
 
-    PlayerInput* _input = nullptr;
-    Physical<double>* _physical = nullptr;
+    PlayerInput* _input;
+    Physical<double>* _physical;
 
 public:
+    InputMotion();
+
     void tick(const double& elapsed) const;
 
     void setInput(PlayerInput* const input);

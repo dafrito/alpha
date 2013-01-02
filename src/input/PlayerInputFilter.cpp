@@ -6,6 +6,10 @@
 namespace nt {
 namespace input {
 
+PlayerInputFilter::PlayerInputFilter() :
+    _playerInput(nullptr)
+{}
+
 bool PlayerInputFilter::eventFilter(QObject* obj, QEvent* event)
 {
     if (_playerInput) {

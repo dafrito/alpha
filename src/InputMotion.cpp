@@ -9,6 +9,11 @@ const double TURN_SPEED = M_PI;
 
 namespace nt {
 
+InputMotion::InputMotion() :
+    _input(nullptr),
+    _physical(nullptr)
+{}
+
 void InputMotion::tick(const double& elapsed) const
 {
     if (!_physical || !_input) {

@@ -16,14 +16,15 @@ class PlayerInputFilter : public QObject
 {
     Q_OBJECT
 
-    PlayerInput* _playerInput = nullptr;
+    PlayerInput* _playerInput;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
 
 public:
-    void setPlayerInput(PlayerInput* const playerInput);
+    PlayerInputFilter();
 
+    void setPlayerInput(PlayerInput* const playerInput);
 };
 
 } // namespace input
