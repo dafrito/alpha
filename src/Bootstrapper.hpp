@@ -45,7 +45,6 @@ class Bootstrapper : public QObject
     gl::ScreenGLWidget _screenWidget;
 
     SystemLoop _loop;
-
     MeasuredTimer _timer;
 
     bool _initialized;
