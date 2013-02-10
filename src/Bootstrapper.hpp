@@ -14,6 +14,7 @@
 #include "gl/VoxmapRenderLayer.hpp"
 #include "gl/Screen.hpp"
 #include "gl/ScreenGLWidget.hpp"
+#include "PerlinNoise.hpp"
 
 using namespace nt;
 
@@ -34,6 +35,10 @@ class Bootstrapper : public QObject
 
     input::PlayerInputFilter _playerInputFilter;
     PlayerInput _playerInput;
+    PerlinNoise _pnoise;
+
+    //Values for world size, so its easier to change from one location:
+    int _width, _depth, _height;
 
     InputMotion _cameraMotion;
 

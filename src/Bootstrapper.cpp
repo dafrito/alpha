@@ -30,11 +30,16 @@ const int FPS = 60;
 
 void renderBlock(Vector3<float> voxel, const Vector3<double>& blockSize)
 {
-    glColor3f(voxel.x(), voxel.y(), voxel.z());
+	if (voxel.x() == -1) {
+		//Blocks with color values of (-1,y,z) are treated as air an not rendered.
+	}
+	else {
+		glColor3f(voxel.x(), voxel.y(), voxel.z());
 
-    // Subtract one here so that "buried" cubes are visible through the
-    // cracks. This would not be here in a real implementation.
-    glutSolidCube(blockSize.x() - 1);
+		// Subtract one here so that "buried" cubes are visible through the
+		// cracks. This would not be here in a real implementation.
+		glutSolidCube(blockSize.x());
+	}
 }
 
 Bootstrapper::Bootstrapper() :
@@ -56,8 +61,12 @@ void Bootstrapper::initialize()
         return;
     }
     _initialized = true;
-
     _playerInputFilter.setPlayerInput(&_playerInput);
+    //PerlinNoise(double _persistence, double _frequency, double _amplitude, int _octaves, int _randomseed);
+    _pnoise.Set(0.3, 0.9, 7, 3, 17);
+    _width = 128;
+    _depth = 128;
+    _height = 64;
 
     _screenWidget.setFocusPolicy(Qt::ClickFocus);
     _screenWidget.installEventFilter(&_playerInputFilter);
@@ -66,7 +75,7 @@ void Bootstrapper::initialize()
 
     // Adjust the camera to a better default location
     _viewport.getCamera().getPosition().setX(50);
-    _viewport.getCamera().getPosition().setY(50);
+    _viewport.getCamera().getPosition().setY(25);
     _viewport.getCamera().getPosition().setZ(50);
 
     populateWorld();
@@ -113,20 +122,41 @@ void Bootstrapper::initialize()
 
 void Bootstrapper::populateWorld()
 {
-    Vector3<int> worldSize(50, 50, 4);
+    Vector3<int> worldSize(_width, _height, _depth);
+    Vector3<float> blocktypes [] = {Vector3<float> {.7,.7,.4}, Vector3<float> {.3,.3,.3}, Vector3<float> {.3,.5,.9},  Vector3<float> {.1,.4,.1}, Vector3<float> {-1,-1,-1}};
     _world.resize(worldSize);
+    int blockIndex = 0;
+    //The idea here will be to create a function that generates 2D perlin noise over an area of x*y,
+    //which will give the height of the terrain for each location, this will be what generates the terrain.
+    float perlinTest[_width][_depth];
+    for (int i = 0; i < _width;++i) {
+    	for (int j = 0; j < _depth;++j) {
+    		perlinTest[i][j] = (int) _pnoise.GetHeight(i, j);
+    	}
+    }
+    // 0 : purple
+    // 1 : green
+    // 2 : grey
+    // 3 : blue
+    // 4 : air (Not-rendered)
 
     for (int x = 0; x < worldSize.x(); ++x) {
         for (int y = 0; y < worldSize.y(); ++y) {
             for (int z = 0; z < worldSize.z(); ++z) {
-                Vector3<float> color;
-                color.set(
-                    static_cast<float>(rand() % 100) / 100,
-                    static_cast<float>(rand() % 100) / 100,
-                    static_cast<float>(rand() % 100) / 100
-                );
-
-                _world.set(x, y, z, color);
+            	if (y == perlinTest[x][z]) {
+            		//This sets the top layer of blocks to be the "green grass" block.
+            		blockIndex = 3;
+            	}
+            	else {
+            		//Randomizing other blocks below that.
+            		blockIndex = rand() % 3;
+            	};
+            	if (y > perlinTest[x][z]) {
+            		//Setting a region to test for "air" blocks not being rendered.
+            		blockIndex = 4;
+            	};
+                //_world.set(x, y, z, blocktypes[rand() % 4]);
+           		_world.set(x, y, z, blocktypes[blockIndex]);
             }
         }
     }
@@ -142,3 +172,4 @@ gl::ScreenGLWidget& Bootstrapper::getScreenGLWidget()
     initialize();
     return _screenWidget;
 }
+

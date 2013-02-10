@@ -35,6 +35,8 @@ libalpha_la_SOURCES = \
 	input/PlayerInputFilter.cpp \
 	InputMotion.hpp \
 	InputMotion.cpp \
+	PerlinNoise.hpp \
+	PerlinNoise.cpp \
 	Physical.hpp \
 	Vector3.hpp \
 	Box2.hpp \
