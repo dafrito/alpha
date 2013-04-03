@@ -24,9 +24,8 @@ namespace gl {
  */
 class Viewport
 {
-    typedef std::vector<const RenderLayer*> RenderLayerList;
-
-    RenderLayerList _renderLayers;
+    std::vector<const RenderLayer*> _renderLayers;
+    typedef decltype(_renderLayers) RenderLayerList;
 
     Physical<double> _camera;
 
