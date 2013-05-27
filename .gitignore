@@ -27,6 +27,7 @@ ltmain.sh
 Makefile
 rpm.spec
 alpha.m4
+ar-lib
 
 # Dist artifacts
 *.tar.gz
