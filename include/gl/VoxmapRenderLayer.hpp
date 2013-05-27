@@ -1,11 +1,11 @@
 #ifndef ALPHA_VOXMAPRENDERLAYER_HEADER
 #define ALPHA_VOXMAPRENDERLAYER_HEADER
 
-#include "Vector3.hpp"
+#include "../Vector3.hpp"
 #include "RenderLayer.hpp"
+#include "util.hpp"
 
 #include <GL/gl.h>
-#include <gl/util.hpp>
 
 namespace nt {
 namespace gl {

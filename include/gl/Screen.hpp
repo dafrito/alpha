@@ -1,8 +1,8 @@
 #ifndef ALPHA_SCREEN_HEADER
 #define ALPHA_SCREEN_HEADER
 
-#include "gl/Viewport.hpp"
-#include "Box2.hpp"
+#include "Viewport.hpp"
+#include "../Box2.hpp"
 #include <vector>
 
 namespace nt {

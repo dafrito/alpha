@@ -1,5 +1,5 @@
 ACLOCAL_AMFLAGS = -I m4
-SUBDIRS = src demos tests
+SUBDIRS = src include demos tests
 
 pkgdata_DATA = \
 	alpha.m4

@@ -1,7 +1,7 @@
 #ifndef ALPHA_PROJECTION_HEADER
 #define ALPHA_PROJECTION_HEADER
 
-#include "Box2.hpp"
+#include "../Box2.hpp"
 
 namespace nt {
 namespace gl {

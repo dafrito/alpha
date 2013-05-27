@@ -1,9 +1,8 @@
-pkginclude_HEADERS = \
+nobase_pkginclude_HEADERS = \
 	Alpha.h \
 	ArrayVoxmap.hpp \
 	Bootstrapper.hpp \
 	Box2.hpp \
-	gl \
 	gl/Camera.hpp \
 	gl/Viewport.hpp \
 	gl/PerspectiveProjection.hpp \
@@ -16,7 +15,6 @@ pkginclude_HEADERS = \
 	gl/Screen.hpp \
 	gl/Cuboid.hpp \
 	gl/util.hpp \
-	input \
 	input/PlayerInputFilter.hpp \
 	InputMotion.hpp \
 	math.hpp \

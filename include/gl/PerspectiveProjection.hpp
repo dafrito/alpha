@@ -1,7 +1,7 @@
 #ifndef ALPHA_PERSPECTIVEPROJECTION_HEADER
 #define ALPHA_PERSPECTIVEPROJECTION_HEADER
 
-#include "gl/Projection.hpp"
+#include "Projection.hpp"
 
 namespace nt {
 namespace gl {

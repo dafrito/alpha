@@ -2,8 +2,8 @@
 #define ALPHA_SCREENGLWIDGET_HEADER
 
 #include <QGLWidget>
-#include "Box2.hpp"
-#include "gl/Screen.hpp"
+#include "../Box2.hpp"
+#include "Screen.hpp"
 
 namespace nt {
 namespace gl {

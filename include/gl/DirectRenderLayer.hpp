@@ -1,11 +1,11 @@
 #ifndef ALPHA_DIRECTRENDERLAYER_HEADER
 #define ALPHA_DIRECTRENDERLAYER_HEADER
 
-#include "gl/RenderLayer.hpp"
-#include "gl/util.hpp"
-#include "gl/Projection.hpp"
+#include "RenderLayer.hpp"
+#include "util.hpp"
+#include "Projection.hpp"
 
-#include "Physical.hpp"
+#include "../Physical.hpp"
 
 #include <GL/gl.h>
 

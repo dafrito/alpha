@@ -5,9 +5,9 @@
 #include <cmath>
 #include <FTGL/ftgl.h>
 
-#include "Vector3.hpp"
-#include "Box2.hpp"
-#include "Physical.hpp"
+#include "../Vector3.hpp"
+#include "../Box2.hpp"
+#include "../Physical.hpp"
 
 namespace {
 const float TO_DEGREES = 180 / M_PI;

@@ -2,7 +2,7 @@
 #define ALPHA_PLAYERINPUTFILTER_HEADER
 
 #include <QObject>
-#include "PlayerInput.h"
+#include "../PlayerInput.h"
 
 namespace nt {
 namespace input {
