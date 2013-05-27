@@ -7,7 +7,9 @@ namespace gl {
 
 void ScreenGLWidget::paintGL()
 {
-    getScreen()->render(_screenArea);
+    if (getScreen()) {
+        getScreen()->render(_screenArea);
+    }
 }
 
 void ScreenGLWidget::initializeGL()

@@ -32,6 +32,12 @@ protected:
     void resizeGL(int width, int height);
 
 public:
+    ScreenGLWidget(QWidget* const parent = 0) :
+        QGLWidget(parent),
+        _screen(nullptr)
+    {
+    }
+
     void setScreen(const Screen* const screen);
     const Screen* getScreen() const;
 };
