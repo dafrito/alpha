@@ -4,6 +4,9 @@ SUBDIRS = src include demos tests
 pkgdata_DATA = \
 	alpha.m4
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = alpha.pc
+
 export RPMDIR ?= $$HOME/rpmbuild
 
 RPMFLAGS ?= --ba
