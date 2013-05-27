@@ -3,15 +3,13 @@
 
 #include <vector>
 
-namespace {
+namespace nt {
+namespace gl {
+
 enum glOperation {
     OP_popMatrix,
     OP_end
 };
-}
-
-namespace nt {
-namespace gl {
 
 /**
  * A RAII-based way to setup GL operations.

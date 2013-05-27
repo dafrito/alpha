@@ -3,7 +3,6 @@
 #include <QFile>
 #include <QVector3D>
 #include "gl/util.hpp"
-#include <lua-cxx/LuaGlobal.hpp>
 
 #include <cmath>
 

@@ -3,8 +3,6 @@
 AC_PREREQ([2.68])
 AC_INIT([alpha], [1.0], [dafrito@gmail.com], [alpha], [http://bluespot.unfuddle.com])
 AM_INIT_AUTOMAKE([-Wall foreign])
-LT_PREREQ([2.2])
-LT_INIT
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -14,28 +12,33 @@ AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LN_S
+
+# Initialize libtool
+m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
+LT_PREREQ([2.2])
+LT_INIT
 AC_PROG_LIBTOOL
-
-AX_HAVE_QT_CORE
-AX_HAVE_QT_GUI
-AX_HAVE_QT_MOC
-AX_HAVE_QT_TEST
-AX_HAVE_QT_OPENGL
-
-AX_LUA_LIBS
-AX_LUA_HEADERS
-AX_HAVE_LUA_CXX
 
 AC_LANG([C++])
 AX_CXX_COMPILE_STDCXX_11(,[CXX_11_CXXFLAGS])
 AC_SUBST([CXX_11_CXXFLAGS])
 
-ALPHA_GLOBAL_CXXFLAGS="-g -O0 -Wall -Werror"
+ALPHA_GLOBAL_CXXFLAGS="-g -O2"
 AC_SUBST([ALPHA_GLOBAL_CXXFLAGS])
 
 PKG_PROG_PKG_CONFIG
 PKG_CHECK_MODULES([FREETYPE2], [freetype2])
 PKG_CHECK_MODULES([FTGL], [ftgl])
+
+# Check for Lua-cxx
+if ! pkg-config --print-errors --exists "lua-cxx"; then
+    AC_MSG_ERROR([Lua-cxx is required to build Rainback])
+fi
+
+AC_SUBST(LUA_CXX_INCLUDE)
+AC_SUBST(LUA_CXX_LIBS)
+LUA_CXX_INCLUDE=`pkg-config --cflags lua-cxx`
+LUA_CXX_LIBS=`pkg-config --libs lua-cxx`
 
 if test x"$have_qt_core" = xno ||
     test x"$have_qt_gui" = xno ||
@@ -43,6 +46,13 @@ if test x"$have_qt_core" = xno ||
     test x"$have_qt_opengl" = xno; then
     AC_MSG_ERROR([Qt is required to build alpha])
 fi;
+
+# Check for Qt
+AX_HAVE_QT_CORE
+AX_HAVE_QT_GUI
+AX_HAVE_QT_MOC
+AX_HAVE_QT_TEST
+AX_HAVE_QT_OPENGL
 
 # Checks for header files.
 

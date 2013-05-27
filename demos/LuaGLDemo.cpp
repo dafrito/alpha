@@ -2,8 +2,9 @@
 
 #include <QtGui>
 #include <iostream>
-#include <lua-cxx/LuaGlobal.hpp>
 #include <lua-cxx/LuaException.hpp>
+#include <lua-cxx/LuaStack.hpp>
+#include <lua-cxx/LuaValue.hpp>
 
 LuaGLDemo::LuaGLDemo(QWidget* const parent) :
 	QWidget(parent),
@@ -25,7 +26,7 @@ void LuaGLDemo::updateWidget()
 {
 	try {
 		Lua l;
-		l(codeLine->text());
+		l(codeLine->text().toStdString());
 		glWidget->update(l["calc"]);
 	} catch (LuaException e) {
 		std::cerr << e.what() << std::endl;
