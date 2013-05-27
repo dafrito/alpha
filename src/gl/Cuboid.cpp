@@ -1,4 +1,4 @@
-#include "Cuboid.hpp"
+#include "gl/Cuboid.hpp"
 
 #include <GL/gl.h>
 

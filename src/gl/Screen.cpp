@@ -1,4 +1,4 @@
-#include "Screen.hpp"
+#include "gl/Screen.hpp"
 
 #include <algorithm>
 

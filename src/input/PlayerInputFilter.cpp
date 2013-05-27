@@ -1,4 +1,4 @@
-#include "PlayerInputFilter.hpp"
+#include "input/PlayerInputFilter.hpp"
 
 #include <QKeyEvent>
 #include <QMouseEvent>

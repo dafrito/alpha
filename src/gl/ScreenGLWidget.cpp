@@ -1,4 +1,4 @@
-#include "ScreenGLWidget.hpp"
+#include "gl/ScreenGLWidget.hpp"
 
 #include <GL/gl.h>
 
