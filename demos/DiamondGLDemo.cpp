@@ -1,5 +1,7 @@
 #include <QtGui>
 #include <cassert>
+#include <QBoxLayout>
+#include <QScrollArea>
 
 #include "DiamondGLWidget.hpp"
 #include "DiamondGLDemo.hpp"

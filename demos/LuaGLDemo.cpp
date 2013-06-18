@@ -1,6 +1,7 @@
 #include "LuaGLDemo.hpp"
 
 #include <QtGui>
+#include <QBoxLayout>
 #include <iostream>
 #include <lua-cxx/LuaException.hpp>
 #include <lua-cxx/LuaStack.hpp>

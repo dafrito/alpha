@@ -1,6 +1,6 @@
 #include "RotatableGLDemo.hpp"
 
-#include <QtGui>
+#include <QBoxLayout>
 #include "GLWidget.hpp"
 
 RotatableGLDemo::RotatableGLDemo(GLWidget* const widget, QWidget* parent) :

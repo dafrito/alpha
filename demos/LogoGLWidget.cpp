@@ -2,7 +2,6 @@
 
 #include <QtGui>
 #include <QtOpenGL>
-#include <GL/glext.h>
 #include <cmath>
 
 #include "Logo.hpp"

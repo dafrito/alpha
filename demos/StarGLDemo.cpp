@@ -1,4 +1,5 @@
-#include <QtGui>
+#include <QCheckBox>
+#include <QBoxLayout>
 #include <cassert>
 
 #include "StarGLWidget.hpp"

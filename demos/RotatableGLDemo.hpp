@@ -2,10 +2,8 @@
 #define ROTATABLEGLDEMO_H
 
 #include <QWidget>
+#include <QSlider>
 
-QT_BEGIN_NAMESPACE
-class QSlider;
-QT_END_NAMESPACE
 class GLWidget;
 
 class RotatableGLDemo : public QWidget

@@ -2,11 +2,9 @@
 #define DIAMONDGLDEMO_H
 
 #include <QWidget>
+#include <QCheckBox>
+#include <QLabel>
 
-QT_BEGIN_NAMESPACE
-class QCheckBox;
-class QLabel;
-QT_END_NAMESPACE
 class DiamondGLWidget;
 
 class DiamondGLDemo : public QWidget
