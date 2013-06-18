@@ -9,9 +9,12 @@
 #include "../Box2.hpp"
 #include "../Physical.hpp"
 
+#include <boost/math/constants/constants.hpp>
+using namespace boost::math;
+
 namespace {
-const float TO_DEGREES = 180 / M_PI;
-const float TO_RADIANS = M_PI / 180;
+const float TO_DEGREES = 180 / constants::pi<float>();
+const float TO_RADIANS = constants::pi<float>() / 180;
 }
 
 namespace nt {

@@ -2,6 +2,10 @@
 
 #include <cmath>
 
+#include <boost/math/constants/constants.hpp>
+static const double PI = boost::math::constants::pi<double>();
+static const double PI_2 = PI * 2;
+
 namespace nt {
 namespace gl {
 
@@ -9,7 +13,7 @@ void setGLFrustum(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar)
 {
 	GLdouble xmin, xmax, ymin, ymax;
 
-	xmax = zNear * tan(fovy * M_PI / 360.0);
+	xmax = zNear * tan(fovy * PI / 360.0);
 	xmin = -xmax;
 	ymin = xmin / aspect;
 	ymax = xmax / aspect;
@@ -63,21 +67,21 @@ Vector3<double> getAxisAngles(Vector3<double>& vec)
 		if (vec.y() >= 0){
 			Rot.setZ( 0 );
 		} else {
-			Rot.setZ(M_PI_2 * 2);
+			Rot.setZ(PI_2 * 2);
 		}
 	} else if (vec.y() == 0) {
 		if (vec.x() > 0) {
-			Rot.setZ(M_PI_2 * 3);
+			Rot.setZ(PI_2 * 3);
 		} else {
-			Rot.setZ(M_PI_2);
+			Rot.setZ(PI_2);
 		}
 	} else {
 		// figure out correct total angle: changes based on quadrant
 		Rot.setZ( atan( vec.y() / vec.x() ) );
 		if (vec.x() < 0){
-			Rot.setZ(Rot.z() + M_PI_2);
+			Rot.setZ(Rot.z() + PI_2);
 		} else {
-			Rot.setZ(Rot.z() + M_PI_2 * 3);
+			Rot.setZ(Rot.z() + PI_2 * 3);
 		}
 	}
 	// horizontal distance
@@ -89,16 +93,16 @@ Vector3<double> getAxisAngles(Vector3<double>& vec)
 		Rot.setX(0);
 	} else if (dxy == 0) {
 		if (vec.z() > 0){
-			Rot.setX( M_PI_2);
+			Rot.setX( PI_2);
 		} else {
-			Rot.setX( M_PI_2 * 3);
+			Rot.setX( PI_2 * 3);
 		}
 	} else {
 		Rot.setX(atan( dxy / vec.z() ));
 		if (vec.z() < 0){
-			Rot.setX(M_PI_2 * 3 - Rot.x());
+			Rot.setX(PI_2 * 3 - Rot.x());
 		} else {
-			Rot.setX(M_PI_2 - Rot.x());
+			Rot.setX(PI_2 - Rot.x());
 		}
 	}
 	return Rot;

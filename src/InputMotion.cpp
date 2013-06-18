@@ -2,9 +2,12 @@
 
 #include "Vector3.hpp"
 
+#include <boost/math/constants/constants.hpp>
+using namespace boost::math;
+
 namespace {
 const double PLAYER_MOVESPEED = 50;
-const double TURN_SPEED = M_PI;
+const double TURN_SPEED = constants::pi<double>();
 } // namespace anonymous
 
 namespace nt {

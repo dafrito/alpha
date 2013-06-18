@@ -1,6 +1,6 @@
 lib_LTLIBRARIES = libalpha.la
 libalpha_la_CPPFLAGS = @CXX_11_CXXFLAGS@ @QT_CXXFLAGS@ @LUA_CXX_INCLUDE@ \
-	@FREETYPE2_CFLAGS@ @FTGL_CFLAGS@ @GL_CFLAGS@ \
+	@BOOST_CPPFLAGS@ @FREETYPE2_CFLAGS@ @FTGL_CFLAGS@ @GL_CFLAGS@ \
 	-DMEDIA_DIR="\"$(abs_srcdir)/../media\"" @ALPHA_GLOBAL_CXXFLAGS@ \
 	-I$(top_srcdir)/include
 

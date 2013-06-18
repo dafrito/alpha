@@ -6,6 +6,9 @@
 
 #include "Logo.hpp"
 
+#include <boost/math/constants/constants.hpp>
+using namespace boost::math;
+
 static const qreal bar_thickness = 0.10;
 static const qreal logo_depth = 0.10;
 static const qreal nleg1_height = 0.55; //the left | in N
@@ -271,7 +274,7 @@ RectTorus::RectTorus(Geometry *g, qreal iRad, qreal oRad, qreal depth, int k)
     QVector<QVector3D> inside;
     QVector<QVector3D> outside;
     for (int i = 0; i < k; ++i) {
-        qreal angle = (i * 2 * M_PI) / k;
+        qreal angle = (i * 2 * constants::pi<qreal>()) / k;
         inside << QVector3D(iRad * qSin(angle), iRad * qCos(angle), depth / 2.0);
         outside << QVector3D(oRad * qSin(angle), oRad * qCos(angle), depth / 2.0);
     }

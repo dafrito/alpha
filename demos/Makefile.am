@@ -1,5 +1,5 @@
 noinst_PROGRAMS = demo
-demo_CPPFLAGS = -I$(top_srcdir)/include @CXX_11_CXXFLAGS@ @QT_CXXFLAGS@ @LUA_CXX_INCLUDE@ @FREETYPE2_CFLAGS@ @FTGL_CFLAGS@ @GL_CFLAGS@ -DMEDIA_DIR="\"$(abs_srcdir)/../media\"" @ALPHA_GLOBAL_CXXFLAGS@
+demo_CPPFLAGS = -I$(top_srcdir)/include @CXX_11_CXXFLAGS@ @QT_CXXFLAGS@ @LUA_CXX_INCLUDE@ @FREETYPE2_CFLAGS@ @FTGL_CFLAGS@ @GL_CFLAGS@ @BOOST_CPPFLAGS@ -DMEDIA_DIR="\"$(abs_srcdir)/../media\"" @ALPHA_GLOBAL_CXXFLAGS@
 demo_LDADD = -L../src -lalpha @QT_LIBS@ @LUA_CXX_LIBS@ @FREETYPE2_LIBS@ @FTGL_LIBS@ @GL_LIBS@
 
 # moc-generated source files

@@ -3,6 +3,10 @@
 #include "gl/util.hpp"
 #include <cassert>
 
+#include <boost/math/constants/constants.hpp>
+static const double PI = boost::math::constants::pi<double>();
+static const double PI_2 = 2 * PI;
+
 namespace nt {
 namespace gl {
 
@@ -34,7 +38,7 @@ void Camera::alignTarget()
 {
 	// camera and object xRots are off by 1/4 turn
 	target->rotation().set(
-		rotation().x() - M_PI_2,
+		rotation().x() - PI_2,
 		rotation().y(),
 		rotation().z()
 	);
@@ -44,7 +48,7 @@ void Camera::alignTarget()
 void Camera::alignWithTarget()
 {
 	// camera and object xRots are off by 1/4 turn
-	setXRotation( target->rotation().x() + M_PI_2);
+	setXRotation( target->rotation().x() + PI_2);
 	setYRotation( target->rotation().y() );
 	setZRotation( target->rotation().z() );
 
@@ -103,8 +107,8 @@ void Camera::setXRotation(float angle)
 {
 	normalizeRadians(angle);
 	// keep us from flipping upside down
-	if ( angle > 3 * M_PI_2 ) { angle = 2 * M_PI; }
-	else if ( angle > M_PI ) {angle = M_PI;}
+	if ( angle > 3 * PI_2 ) { angle = 2 * PI; }
+	else if ( angle > PI ) {angle = PI;}
 	_rotation.setX(angle);
 }
 

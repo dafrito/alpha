@@ -9,9 +9,12 @@
 #include "gl/GLOperation.hpp"
 #include "gl/util.hpp"
 
+#include <boost/math/constants/constants.hpp>
+static const double PI = boost::math::constants::pi<double>();
+
 namespace nt {
 
-const float TURN_SPEED = M_PI;
+const float TURN_SPEED = constants::pi<float>();
 const float PLAYER_MOVESPEED = 50;
 const float PLAYER_BWD = 0.7; // how fast you move backwards compared to forwards
 const float FOV = 65;
@@ -179,26 +182,28 @@ void Alpha::tick(const double& elapsed)
 		float zRot = 0; // Target Horizontal Angle
 		float xRot = 0; // Target Vertical Angle
 
+		const float PI_2 = constants::pi<float>();
+
 		// keeping zeros from giving us bad data
 		if (difference.x() == 0) {
 			if (difference.y() >= 0){
 				zRot = 0;
 			} else {
-				zRot = M_PI_2 * 2;
+				zRot = PI_2 * 2;
 			}
 		} else if (difference.y() == 0) {
 			if (difference.x() > 0) {
-				zRot = M_PI_2 * 3;
+				zRot = PI_2 * 3;
 			} else {
-				zRot = M_PI_2;
+				zRot = PI_2;
 			}
 		} else {
 			// figure out correct TOTAL angle, changes based on quadrant
 			zRot = atan( difference.y() / difference.x() );
 			if (difference.x() < 0){
-				zRot += M_PI_2;
+				zRot += PI_2;
 			} else {
-				zRot += M_PI_2 * 3;
+				zRot += PI_2 * 3;
 			}
 		}
 		// horizontal distance
@@ -211,16 +216,16 @@ void Alpha::tick(const double& elapsed)
 			xRot = 0;
 		} else if (dxy == 0) {
 			if (difference.z() > 0){
-				xRot = M_PI_2;
+				xRot = PI_2;
 			} else {
-				xRot = M_PI_2 * 3;
+				xRot = PI_2 * 3;
 			}
 		} else {
 			xRot = atan( dxy / difference.z() );
 			if (difference.z() < 0){
-				xRot = M_PI_2 * 3 - xRot;
+				xRot = PI_2 * 3 - xRot;
 			} else {
-				xRot = M_PI_2 - xRot;
+				xRot = PI_2 - xRot;
 			}
 		}
 
@@ -232,7 +237,7 @@ void Alpha::tick(const double& elapsed)
 		if (!rotateInstantly)
 		{
 
-			// make sure all our comparisons are between 0-2*M_PI
+			// make sure all our comparisons are between 0-2*PI
 			normalizeRadians(zRot);
 			normalizeRadians(xRot);
 
@@ -240,7 +245,7 @@ void Alpha::tick(const double& elapsed)
 			// getTurnAmountThisTick()
 
 			// positive is a left turn
-			if ( zRot < M_PI) {
+			if ( zRot < PI) {
 				// we can only rotate so fast
 				if (zRot > da) {
 					zRot = -da;
@@ -254,7 +259,7 @@ void Alpha::tick(const double& elapsed)
 			}
 
 			// positive is a pitch up
-			if ( xRot < M_PI) {
+			if ( xRot < PI) {
 				if (xRot > da) {
 					xRot = -da;
 				} else {

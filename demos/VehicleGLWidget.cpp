@@ -3,6 +3,9 @@
 #include <QKeyEvent>
 #include <cmath>
 
+#include <boost/math/constants/constants.hpp>
+static const double PI = boost::math::constants::pi<double>();
+
 // Config
 const float MAXSPEED = 900;
 const float REV_MAXSPEED = 400;
@@ -58,12 +61,12 @@ void VehicleGLWidget::tick(const double& elapsed)
 	}
 
 	if (pad.left && !pad.right) {
-		car.angle += M_PI * elapsed * TURN_SPEED;
+		car.angle += PI * elapsed * TURN_SPEED;
 	}
 	if (pad.right && !pad.left) {
-		car.angle -= M_PI * elapsed * TURN_SPEED;
+		car.angle -= PI * elapsed * TURN_SPEED;
 	}
-	if ( car.angle > 2 * M_PI ) { car.angle -= 2 * M_PI; }	// keeps our angles within 1 revolution
+	if ( car.angle > 2 * PI ) { car.angle -= 2 * PI; }	// keeps our angles within 1 revolution
 
 
 	float velocity_init = car.velocity; // for position calculation purposes
@@ -91,14 +94,14 @@ void VehicleGLWidget::tick(const double& elapsed)
 				x = -range + diff;
 			}
 
-			if ( car.angle < 2 * M_PI /4 && car.angle > 1 * M_PI / 4 ) {
-				car.angle += 2 * M_PI / 4 - car.angle;
-			} else if ( car.angle > 2 * M_PI / 4 && car.angle < 3 * M_PI / 4 ) {
-				car.angle -= 2 * M_PI / 4 - car.angle;
-			} else if ( car.angle < 6 * M_PI / 4 && car.angle > 5 * M_PI / 4 ) {
-				car.angle += 6 * M_PI / 4 - car.angle;
-			} else if ( car.angle > 6 * M_PI / 4 && car.angle < 7 * M_PI / 4 ) {
-				car.angle -= 6 * M_PI / 4 - car.angle;
+			if ( car.angle < 2 * PI /4 && car.angle > 1 * PI / 4 ) {
+				car.angle += 2 * PI / 4 - car.angle;
+			} else if ( car.angle > 2 * PI / 4 && car.angle < 3 * PI / 4 ) {
+				car.angle -= 2 * PI / 4 - car.angle;
+			} else if ( car.angle < 6 * PI / 4 && car.angle > 5 * PI / 4 ) {
+				car.angle += 6 * PI / 4 - car.angle;
+			} else if ( car.angle > 6 * PI / 4 && car.angle < 7 * PI / 4 ) {
+				car.angle -= 6 * PI / 4 - car.angle;
 			} else {
 				car.velocity /= -2; // bounce backwards with the correct "elasticity"
 			}
@@ -118,14 +121,14 @@ void VehicleGLWidget::tick(const double& elapsed)
 				y = -range + diff;
 			}
 
-			if ( car.angle < 4 * M_PI /4 && car.angle > 3 * M_PI / 4 ) {
-				car.angle += 4 * M_PI / 4 - car.angle;
-			} else if ( car.angle > 4 * M_PI / 4 && car.angle < 5 * M_PI / 4 ) {
-				car.angle -= 4 * M_PI / 4 - car.angle;
-			} else if ( car.angle < 8 * M_PI / 4 && car.angle > 7 * M_PI / 4 ) {
-				car.angle += 8 * M_PI / 4 - car.angle;
-			} else if ( car.angle > 8 * M_PI / 4 && car.angle < 1 * M_PI / 4 ) {
-				car.angle -= 8 * M_PI / 4 - car.angle;
+			if ( car.angle < 4 * PI /4 && car.angle > 3 * PI / 4 ) {
+				car.angle += 4 * PI / 4 - car.angle;
+			} else if ( car.angle > 4 * PI / 4 && car.angle < 5 * PI / 4 ) {
+				car.angle -= 4 * PI / 4 - car.angle;
+			} else if ( car.angle < 8 * PI / 4 && car.angle > 7 * PI / 4 ) {
+				car.angle += 8 * PI / 4 - car.angle;
+			} else if ( car.angle > 8 * PI / 4 && car.angle < 1 * PI / 4 ) {
+				car.angle -= 8 * PI / 4 - car.angle;
 			} else {
 				car.velocity /= -2; // bounce backwards with the correct "elasticity"
 			}
@@ -161,7 +164,7 @@ void VehicleGLWidget::paintGL()
 	glEnd();
 	// Render car
 	glTranslatef(car.pos.x(), car.pos.y(), car.pos.z());
-	glRotatef(car.angle * 180 / M_PI, 0, 0, 1);
+	glRotatef(car.angle * 180 / PI, 0, 0, 1);
 	glBegin(GL_QUADS);
 	// Body
 	glColor3ub(0, 0x5b, 0xa9);
