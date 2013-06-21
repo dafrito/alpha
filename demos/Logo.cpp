@@ -142,7 +142,11 @@ static inline void qMultMatrix(const QMatrix4x4 &mat)
     else
     {
         GLfloat fmat[16];
-        float const *r = mat.constData();
+		#if QT_VERSION >= 0x050000
+		const float* r = mat.constData();
+		#else
+		const qreal* r = mat.constData();
+		#endif
         for (int i = 0; i < 16; ++i)
             fmat[i] = r[i];
         glMultMatrixf(fmat);
