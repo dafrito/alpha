@@ -3,9 +3,7 @@
 #include <gl/util.hpp>
 #include <QDebug>
 
-#include <boost/math/constants/constants.hpp>
-static const double PI = boost::math::constants::pi<double>();
-static const double PI_2 = PI * 2;
+#include "init.hpp"
 
 using nt::Vector3;
 
