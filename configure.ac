@@ -31,9 +31,8 @@ PKG_CHECK_MODULES([FREETYPE2], [freetype2])
 PKG_CHECK_MODULES([FTGL], [ftgl])
 
 # Check for Boost
-AX_BOOST_BASE([], [:], [
-    AC_MSG_ERROR([Boost is required to build lua-cxx])
-])
+AX_BOOST_BASE([], [:], AC_MSG_ERROR([Boost is required to build lua-cxx]))
+
 # Check for Lua-cxx
 if ! pkg-config --print-errors --exists "lua-cxx"; then
     AC_MSG_ERROR([Lua-cxx is required to build Rainback])
