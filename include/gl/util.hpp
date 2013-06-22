@@ -74,36 +74,36 @@ void glTranslate(const Vector& vec)
 template <class T, class U>
 void glRotateRadians(const Vector3<T, U>& vec)
 {
-    glRotated(vec.z() * TO_DEGREES, 0, 0, 1);
+    //glRotated(vec.z() * TO_DEGREES, 0, 0, 1);
     glRotated(vec.x() * TO_DEGREES, 1, 0, 0);
-    //glRotated(vec.y() * TO_DEGREES, 0, 1, 0);
+    glRotated(vec.y() * TO_DEGREES, 0, 1, 0);
 
 }
 
 template <class T, class U>
 void glRotateDegrees(const Vector3<T, U>& vec)
 {
-    glRotated(vec.z(), 0, 0, 1);
+    //glRotated(vec.z(), 0, 0, 1);
     glRotated(vec.x(), 1, 0, 0);
-    // glRotated(vec.y(), 0, 1, 0);
+    glRotated(vec.y(), 0, 1, 0);
 
 }
 
 template <class U>
 void glRotateRadians(const Vector3<float, U>& vec)
 {
-    glRotatef(vec.z() * TO_DEGREES, 0, 0, 1);
+    //glRotatef(vec.z() * TO_DEGREES, 0, 0, 1);
     glRotatef(vec.x() * TO_DEGREES, 1, 0, 0);
-    //glRotatef(vec.y() * TO_DEGREES, 0, 1, 0);
+    glRotatef(vec.y() * TO_DEGREES, 0, 1, 0);
 
 }
 
 template <class U>
 void glRotateDegrees(const Vector3<float, U>& vec)
 {
-    glRotatef(vec.z(), 0, 0, 1);
+    //glRotatef(vec.z(), 0, 0, 1);
     glRotatef(vec.x(), 1, 0, 0);
-    // glRotatef(vec.y(), 0, 1, 0);
+    glRotatef(vec.y(), 0, 1, 0);
 
 }
 // these 2 functions are for the camera
@@ -113,13 +113,13 @@ template <class U>
 void glRotateRadiansBackwards(const Vector3<float, U>& vec)
 {
     glRotatef(-vec.x() * TO_DEGREES, 1, 0, 0);
-    glRotatef(-vec.z() * TO_DEGREES, 0, 0, 1);
+    glRotatef(-vec.y() * TO_DEGREES, 0, 1, 0);
 }
 template <class T, class U>
 void glRotateRadiansBackwards(const Vector3<T, U>& vec)
 {
     glRotated(-vec.x() * TO_DEGREES, 1, 0, 0);
-    glRotated(-vec.z() * TO_DEGREES, 0, 0, 1);
+    glRotated(-vec.y() * TO_DEGREES, 0, 1, 0);
 }
 
 template <typename Scalar>
