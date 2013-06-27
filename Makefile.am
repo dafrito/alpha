@@ -9,6 +9,9 @@ pkgconfig_DATA = alpha.pc
 
 export RPMDIR ?= $$HOME/rpmbuild
 
+run:
+	cd src && ./alpha
+
 RPMFLAGS ?= --ba
 rpm: rpm.spec dist-gzip | $(RPMDIR)
 	cp -u $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz $(RPMDIR)/SOURCES
