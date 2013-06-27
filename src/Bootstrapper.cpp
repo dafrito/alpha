@@ -63,6 +63,7 @@ void renderBlock(const Vector3<float>& voxel, const Vector3<double>& origin, con
             glVertex3f(origin.x() + radius.x(), origin.y() - radius.y(), origin.z() - radius.z());
 
             // Left side
+            glColor3f(voxel.x() * .7, voxel.y() * .7, voxel.z() * .7);
             glVertex3f(origin.x() - radius.x(), origin.y() + radius.y(), origin.z() + radius.z());
             glVertex3f(origin.x() - radius.x(), origin.y() + radius.y(), origin.z() - radius.z());
             glVertex3f(origin.x() - radius.x(), origin.y() - radius.y(), origin.z() - radius.z());
