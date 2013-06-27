@@ -99,9 +99,9 @@ void Bootstrapper::initialize()
     _playerInputFilter.setPlayerInput(&_playerInput);
     //PerlinNoise(double _persistence, double _frequency, double _amplitude, int _octaves, int _randomseed);
     _pnoise.Set(0.3, 0.9, 7, 3, 17);
-    _width = 128;
-    _depth = 128;
-    _height = 64;
+    _width = 500;
+    _depth = 500;
+    _height = 4;
 
     _screenWidget.setFocusPolicy(Qt::ClickFocus);
     _screenWidget.installEventFilter(&_playerInputFilter);
