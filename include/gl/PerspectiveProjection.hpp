@@ -19,7 +19,7 @@ class PerspectiveProjection : public Projection
 public:
     PerspectiveProjection() :
         _fov(65),
-        _viewDistance(800)
+        _viewDistance(10000)
     {}
 
     void apply(const Box2<int>& viewArea) const;
