@@ -108,21 +108,25 @@ void Bootstrapper::initialize()
 
     _viewport.setProjection(&_projection);
 
-    // Adjust the camera to a better default location
-    _viewport.getCamera().getPosition().setX(50);
-    _viewport.getCamera().getPosition().setY(25);
-    _viewport.getCamera().getPosition().setZ(50);
-
     populateWorld();
+
+    const Vector3<double> voxelSize(5, 5, 5);
 
     // Setup the voxmap for rendering
     _worldLayer.setVoxmap(&_world);
-    _worldLayer.setVoxelSize(Vector3<double>(5, 5, 5));
+    _worldLayer.setVoxelSize(voxelSize);
     _worldLayer.setRenderer(renderBlock);
     _viewport.addRenderLayer(&_worldLayer);
 
     // Add a direct render layer for rendering individual units
     _viewport.addRenderLayer(&_unitsLayer);
+
+    // Adjust the camera to a better default location
+    _viewport.getCamera().getPosition().set(
+        _width * voxelSize.x() / 2,
+        10 * voxelSize.y(),
+        _depth * voxelSize.z()
+    );
 
     // Finish up the render pipeline, using a screen and a Qt widget.
     // The box specifies where the screen will be rendered, in relative
