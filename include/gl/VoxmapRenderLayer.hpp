@@ -6,6 +6,7 @@
 #include "util.hpp"
 
 #include <GL/gl.h>
+#include <QElapsedTimer>
 
 namespace nt {
 namespace gl {
@@ -38,6 +39,10 @@ class VoxmapRenderLayer : public RenderLayer
     const Voxmap* _voxmap;
     const VoxRenderer* _renderer;
     Vector3<Scalar> _voxelSize;
+
+    mutable unsigned int _listName;
+
+    mutable QElapsedTimer timer;
 public:
     VoxmapRenderLayer();
     void render(const Physical<double>&, const Projection&) const;
@@ -50,6 +55,7 @@ template <typename Scalar, typename Voxmap, typename VoxRenderer>
 VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::VoxmapRenderLayer() :
     _voxmap(0),
     _renderer(0),
+    _listName(0),
     _voxelSize()
 {}
 
@@ -60,31 +66,54 @@ void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Physical<doubl
         // The voxmap or the voxel renderer isn't set, so just return
         return;
     }
+    timer.restart();
 
-    const Vector3<int>& size = _voxmap->size();
-    Vector3<Scalar> halfVoxelSize(_voxelSize);
-    halfVoxelSize /= 2;
+    if (!_listName) {
+        _listName = glGenLists(1);
+        glNewList(_listName, GL_COMPILE);
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+        const Vector3<int>& size = _voxmap->size();
+        Vector3<Scalar> halfVoxelSize(_voxelSize);
+        halfVoxelSize /= 2;
 
-    for (int x = 0; x < size.x(); ++x) {
-        for (int y = 0; y < size.y(); ++y) {
-            for (int z = 0; z < size.z(); ++z) {
-                glPushMatrix();
-                gl::glTranslate(
-                    x * _voxelSize.x() + halfVoxelSize.x(),
-                    y * _voxelSize.y() + halfVoxelSize.y(),
-                    z * _voxelSize.z() + halfVoxelSize.z()
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+
+        gl::glTranslate(halfVoxelSize);
+
+        Vector3<Scalar> voxelPos(halfVoxelSize);
+        for (int x = 0; x < size.x(); ++x) {
+            for (int y = 0; y < size.y(); ++y) {
+                for (int z = 0; z < size.z(); ++z) {
+                    (*_renderer)(_voxmap->get(x, y, z), voxelPos, halfVoxelSize);
+                    voxelPos.add(
+                        0,
+                        0,
+                        _voxelSize.z()
+                    );
+                }
+                voxelPos.add(
+                    0,
+                    _voxelSize.y(),
+                    -_voxelSize.z() * size.z()
                 );
-                (*_renderer)(_voxmap->get(x, y, z), _voxelSize);
-                glPopMatrix();
             }
+            voxelPos.add(
+                _voxelSize.x(),
+                -_voxelSize.y() * size.y(),
+                0
+            );
         }
+
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
+
+        glEndList();
     }
 
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
+    glCallList(_listName);
+    //std::cout << (timer.nsecsElapsed() / 1e6) << std::endl;
+    timer.restart();
 }
 
 template <typename Scalar, typename Voxmap, typename VoxRenderer>

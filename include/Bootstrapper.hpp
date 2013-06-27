@@ -47,7 +47,7 @@ class Bootstrapper : public QObject
     Voxmap _world;
 
     gl::DirectRenderLayer<double> _unitsLayer;
-    gl::VoxmapRenderLayer<double, Voxmap, void(Voxel, const Vector3<double>&)> _worldLayer;
+    gl::VoxmapRenderLayer<double, Voxmap, void(const Voxel&, const Vector3<double>&, const Vector3<double>&)> _worldLayer;
 
     gl::Screen _screen;
     gl::ScreenGLWidget _screenWidget;

@@ -28,17 +28,52 @@ const int FPS = 60;
 
 } // namespace anonymous
 
-void renderBlock(Vector3<float> voxel, const Vector3<double>& blockSize)
+void renderBlock(const Vector3<float>& voxel, const Vector3<double>& origin, const Vector3<double>& radius)
 {
 	if (voxel.x() == -1) {
-		//Blocks with color values of (-1,y,z) are treated as air an not rendered.
+		//Blocks with color values of (-1,y,z) are treated as air and not rendered.
 	}
 	else {
-		glColor3f(voxel.x(), voxel.y(), voxel.z());
+        glBegin(GL_QUADS);
+            glColor3f(voxel.x() * .8, voxel.y() * .8, voxel.z() * .8);
+            // Top side
+            glVertex3f(origin.x() - radius.x(), origin.y() - radius.y(), origin.z() - radius.z());
+            glVertex3f(origin.x() - radius.x(), origin.y() - radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() - radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() - radius.y(), origin.z() - radius.z());
 
-		// Subtract one here so that "buried" cubes are visible through the
-		// cracks. This would not be here in a real implementation.
-		glutSolidCube(blockSize.x());
+            // Bottom side
+            glVertex3f(origin.x() - radius.x(), origin.y() + radius.y(), origin.z() - radius.z());
+            glVertex3f(origin.x() - radius.x(), origin.y() + radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() + radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() + radius.y(), origin.z() - radius.z());
+
+            // Front side
+            glColor3f(voxel.x(), voxel.y(), voxel.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() + radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() - radius.x(), origin.y() + radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() - radius.x(), origin.y() - radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() - radius.y(), origin.z() + radius.z());
+
+            // Back side
+            glColor3f(voxel.x() * .8, voxel.y() * .8, voxel.z() * .8);
+            glVertex3f(origin.x() + radius.x(), origin.y() + radius.y(), origin.z() - radius.z());
+            glVertex3f(origin.x() - radius.x(), origin.y() + radius.y(), origin.z() - radius.z());
+            glVertex3f(origin.x() - radius.x(), origin.y() - radius.y(), origin.z() - radius.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() - radius.y(), origin.z() - radius.z());
+
+            // Left side
+            glVertex3f(origin.x() - radius.x(), origin.y() + radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() - radius.x(), origin.y() + radius.y(), origin.z() - radius.z());
+            glVertex3f(origin.x() - radius.x(), origin.y() - radius.y(), origin.z() - radius.z());
+            glVertex3f(origin.x() - radius.x(), origin.y() - radius.y(), origin.z() + radius.z());
+
+            // Right side
+            glVertex3f(origin.x() + radius.x(), origin.y() + radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() - radius.y(), origin.z() + radius.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() - radius.y(), origin.z() - radius.z());
+            glVertex3f(origin.x() + radius.x(), origin.y() + radius.y(), origin.z() - radius.z());
+        glEnd();
 	}
 }
 
