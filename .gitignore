@@ -32,6 +32,7 @@ Makefile
 rpm.spec
 alpha.m4
 ar-lib
+test-driver
 
 # Dist artifacts
 *.tar.gz
