@@ -14,7 +14,7 @@ class LuaGLDemo : public QWidget
 
 	QLineEdit* const codeLine;
 
-	Lua lua;
+	LuaEnvironment lua;
 
 public slots:
 	void updateWidget();

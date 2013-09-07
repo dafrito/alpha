@@ -26,7 +26,7 @@ LuaGLDemo::LuaGLDemo(QWidget* const parent) :
 void LuaGLDemo::updateWidget()
 {
 	try {
-		Lua l;
+		LuaEnvironment l;
 		l(codeLine->text().toStdString());
 		glWidget->update(l["calc"]);
 	} catch (LuaException e) {
