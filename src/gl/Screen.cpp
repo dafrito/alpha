@@ -33,12 +33,12 @@ void Screen::render(const Box2<int>& screenArea) const
     }
 }
 
-void Screen::addViewport(const Viewport* const viewport)
+void Screen::addViewport(Viewport* const viewport)
 {
     addViewport(viewport, Box2<double>(0, 1, 0, 1));
 }
 
-void Screen::addViewport(const Viewport* const viewport, const Box2<double>& extent)
+void Screen::addViewport(Viewport* const viewport, const Box2<double>& extent)
 {
     ViewportEntry entry;
     entry.viewport = viewport;
@@ -46,7 +46,7 @@ void Screen::addViewport(const Viewport* const viewport, const Box2<double>& ext
     viewports.push_back(entry);
 }
 
-void Screen::removeViewport(const Viewport* const viewport)
+void Screen::removeViewport(Viewport* const viewport)
 {
     viewports.erase(
         std::remove_if(begin(viewports), end(viewports),

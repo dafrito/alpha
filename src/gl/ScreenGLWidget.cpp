@@ -26,14 +26,9 @@ void ScreenGLWidget::resizeGL(int width, int height)
     _screenArea.setBottom(height);
 }
 
-void ScreenGLWidget::setScreen(const Screen* const screen)
+void ScreenGLWidget::setScreen(Screen* const screen)
 {
     _screen = screen;
-}
-
-const Screen* ScreenGLWidget::getScreen() const
-{
-    return _screen;
 }
 
 } // namespace gl

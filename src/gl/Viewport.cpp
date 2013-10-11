@@ -28,12 +28,12 @@ void Viewport::render(const Box2<int>& viewArea) const
     }
 }
 
-void Viewport::addRenderLayer(const RenderLayer* const layer)
+void Viewport::addRenderLayer(RenderLayer* const layer)
 {
     _renderLayers.push_back(layer);
 }
 
-void Viewport::removeRenderLayer(const RenderLayer* const layer)
+void Viewport::removeRenderLayer(RenderLayer* const layer)
 {
     _renderLayers.erase(
         std::remove(begin(_renderLayers), end(_renderLayers), layer),

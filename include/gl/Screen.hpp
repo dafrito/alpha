@@ -31,7 +31,7 @@ public:
     /**
      * Add a viewport to this screen that will cover the full area of the screen.
      */
-    void addViewport(const Viewport* const viewport);
+    void addViewport(Viewport* const viewport);
 
     /**
      * Adds a viewport to this screen.
@@ -39,16 +39,16 @@ public:
      * The specified extent determines where the viewport will be rendered on-screen.
      * The extent's bounds should be in the range [0,1], since they are relative.
      */
-    void addViewport(const Viewport* const viewport, const Box2<double>& extent);
+    void addViewport(Viewport* const viewport, const Box2<double>& extent);
 
     /**
      * Remove the specified viewport from this screen.
      */
-    void removeViewport(const Viewport* const viewport);
+    void removeViewport(Viewport* const viewport);
 };
 
 struct ViewportEntry {
-    const Viewport* viewport;
+    Viewport* viewport;
 
     Box2<double> extent;
     ViewportEntry () :

@@ -23,7 +23,7 @@ class ScreenGLWidget : public QGLWidget
 {
     Q_OBJECT
 
-    const Screen* _screen;
+    Screen* _screen;
     Box2<int> _screenArea;
 
 protected:
@@ -44,8 +44,17 @@ public:
     {
     }
 
-    void setScreen(const Screen* const screen);
-    const Screen* getScreen() const;
+    void setScreen(Screen* const screen);
+
+    const Screen* getScreen() const
+    {
+        return _screen;
+    }
+
+    Screen* getScreen()
+    {
+        return _screen;
+    }
 };
 
 } // namespace gl
