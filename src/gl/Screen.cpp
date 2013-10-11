@@ -7,6 +7,13 @@
 namespace nt {
 namespace gl {
 
+void Screen::initialize()
+{
+    for (auto entry : viewports) {
+        entry.viewport->initialize();
+    }
+}
+
 void Screen::render(const Box2<int>& screenArea) const
 {
     glEnable(GL_SCISSOR_TEST);

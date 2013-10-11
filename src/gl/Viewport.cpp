@@ -11,6 +11,13 @@ Viewport::Viewport() :
     _projection(0)
 {}
 
+void Viewport::initialize()
+{
+    for (auto layer : _renderLayers) {
+        layer->initialize();
+    }
+}
+
 void Viewport::render(const Box2<int>& viewArea) const
 {
     if (!_projection) {

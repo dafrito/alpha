@@ -26,6 +26,7 @@ class Screen
     std::vector<ViewportEntry> viewports;
 
 public:
+    void initialize();
     void render(const Box2<int>& screenArea) const;
 
     /**

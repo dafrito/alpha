@@ -45,6 +45,7 @@ class VoxmapRenderLayer : public RenderLayer
     mutable QElapsedTimer timer;
 public:
     VoxmapRenderLayer();
+    void initialize();
     void render(const Physical<double>&, const Projection&) const;
     void setVoxmap(Voxmap* const voxmap);
     void setRenderer(VoxRenderer* const voxmap);
@@ -58,6 +59,11 @@ VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::VoxmapRenderLayer() :
     _listName(0),
     _voxelSize()
 {}
+
+template <typename Scalar, typename Voxmap, typename VoxRenderer>
+void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::initialize()
+{
+}
 
 template <typename Scalar, typename Voxmap, typename VoxRenderer>
 void VoxmapRenderLayer<Scalar, Voxmap, VoxRenderer>::render(const Physical<double>& position, const Projection&) const

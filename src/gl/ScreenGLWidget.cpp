@@ -14,8 +14,9 @@ void ScreenGLWidget::paintGL()
 
 void ScreenGLWidget::initializeGL()
 {
-    // Do nothing, at least for now. This may eventually
-    // call a method on Screen to perform initialization.
+    if (getScreen()) {
+        getScreen()->initialize();
+    }
 }
 
 void ScreenGLWidget::resizeGL(int width, int height)

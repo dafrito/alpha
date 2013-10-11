@@ -40,6 +40,10 @@ public:
         renderables.push_back(RenderableType(physical, renderer));
     }
 
+    void initialize()
+    {
+    }
+
     void render(const Physical<double>&, const Projection& projection) const
     {
         glEnable(GL_DEPTH_TEST);

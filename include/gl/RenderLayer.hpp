@@ -20,6 +20,9 @@ namespace gl {
 class RenderLayer
 {
 public:
+
+    virtual void initialize()=0;
+
     /**
      * Render this layer at the specified position. The position is provided
      * to allow for optimization for geometry that is either entirely occluded at

@@ -34,6 +34,8 @@ class Viewport
 public:
     Viewport();
 
+    void initialize();
+
     /**
      * Render the scene into the specified screen coordinates.
      */
