@@ -20,15 +20,14 @@ void Viewport::initialize()
 
 void Viewport::render(const Box2<int>& viewArea) const
 {
-    if (!_projection) {
-        return;
+    if (_projection) {
+        _projection->apply(viewArea);
+
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
+        glReverseTransform(_camera);
     }
-    _projection->apply(viewArea);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    glReverseTransform(_camera);
 
     for (auto layer : _renderLayers) {
         layer->render(_camera, *_projection);
